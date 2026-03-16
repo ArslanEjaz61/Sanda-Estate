@@ -1,20 +1,45 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import PropertyCard from '../components/ui/PropertyCard'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
-import { properties, propertyTypes, priceRanges, bedroomOptions, statusOptions } from '../data/properties'
+import { DeveloperLogos } from '../components/ui/DeveloperLogos'
+import { properties as staticProperties, propertyTypes, priceRanges, bedroomOptions, statusOptions } from '../data/properties'
 import { areas } from '../data/areas'
+import { fetchProperties } from '../utils/api'
 
 const ITEMS_PER_PAGE = 9
 
 export default function PropertiesPage() {
   const [filters, setFilters] = useState({
-    type: 'All', priceRange: 0, area: 'All', bedrooms: 'Any', status: 'All', sort: 'featured',
+    search: '', type: 'All', priceRange: 0, area: 'All', bedrooms: 'Any', status: 'All', sort: 'featured',
   })
   const [currentPage, setCurrentPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
+  const [allProperties, setAllProperties] = useState([])
+
+  const [debounceSearch, setDebounceSearch] = useState('')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebounceSearch(filters.search)
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [filters.search])
+
+  useEffect(() => {
+    fetchProperties({ search: debounceSearch }).then(data => {
+      if (data && data.length > 0) {
+        setAllProperties(data)
+      } else {
+        setAllProperties(staticProperties.filter(p => !debounceSearch || p.title.toLowerCase().includes(debounceSearch.toLowerCase())))
+      }
+    }).catch(() => {
+      setAllProperties(staticProperties.filter(p => !debounceSearch || p.title.toLowerCase().includes(debounceSearch.toLowerCase())))
+    })
+  }, [debounceSearch])
 
   const filteredProperties = useMemo(() => {
-    let result = [...properties]
+    let result = [...allProperties]
+
     if (filters.type !== 'All') result = result.filter(p => p.type === filters.type)
     const range = priceRanges[filters.priceRange]
     result = result.filter(p => p.price >= range.min && p.price <= range.max)
@@ -70,13 +95,23 @@ export default function PropertiesPage() {
           </button>
 
           <div className={`${showFilters ? 'block' : 'hidden'} lg:block`}>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-4">
+              <div>
+                <label className="premium-label">Search</label>
+                <input
+                  type="text"
+                  placeholder="Property name..."
+                  value={filters.search}
+                  onChange={e => updateFilter('search', e.target.value)}
+                  className="premium-input text-[12px] w-full"
+                />
+              </div>
               {[
                 { label: 'Type', key: 'type', options: propertyTypes.map(t => ({ value: t, label: t })) },
                 { label: 'Price Range', key: 'priceRange', options: priceRanges.map((r, i) => ({ value: i, label: r.label })), isIndex: true },
                 { label: 'Area', key: 'area', options: [{ value: 'All', label: 'All Areas' }, ...areas.map(a => ({ value: a.slug, label: a.name }))] },
                 { label: 'Bedrooms', key: 'bedrooms', options: bedroomOptions.map(b => ({ value: b, label: b })) },
-                { label: 'Status', key: 'status', options: statusOptions.map(s => ({ value: s, label: s })) },
+                { label: 'Status', key: 'status', options: [{ value: 'All', label: 'All Status' }, { value: 'Ready', label: 'Ready' }, { value: 'Off-Plan', label: 'Off-Plan' }, { value: 'Resale', label: 'Resale' }, { value: 'Rental', label: 'Rental' }] },
                 { label: 'Sort By', key: 'sort', options: [{ value: 'featured', label: 'Featured' }, { value: 'price-low', label: 'Price: Low–High' }, { value: 'price-high', label: 'Price: High–Low' }, { value: 'newest', label: 'Newest' }] },
               ].map(filter => (
                 <div key={filter.key}>
@@ -90,6 +125,20 @@ export default function PropertiesPage() {
                   </select>
                 </div>
               ))}
+              <div className="flex items-end">
+                <button
+                  onClick={() => {
+                    setFilters({ search: '', type: 'All', priceRange: 0, area: 'All', bedrooms: 'Any', status: 'All', sort: 'featured' })
+                    setDebounceSearch('')
+                    setCurrentPage(1)
+                  }}
+                  className="w-full text-[12px] uppercase tracking-[0.1em] font-semibold flex items-center justify-center gap-2 h-[42px] transition-all hover:bg-white"
+                  style={{ fontFamily: 'var(--font-body)', background: 'rgba(255,255,255,0.5)', border: '1px solid #e5e0d9', color: '#1a1a1a', borderRadius: '2px' }}
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                  Reset
+                </button>
+              </div>
             </div>
           </div>
 
@@ -147,10 +196,13 @@ export default function PropertiesPage() {
       <section className="py-12 lg:py-14" style={{ backgroundColor: '#ffffff', borderTop: '1px solid #f0ebe5' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-20">
-            <span className="text-[9px] uppercase tracking-[0.15em]" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9a9a9a' }}>Featured Developers</span>
-            {['EMAAR', 'DAMAC', 'NAKHEEL', 'SOBHA'].map(dev => (
-              <span key={dev} className="text-[20px] lg:text-[26px] font-bold tracking-[0.2em] transition-colors duration-300 cursor-default hover:text-emerald-deep" style={{ fontFamily: 'var(--font-body)', color: '#1a1a1a' }}>{dev}</span>
-            ))}
+            <span className="text-[9px] uppercase tracking-[0.15em] mb-2 lg:mb-0" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9a9a9a' }}>Featured Developers</span>
+            <div className="flex flex-wrap items-center gap-8 lg:gap-16 text-[#1a1a1a]">
+              <div className="hover:text-emerald-deep transition-colors"><DeveloperLogos.Emaar /></div>
+              <div className="hover:text-emerald-deep transition-colors"><DeveloperLogos.Damac /></div>
+              <div className="hover:text-emerald-deep transition-colors"><DeveloperLogos.Nakheel /></div>
+              <div className="hover:text-emerald-deep transition-colors"><DeveloperLogos.Sobha /></div>
+            </div>
           </div>
         </div>
       </section>

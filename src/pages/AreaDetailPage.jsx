@@ -3,11 +3,23 @@ import AnimatedReveal from '../components/ui/AnimatedReveal'
 import PropertyCard from '../components/ui/PropertyCard'
 import AnimatedCounter from '../components/ui/AnimatedCounter'
 import { areas } from '../data/areas'
-import { properties } from '../data/properties'
+import { properties as staticProperties } from '../data/properties'
+import { fetchProperties } from '../utils/api'
+import { useState, useEffect } from 'react'
 
 export default function AreaDetailPage() {
   const { slug } = useParams()
   const area = areas.find(a => a.slug === slug)
+  
+  const [areaProperties, setAreaProperties] = useState(
+    staticProperties.filter(p => p.locationSlug === slug).slice(0, 3)
+  )
+
+  useEffect(() => {
+    fetchProperties({ location: slug }).then(data => {
+      if (data) setAreaProperties(data.slice(0, 3))
+    })
+  }, [slug])
 
   if (!area) {
     return (
@@ -21,8 +33,6 @@ export default function AreaDetailPage() {
       </div>
     )
   }
-
-  const areaProperties = properties.filter(p => p.locationSlug === slug).slice(0, 3)
 
   return (
     <>

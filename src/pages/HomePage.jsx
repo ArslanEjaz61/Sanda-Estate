@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SectionHeading from '../components/ui/SectionHeading'
 import PropertyCard from '../components/ui/PropertyCard'
 import AreaCard from '../components/ui/AreaCard'
 import LeadCaptureForm from '../components/ui/LeadCaptureForm'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import AnimatedCounter from '../components/ui/AnimatedCounter'
-import { properties } from '../data/properties'
+import { DeveloperLogos } from '../components/ui/DeveloperLogos'
+import { properties as staticProperties } from '../data/properties'
 import { areas } from '../data/areas'
 import { testimonials, whyDubai } from '../data/content'
+import { fetchProperties } from '../utils/api'
 
-const featuredProperties = properties.filter(p => p.featured).slice(0, 6)
+const staticFeatured = staticProperties.filter(p => p.featured).slice(0, 6)
 const previewAreas = areas.slice(0, 3)
 
 const parsedStats = [
@@ -32,6 +34,13 @@ const whyDubaiIcons = [
 
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState({ area: '', type: '', budget: '' })
+  const [featuredProperties, setFeaturedProperties] = useState(staticFeatured)
+
+  useEffect(() => {
+    fetchProperties({ featured: true }).then(data => {
+      if (data) setFeaturedProperties(data.slice(0, 6))
+    })
+  }, [])
 
   return (
     <>
@@ -154,24 +163,18 @@ export default function HomePage() {
               <span className="eyebrow text-[9px]" style={{ color: '#9a9a9a' }}>Strategic Developer Partnerships</span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-16">
-              {[
-                { name: 'EMAAR', style: 'tracking-[0.25em] font-bold' },
-                { name: 'DAMAC', style: 'tracking-[0.2em] font-bold' },
-                { name: 'NAKHEEL', style: 'tracking-[0.15em] font-semibold' },
-                { name: 'SOBHA', style: 'tracking-[0.2em] font-bold' },
-              ].map((dev, i) => (
-                <motion.span
-                  key={dev.name}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.12 }}
-                  className={`text-[22px] lg:text-[28px] ${dev.style} transition-colors duration-300 cursor-default hover:text-emerald-deep`}
-                  style={{ fontFamily: 'var(--font-body)', color: '#1a1a1a', letterSpacing: '0.15em' }}
-                >
-                  {dev.name}
-                </motion.span>
-              ))}
+              <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0 * 0.12 }} className="text-[#1a1a1a] hover:text-emerald-deep transition-colors duration-300">
+                <DeveloperLogos.Emaar />
+              </motion.div>
+              <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 1 * 0.12 }} className="text-[#1a1a1a] hover:text-emerald-deep transition-colors duration-300">
+                <DeveloperLogos.Damac />
+              </motion.div>
+              <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 2 * 0.12 }} className="text-[#1a1a1a] hover:text-emerald-deep transition-colors duration-300">
+                <DeveloperLogos.Nakheel />
+              </motion.div>
+              <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 3 * 0.12 }} className="text-[#1a1a1a] hover:text-emerald-deep transition-colors duration-300">
+                <DeveloperLogos.Sobha />
+              </motion.div>
             </div>
           </AnimatedReveal>
         </div>
@@ -293,12 +296,11 @@ export default function HomePage() {
 
           {/* Bottom logos */}
           <div className="mt-16 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16">
-              {['EMAAR', 'DAMAC', 'NAKHEEL', 'SOBHA'].map((dev) => (
-                <span key={dev} className="text-[18px] lg:text-[22px] font-bold tracking-[0.2em]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.15)' }}>
-                  {dev}
-                </span>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16 text-white/20">
+              <DeveloperLogos.Emaar />
+              <DeveloperLogos.Damac />
+              <DeveloperLogos.Nakheel />
+              <DeveloperLogos.Sobha />
             </div>
           </div>
         </div>
@@ -338,17 +340,11 @@ export default function HomePage() {
 
           {/* Big developer logos after Why Dubai */}
           <AnimatedReveal>
-            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-20">
-              {[
-                { name: 'EMAAR', weight: 'font-bold' },
-                { name: 'DAMAC', weight: 'font-bold' },
-                { name: 'NAKHEEL', weight: 'font-semibold' },
-                { name: 'SOBHA', weight: 'font-bold' },
-              ].map((dev) => (
-                <span key={dev.name} className={`text-[24px] lg:text-[32px] ${dev.weight} tracking-[0.2em] transition-colors duration-300 cursor-default hover:text-emerald-deep`} style={{ fontFamily: 'var(--font-body)', color: '#1a1a1a' }}>
-                  {dev.name}
-                </span>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-20 text-[#1a1a1a]">
+              <div className="hover:text-emerald-deep transition-colors duration-300"><DeveloperLogos.Emaar /></div>
+              <div className="hover:text-emerald-deep transition-colors duration-300"><DeveloperLogos.Damac /></div>
+              <div className="hover:text-emerald-deep transition-colors duration-300"><DeveloperLogos.Nakheel /></div>
+              <div className="hover:text-emerald-deep transition-colors duration-300"><DeveloperLogos.Sobha /></div>
             </div>
           </AnimatedReveal>
         </div>
@@ -464,8 +460,8 @@ export default function HomePage() {
                 <Link to="/contact" className="btn-gold inline-block">Speak to an Advisor</Link>
               </AnimatedReveal>
             </div>
-            <div className="relative min-h-[300px] lg:min-h-0">
-              <img src="https://images.unsplash.com/photo-1582407947092-5469aaf27466?w=900&q=80" alt="Dubai investment" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="relative min-h-[300px] lg:min-h-[400px]">
+              <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80" alt="Dubai investment" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0" style={{ backgroundColor: 'rgba(6,78,59,0.2)' }} />
             </div>
           </div>

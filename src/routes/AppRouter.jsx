@@ -12,6 +12,15 @@ import PrivacyPage from '../pages/PrivacyPage'
 import TermsPage from '../pages/TermsPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
+// Admin
+import AdminLogin from '../admin/AdminLogin'
+import AdminRoute from '../admin/AdminRoute'
+import AdminLayout from '../admin/AdminLayout'
+import Dashboard from '../admin/Dashboard'
+import PropertyList from '../admin/PropertyList'
+import PropertyForm from '../admin/PropertyForm'
+import ContactList from '../admin/ContactList'
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -25,6 +34,7 @@ export default function AppRouter() {
     <>
       <ScrollToTop />
       <Routes>
+        {/* Public Routes */}
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -35,8 +45,19 @@ export default function AppRouter() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="properties" element={<PropertyList />} />
+          <Route path="properties/new" element={<PropertyForm />} />
+          <Route path="properties/edit/:id" element={<PropertyForm />} />
+          <Route path="contacts" element={<ContactList />} />
+        </Route>
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   )

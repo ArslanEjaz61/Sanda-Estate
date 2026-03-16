@@ -30,8 +30,8 @@ export const areas = [
       priceGrowth: '+15% YoY',
       totalUnits: '12,000+',
     },
-    image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=800&q=80',
-    heroImage: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1600&q=80',
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80',
   },
   {
     slug: 'dubai-marina',
@@ -81,8 +81,8 @@ export const areas = [
       priceGrowth: '+14% YoY',
       totalUnits: '25,000+',
     },
-    image: 'https://images.unsplash.com/photo-1622015663319-e97e697503ee?w=800&q=80',
-    heroImage: 'https://images.unsplash.com/photo-1622015663319-e97e697503ee?w=1600&q=80',
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80',
   },
   {
     slug: 'jvc',

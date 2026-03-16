@@ -55,22 +55,27 @@ export default function PropertyCard({ property, index = 0 }) {
             {property.title}
           </h3>
           <div className="flex items-center gap-3 text-[12px] text-gray-warm mb-3" style={{ fontFamily: 'var(--font-body)' }}>
-            <span className="flex items-center gap-1.5">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 22V8l9-6 9 6v14H3z"/><path d="M9 22V12h6v10"/></svg>
-              {property.bedrooms} Bed
-            </span>
-            <span className="w-px h-3" style={{ background: '#e5e0d9' }} />
-            <span className="flex items-center gap-1.5">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
-              {property.area.toLocaleString()} {property.areaUnit}
-            </span>
+            {property.bedrooms !== undefined && property.bedrooms !== null && property.bedrooms !== '' && (
+              <span className="flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 22V8l9-6 9 6v14H3z"/><path d="M9 22V12h6v10"/></svg>
+                {property.bedrooms} Bed
+              </span>
+            )}
+            {property.bedrooms && property.area && <span className="w-px h-3" style={{ background: '#e5e0d9' }} />}
+            {property.area !== undefined && property.area !== null && property.area !== '' && (
+              <span className="flex items-center gap-1.5">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+                {property.area?.toLocaleString()} {property.areaUnit || 'sq ft'}
+              </span>
+            )}
           </div>
           <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid #f0ebe5' }}>
             <span
-              className="text-[17px] font-semibold"
+              className="text-[17px] font-semibold flex items-baseline gap-1"
               style={{ fontFamily: 'var(--font-heading)', color: '#064e3b', fontWeight: 600 }}
             >
               {property.priceFormatted}
+              {property.status === 'Rental' && <span className="text-[10px] text-gray-warm font-normal">/ mo</span>}
             </span>
             <span className="text-[10px] uppercase tracking-[0.15em] text-gray-soft group-hover:text-emerald-deep transition-all duration-300 flex items-center gap-1" style={{ fontFamily: 'var(--font-body)' }}>
               Details 
