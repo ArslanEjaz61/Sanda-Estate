@@ -31,7 +31,7 @@ export default function AreaCard({ area, index = 0 }) {
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.05) 100%)',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.02) 100%)',
             }}
           />
           {/* Hover darken */}

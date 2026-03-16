@@ -11,12 +11,24 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 5000)
-    setFormData({ name: '', email: '', phone: '', budget: '', area: '', propertyType: '', message: '' })
+    try {
+      const res = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      if (res.ok) {
+        setSubmitted(true)
+        setTimeout(() => setSubmitted(false), 5000)
+        setFormData({ name: '', email: '', phone: '', budget: '', area: '', propertyType: '', message: '' })
+      } else {
+        alert('Failed to send message. Please try again.')
+      }
+    } catch (err) {
+      alert('Network error. Please try again.')
+    }
   }
 
   const inputClass = light ? 'premium-input premium-input-dark' : 'premium-input'

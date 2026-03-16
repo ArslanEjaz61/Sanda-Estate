@@ -1,5 +1,6 @@
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import LeadCaptureForm from '../components/ui/LeadCaptureForm'
+import { DeveloperLogos } from '../components/ui/DeveloperLogos'
 
 export default function ContactPage() {
   return (
@@ -53,18 +54,20 @@ export default function ContactPage() {
             </div>
 
             {/* Right — Form */}
-            <div className="bg-white py-14 px-8 lg:px-14 lg:py-20 flex flex-col justify-center relative">
+            <div className="bg-white rounded-lg shadow-xl relative mt-16 mb-16 lg:mt-32 lg:mb-20 overflow-hidden flex flex-col justify-center">
               {/* Subtle top accent */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-deep to-gold-muted opacity-20" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-deep to-gold-muted opacity-80" />
               
-              <div className="max-w-md mx-auto w-full">
+              <div className="p-10 lg:p-14 w-full h-full flex flex-col justify-center bg-white/95 backdrop-blur-sm">
                 <h3 className="text-[26px] mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>
                   Private Consultation
                 </h3>
                 <p className="text-[14px] text-gray-warm mb-8 max-w-sm" style={{ fontFamily: 'var(--font-body)' }}>
                   Share your requirements — our advisory team will prepare a tailored property strategy for you.
                 </p>
-                <LeadCaptureForm variant="full" />
+                <div className="relative z-10 bg-white">
+                  <LeadCaptureForm variant="full" />
+                </div>
               </div>
             </div>
           </div>
@@ -73,10 +76,11 @@ export default function ContactPage() {
         {/* Bottom logos */}
         <div className="relative z-10 py-10" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="container-wide px-6 lg:px-10">
-            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-20">
-              {['EMAAR', 'DAMAC', 'NAKHEEL', 'SOBHA'].map(dev => (
-                <span key={dev} className="text-[20px] lg:text-[26px] font-bold tracking-[0.2em]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.12)' }}>{dev}</span>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-20 text-white/20">
+              <DeveloperLogos.Emaar />
+              <DeveloperLogos.Damac />
+              <DeveloperLogos.Nakheel />
+              <DeveloperLogos.Sobha />
             </div>
           </div>
         </div>

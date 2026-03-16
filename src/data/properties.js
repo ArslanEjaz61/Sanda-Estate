@@ -97,9 +97,9 @@ export const properties = [
     description: 'A visionary sky residence in the heart of Downtown Dubai, offering iconic Burj Khalifa views. This off-plan opportunity combines contemporary architecture with world-class amenities and an unrivaled address.',
     features: ['Burj Khalifa View', 'Private Terrace', 'Smart Home', 'Study Room', 'Maid\'s Room', 'Storage'],
     amenities: ['Infinity Pool', 'Sky Lounge', 'Concierge', 'Valet Parking', 'Dubai Mall Access', 'Fitness Center'],
-    image: 'https://images.unsplash.com/photo-1582407947092-5469aaf27466?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1582407947092-5469aaf27466?w=1200&q=80',
+      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80',
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
       'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1200&q=80',
@@ -286,9 +286,9 @@ export const properties = [
     description: 'A refined residence on the iconic Boulevard, steps from the Burj Khalifa and Dubai Mall. This home offers the ultimate urban luxury lifestyle in Dubai\'s most prestigious district.',
     features: ['Boulevard View', 'Walk-in Closet', 'Study', 'Balcony', 'Covered Parking', 'Smart Home'],
     amenities: ['Pool', 'Gym', 'Concierge', 'Retail', 'Dubai Fountain View', 'Metro Access'],
-    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80',
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80',
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
