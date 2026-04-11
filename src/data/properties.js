@@ -178,7 +178,7 @@ export const properties = [
     description: 'An ultra-exclusive beachfront mansion on the Palm Jumeirah\'s most coveted frond. Private beach, olympic-sized pool, and meticulous craftsmanship define this trophy asset.',
     features: ['Private Beach', 'Olympic Pool', 'Home Cinema', 'Wine Room', 'Staff Quarters', 'Helipad', 'Smart Home', 'Landscaped Gardens'],
     amenities: ['Beach Club', 'Fine Dining', 'Spa', 'Water Sports', 'Concierge', '24/7 Security'],
-    image: 'https://images.unsplash.com/photo-1600566753376-12c8ab7a5a24?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1600566753376-12c8ab7a5a24?w=1200&q=80',
       'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=80',
