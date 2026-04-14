@@ -35,11 +35,20 @@ export default function AreasPage() {
       {/* ═══════════════ AREAS GRID ═══════════════ */}
       <section className="section-padding-lg" style={{ backgroundColor: '#faf8f5' }}>
         <div className="container-wide px-6 lg:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-            {liveAreas.map((area, i) => (
-              <AreaCard key={area.slug} area={area} index={i} />
-            ))}
-          </div>
+          {liveAreas.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+              {liveAreas.map((area, i) => (
+                <AreaCard key={area.slug} area={area} index={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="py-20 text-center">
+              <h3 className="text-2xl mb-4" style={{ fontFamily: 'var(--font-heading)' }}>No Areas Found</h3>
+              <p className="text-gray-warm text-[14px]" style={{ fontFamily: 'var(--font-body)' }}>
+                We are currently updating our community collections. Please check back soon.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
