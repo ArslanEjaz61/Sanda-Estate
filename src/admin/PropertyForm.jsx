@@ -15,6 +15,7 @@ const emptyForm = {
   title: '', type: 'Apartment', status: 'Ready', price: '', bedrooms: '', bathrooms: '', area: '',
   areaUnit: 'sq ft', location: '', developer: '', description: '', features: '', amenities: '',
   image: '', gallery: '', video: '', floorPlan: '', completionDate: '', serviceCharges: '',
+  referenceNumber: '', reraPermit: '', furnishedStatus: '', propertyAge: '',
   agentName: '', agentPhone: '', agentPhoto: '', featured: false, goldenVisa: false,
 }
 
@@ -45,6 +46,10 @@ export default function PropertyForm() {
             floorPlan: data.floorPlan || '',
             completionDate: data.completionDate || '',
             serviceCharges: data.serviceCharges || '',
+            referenceNumber: data.referenceNumber || '',
+            reraPermit: data.reraPermit || '',
+            furnishedStatus: data.furnishedStatus || '',
+            propertyAge: data.propertyAge || '',
           })
           setImagePreview(data.image || '')
         })
@@ -197,11 +202,25 @@ export default function PropertyForm() {
         {/* Specs */}
         <div className="p-6" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
           <h3 className="text-white text-[16px] mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Specifications</h3>
-          <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div><label className={labelClass}>Bedrooms *</label><input name="bedrooms" type="number" value={form.bedrooms} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} /></div>
             <div><label className={labelClass}>Bathrooms *</label><input name="bathrooms" type="number" value={form.bathrooms} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} /></div>
             <div><label className={labelClass}>Area *</label><input name="area" type="number" value={form.area} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} /></div>
             <div><label className={labelClass}>Area Unit</label><input name="areaUnit" value={form.areaUnit} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} /></div>
+            
+            <div><label className={labelClass}>Reference Number</label><input name="referenceNumber" value={form.referenceNumber} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. BAYUT-1234" /></div>
+            <div><label className={labelClass}>RERA Permit No.</label><input name="reraPermit" value={form.reraPermit} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. 1234567890" /></div>
+            
+            <div>
+              <label className={labelClass}>Furnished Status</label>
+              <select name="furnishedStatus" value={form.furnishedStatus} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle}>
+                <option value="" style={{ color: '#ffffff', background: '#1a1a1a' }}>Select...</option>
+                {['Furnished', 'Unfurnished', 'Partly Furnished'].map(s => <option key={s} value={s} style={{ color: '#ffffff', background: '#1a1a1a' }}>{s}</option>)}
+              </select>
+            </div>
+            <div><label className={labelClass}>Property Age/Handover</label><input name="propertyAge" value={form.propertyAge} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. Built in 2018 or Q3 2025" /></div>
+
+            {/* Legacy Date field - still useful for raw completion mapping, but propertyAge is more versatile for Bayut */}
             <div><label className={labelClass}>Completion</label><input name="completionDate" value={form.completionDate} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. Q4 2026" /></div>
             <div><label className={labelClass}>Service Chg</label><input name="serviceCharges" type="number" value={form.serviceCharges} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="AED / sqft" /></div>
           </div>

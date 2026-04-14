@@ -179,6 +179,17 @@ export default function PropertyDetailPage() {
                 </div>
 
                 <div className="gold-line mb-5" />
+                
+                <h3 className="text-[19px] mb-4" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>Property Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8 mb-8 pb-6" style={{ borderBottom: '1px solid #e5e0d9', fontFamily: 'var(--font-body)' }}>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Property Type:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.type}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Property Status:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.status}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Reference number:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.referenceNumber || 'N/A'}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>RERA Permit No:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.reraPermit || 'N/A'}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Furnishing:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.furnishedStatus || 'N/A'}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Property Age / Built:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.propertyAge || property.completionDate || 'N/A'}</span></div>
+                </div>
+
                 <h3 className="text-[19px] mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>Property Description</h3>
                 <div className="text-[14px] leading-[1.85] mb-8 whitespace-pre-line" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
                   {property.description || "No description provided for this property."}

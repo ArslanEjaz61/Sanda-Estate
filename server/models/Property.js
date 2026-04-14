@@ -22,6 +22,10 @@ const propertySchema = new mongoose.Schema({
   floorPlan: { type: String },
   completionDate: { type: String },
   serviceCharges: { type: Number },
+  referenceNumber: { type: String },
+  reraPermit: { type: String },
+  furnishedStatus: { type: String, enum: ['Furnished', 'Unfurnished', 'Partly Furnished', ''] },
+  propertyAge: { type: String },
   agent: {
     name: { type: String },
     phone: { type: String },
