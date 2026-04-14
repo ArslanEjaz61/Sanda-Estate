@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import SectionHeading from '../components/ui/SectionHeading'
 import PropertyCard from '../components/ui/PropertyCard'
 import AreaCard from '../components/ui/AreaCard'
@@ -35,6 +35,8 @@ const whyDubaiIcons = [
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState({ area: '', type: '', budget: '' })
   const [featuredProperties, setFeaturedProperties] = useState(staticFeatured)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const audioRef = useRef(null)
 
   useEffect(() => {
     fetchProperties({ featured: true }).then(data => {
@@ -42,22 +44,53 @@ export default function HomePage() {
     })
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > window.innerHeight * 0.8) {
+        setIsPlaying(false)
+      } else {
+        setIsPlaying(true)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        const playPromise = audioRef.current.play()
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Browsers often block autoplaying audio; fail silently
+          })
+        }
+      } else {
+        audioRef.current.pause()
+      }
+    }
+  }, [isPlaying])
+
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative min-h-screen flex flex-col justify-center items-start overflow-hidden gap-12 lg:gap-16">
+        <audio ref={audioRef} src="/voice.mpeg" loop autoPlay />
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920&q=80"
-            alt="Dubai skyline"
+          <video
+            src="/home.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.6) 100%)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(6,78,59,0.12) 0%, transparent 50%)' }} />
         </div>
 
-        <div className="relative z-10 container-wide px-6 lg:px-10 pt-32 lg:pt-40">
-          <div className="max-w-3xl">
+        <div className="relative z-10 w-full px-6 lg:pl-16 xl:pl-24 pt-32 lg:pt-40">
+          <div className="max-w-2xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
               <span className="eyebrow text-[10px] tracking-[0.35em]" style={{ color: 'rgba(201,168,76,0.8)' }}>
                 Premium Property Intelligence — Dubai
@@ -105,7 +138,7 @@ export default function HomePage() {
           transition={{ duration: 0.8, delay: 1.2 }}
           className="relative z-10 container-wide px-6 lg:px-10 pb-12"
         >
-          <div className="glass-dark p-4 lg:p-5 max-w-5xl">
+          <div className="glass-dark p-4 lg:p-5 max-w-5xl mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               <select value={heroSearch.area} onChange={e => setHeroSearch(p => ({ ...p, area: e.target.value }))} className="premium-input premium-input-dark text-[12px]">
                 <option value="">Select Area</option>
@@ -181,16 +214,24 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ INTRO ═══════════════ */}
-      <section className="section-padding" style={{ backgroundColor: '#faf8f5' }}>
-        <div className="container-narrow">
+      <section className="section-padding relative overflow-hidden py-24 lg:py-32">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920&q=80"
+            alt="Dubai skyline"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.95), rgba(4,56,42,0.9))' }} />
+        </div>
+        <div className="container-narrow relative z-10">
           <AnimatedReveal>
             <div className="max-w-2xl mx-auto text-center">
-              <span className="eyebrow mb-4 block">Our Philosophy</span>
+              <span className="eyebrow mb-4 block" style={{ color: 'rgba(201,168,76,0.8)' }}>Our Philosophy</span>
               <div className="gold-line-center mb-6" />
-              <h2 className="mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, color: '#1a1a1a' }}>
+              <h2 className="mb-5 text-white" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
                 The Art of Property Intelligence
               </h2>
-              <p className="text-[14px] leading-[1.9] max-w-lg mx-auto" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
+              <p className="text-[14px] leading-[1.9] max-w-lg mx-auto" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.65)' }}>
                 In a market as dynamic as Dubai, the right property decision requires more than listings —
                 it demands intelligence. We combine deep market expertise, advanced analytics, and
                 personalised advisory to guide you toward properties that align with your goals.
@@ -222,8 +263,16 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ AI PROPERTY ADVISOR ═══════════════ */}
-      <section className="section-padding-lg relative overflow-hidden" style={{ backgroundColor: '#0a1f17' }}>
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(201,168,76,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+      <section className="section-padding-lg relative overflow-hidden py-24 lg:py-32">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1920&q=80"
+            alt="Luxury tech real estate"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,31,23,0.95), rgba(10,31,23,0.85))' }} />
+        </div>
+        <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(201,168,76,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left - Content */}
@@ -296,7 +345,7 @@ export default function HomePage() {
 
           {/* Bottom logos */}
           <div className="mt-16 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16 text-white/20">
+            <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16 text-white/80">
               <DeveloperLogos.Emaar />
               <DeveloperLogos.Damac />
               <DeveloperLogos.Nakheel />

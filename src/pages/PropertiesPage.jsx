@@ -66,8 +66,16 @@ export default function PropertiesPage() {
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#064e3b' }}>
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1920&q=80"
+            alt="Dubai Luxury Properties"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.92), rgba(4,56,42,0.88))' }} />
+        </div>
+        <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10 pt-48 pb-10 lg:pt-56 lg:pb-14">
           <AnimatedReveal>
             <span className="eyebrow text-[10px] mb-3 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Our Collection</span>
