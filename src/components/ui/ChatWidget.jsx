@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
-    { text: 'Hello! I am your AI property advisor. How can I assist you with Dubai real estate today?', sender: 'bot' }
+    { text: 'Hello! I am your YH property advisor. How can I assist you with Dubai real estate today?', sender: 'bot' }
   ])
   const [input, setInput] = useState('')
 
@@ -33,7 +33,7 @@ export default function ChatWidget() {
             <div className="px-4 py-3 flex items-center justify-between" style={{ background: '#064e3b', color: 'white' }}>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c] animate-pulse"></div>
-                <span className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>Property Advisor</span>
+                <span className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>YH Advisor</span>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white transition-colors">✕</button>
             </div>

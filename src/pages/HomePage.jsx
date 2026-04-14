@@ -262,7 +262,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════ AI PROPERTY ADVISOR ═══════════════ */}
+      {/* ═══════════════ YH PROPERTY ADVISOR ═══════════════ */}
       <section className="section-padding-lg relative overflow-hidden py-24 lg:py-32">
         <div className="absolute inset-0">
           <img
@@ -279,19 +279,19 @@ export default function HomePage() {
             <AnimatedReveal>
               <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Flagship Technology</span>
               <h2 className="mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, color: '#ffffff', fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
-                AI Property Advisor
+                YH Property Advisor
               </h2>
               <p className="text-[14px] leading-[1.85] mb-8 max-w-md" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.45)' }}>
-                Intelligent search powered by advanced AI. Describe your ideal property in natural language and let our AI find the best matches from our curated portfolio.
+                Intelligent search powered by Your Homes. Describe your ideal property in natural language and let our advisor find the best matches from our curated portfolio.
               </p>
 
               {/* Mock prompt card */}
               <div className="mb-6 p-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)' }}>
-                    <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>AI</span>
+                    <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
                   </div>
-                  <span className="text-[12px] font-medium text-white/70" style={{ fontFamily: 'var(--font-body)' }}>Property Advisor</span>
+                  <span className="text-[12px] font-medium text-white/70" style={{ fontFamily: 'var(--font-body)' }}>YH Advisor</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-auto" />
                 </div>
                 <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.55)' }}>
@@ -310,14 +310,14 @@ export default function HomePage() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>
                   </div>
                   <div>
-                    <div className="text-[13px] text-white font-medium" style={{ fontFamily: 'var(--font-body)' }}>Property Advisor</div>
-                    <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-body)' }}>AI-powered · Online</span>
+                    <div className="text-[13px] text-white font-medium" style={{ fontFamily: 'var(--font-body)' }}>YH Advisor</div>
+                    <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-body)' }}>YH-powered · Online</span>
                   </div>
                 </div>
                 <div className="p-5 space-y-3">
                   <div className="flex gap-3">
                     <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center mt-1" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)' }}>
-                      <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>AI</span>
+                      <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
                     </div>
                     <div className="glass p-3.5 max-w-sm">
                       <p className="text-[12px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.65)' }}>
@@ -336,7 +336,7 @@ export default function HomePage() {
                 <div className="px-5 pb-5">
                   <div className="flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 4px 4px 14px' }}>
                     <input type="text" placeholder="Ask about any property..." className="flex-1 bg-transparent text-[12px] outline-none" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)' }} readOnly />
-                    <button className="px-4 py-2 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>Ask AI</button>
+                    <button className="px-4 py-2 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>Ask YH</button>
                   </div>
                 </div>
               </div>
