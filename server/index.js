@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.js'
 import propertyRoutes from './routes/properties.js'
 import uploadRoutes from './routes/upload.js'
 import contactRoutes from './routes/contact.js'
+import areaRoutes from './routes/areas.js'
 import morgan from 'morgan'
 
 dotenv.config()
@@ -32,6 +33,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/properties', propertyRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/contact', contactRoutes)
+app.use('/api/areas', areaRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {

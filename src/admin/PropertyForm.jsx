@@ -27,6 +27,7 @@ export default function PropertyForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [imagePreview, setImagePreview] = useState('')
+  const [areas, setAreas] = useState([])
 
   useEffect(() => {
     if (isEditing) {
@@ -55,6 +56,14 @@ export default function PropertyForm() {
         })
         .catch(() => setError('Failed to load property'))
     }
+
+    // Fetch areas for selection
+    fetch(`${API}/areas`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) setAreas(data)
+      })
+      .catch(err => console.error('Failed to load areas'))
   }, [id, isEditing])
 
   const handleChange = (e) => {
@@ -230,8 +239,33 @@ export default function PropertyForm() {
         <div className="p-6" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
           <h3 className="text-white text-[16px] mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Location</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div><label className={labelClass}>Location *</label><input name="location" value={form.location} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. Palm Jumeirah" /></div>
-            <div><label className={labelClass}>Location Slug</label><input name="locationSlug" value={form.locationSlug || ''} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="Auto-generated if empty" /></div>
+            <div>
+              <label className={labelClass}>Select Area *</label>
+              <select 
+                name="location" 
+                value={form.location} 
+                onChange={(e) => {
+                  const selectedArea = areas.find(a => a.name === e.target.value)
+                  setForm(prev => ({ 
+                    ...prev, 
+                    location: e.target.value,
+                    locationSlug: selectedArea ? selectedArea.slug : prev.locationSlug 
+                  }))
+                }} 
+                required 
+                className="w-full px-4 py-3 text-[13px] text-white outline-none" 
+                style={inputStyle}
+              >
+                <option value="" style={{ color: '#ffffff', background: '#1a1a1a' }}>Select an area...</option>
+                {areas.map(area => (
+                  <option key={area._id} value={area.name} style={{ color: '#ffffff', background: '#1a1a1a' }}>{area.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Location Slug (Auto-set from Area)</label>
+              <input name="locationSlug" value={form.locationSlug || ''} readOnly className="w-full px-4 py-3 text-[13px] text-white/50 outline-none cursor-not-allowed" style={inputStyle} />
+            </div>
           </div>
         </div>
 

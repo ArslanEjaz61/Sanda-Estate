@@ -2,9 +2,8 @@ import { useState, useMemo, useEffect } from 'react'
 import PropertyCard from '../components/ui/PropertyCard'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
-import { properties as staticProperties, propertyTypes, priceRanges, bedroomOptions, statusOptions } from '../data/properties'
-import { areas } from '../data/areas'
-import { fetchProperties } from '../utils/api'
+import { propertyTypes, priceRanges, bedroomOptions, statusOptions } from '../data/properties'
+import { fetchProperties, fetchAreas } from '../utils/api'
 
 const ITEMS_PER_PAGE = 9
 
@@ -12,6 +11,7 @@ export default function PropertiesPage() {
   const [filters, setFilters] = useState({
     search: '', type: 'All', priceRange: 0, area: 'All', bedrooms: 'Any', status: 'All', sort: 'featured',
   })
+  const [liveAreas, setLiveAreas] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [showFilters, setShowFilters] = useState(false)
   const [allProperties, setAllProperties] = useState([])
@@ -26,14 +26,20 @@ export default function PropertiesPage() {
   }, [filters.search])
 
   useEffect(() => {
+    fetchAreas().then(data => {
+      if (data) setLiveAreas(data)
+    })
+  }, [])
+
+  useEffect(() => {
     fetchProperties({ search: debounceSearch }).then(data => {
-      if (data && data.length > 0) {
+      if (data) {
         setAllProperties(data)
       } else {
-        setAllProperties(staticProperties.filter(p => !debounceSearch || p.title.toLowerCase().includes(debounceSearch.toLowerCase())))
+        setAllProperties([])
       }
     }).catch(() => {
-      setAllProperties(staticProperties.filter(p => !debounceSearch || p.title.toLowerCase().includes(debounceSearch.toLowerCase())))
+      setAllProperties([])
     })
   }, [debounceSearch])
 
@@ -57,7 +63,7 @@ export default function PropertiesPage() {
       default: result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
     }
     return result
-  }, [filters])
+  }, [filters, allProperties])
 
   const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE)
   const paginatedProperties = filteredProperties.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
@@ -117,7 +123,7 @@ export default function PropertiesPage() {
               {[
                 { label: 'Type', key: 'type', options: propertyTypes.map(t => ({ value: t, label: t })) },
                 { label: 'Price Range', key: 'priceRange', options: priceRanges.map((r, i) => ({ value: i, label: r.label })), isIndex: true },
-                { label: 'Area', key: 'area', options: [{ value: 'All', label: 'All Areas' }, ...areas.map(a => ({ value: a.slug, label: a.name }))] },
+                { label: 'Area', key: 'area', options: [{ value: 'All', label: 'All Areas' }, ...liveAreas.map(a => ({ value: a.slug, label: a.name }))] },
                 { label: 'Bedrooms', key: 'bedrooms', options: bedroomOptions.map(b => ({ value: b, label: b })) },
                 { label: 'Status', key: 'status', options: [{ value: 'All', label: 'All Status' }, { value: 'Ready', label: 'Ready' }, { value: 'Off-Plan', label: 'Off-Plan' }, { value: 'Resale', label: 'Resale' }, { value: 'Rental', label: 'Rental' }] },
                 { label: 'Sort By', key: 'sort', options: [{ value: 'featured', label: 'Featured' }, { value: 'price-low', label: 'Price: Low–High' }, { value: 'price-high', label: 'Price: High–Low' }, { value: 'newest', label: 'Newest' }] },

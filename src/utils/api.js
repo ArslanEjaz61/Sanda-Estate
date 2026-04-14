@@ -21,6 +21,13 @@ function normalizeProperty(p) {
   
   return property
 }
+
+function normalizeArea(a) {
+  const area = { ...a, id: a._id || a.id }
+  if (area.image) area.image = normalizeMediaUrl(area.image)
+  if (area.heroImage) area.heroImage = normalizeMediaUrl(area.heroImage)
+  return area
+}
 export async function fetchProperties(params = {}) {
   try {
     const query = new URLSearchParams()
@@ -48,6 +55,30 @@ export async function fetchPropertyById(id) {
     if (!res.ok) throw new Error('Not found')
     const data = await res.json()
     return normalizeProperty(data)
+  } catch (error) {
+    console.warn('API unavailable:', error.message)
+    return null
+  }
+}
+
+export async function fetchAreas() {
+  try {
+    const res = await fetch(`${API_BASE}/areas`)
+    if (!res.ok) throw new Error('API error')
+    const data = await res.json()
+    return data.map(normalizeArea)
+  } catch (error) {
+    console.warn('API unavailable:', error.message)
+    return null
+  }
+}
+
+export async function fetchAreaBySlug(slug) {
+  try {
+    const res = await fetch(`${API_BASE}/areas/${slug}`)
+    if (!res.ok) throw new Error('Not found')
+    const data = await res.json()
+    return normalizeArea(data)
   } catch (error) {
     console.warn('API unavailable:', error.message)
     return null

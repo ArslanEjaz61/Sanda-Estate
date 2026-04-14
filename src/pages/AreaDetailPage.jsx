@@ -2,24 +2,37 @@ import { useParams, Link } from 'react-router-dom'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import PropertyCard from '../components/ui/PropertyCard'
 import AnimatedCounter from '../components/ui/AnimatedCounter'
-import { areas } from '../data/areas'
-import { properties as staticProperties } from '../data/properties'
-import { fetchProperties } from '../utils/api'
+import { fetchProperties, fetchAreaBySlug } from '../utils/api'
 import { useState, useEffect } from 'react'
 
 export default function AreaDetailPage() {
   const { slug } = useParams()
-  const area = areas.find(a => a.slug === slug)
-  
-  const [areaProperties, setAreaProperties] = useState(
-    staticProperties.filter(p => p.locationSlug === slug).slice(0, 3)
-  )
+  const [area, setArea] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [areaProperties, setAreaProperties] = useState([])
 
   useEffect(() => {
-    fetchProperties({ location: slug }).then(data => {
-      if (data) setAreaProperties(data.slice(0, 3))
+    fetchAreaBySlug(slug).then(data => {
+      setArea(data)
+      setLoading(false)
     })
   }, [slug])
+
+  useEffect(() => {
+    if (slug) {
+      fetchProperties({ location: slug }).then(data => {
+        if (data) setAreaProperties(data.slice(0, 3))
+      })
+    }
+  }, [slug])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#faf8f5' }}>
+        <p className="text-[13px] text-[#6b6b6b]" style={{ fontFamily: 'var(--font-body)' }}>Loading area details...</p>
+      </div>
+    )
+  }
 
   if (!area) {
     return (
@@ -109,14 +122,14 @@ export default function AreaDetailPage() {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-6">
-                {Object.entries(area.stats).map(([key, value], i) => (
+                {area.stats && Object.entries(area.stats).map(([key, value], i) => (
                   <AnimatedReveal key={key} delay={i * 0.15} direction="up">
                     <div className="p-8 text-center" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e0d9' }}>
                       <div className="text-2xl lg:text-3xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#064e3b' }}>
                         <AnimatedCounter 
-                          target={value.replace(/[^0-9.]/g, '')} 
-                          prefix={value.startsWith('AED') ? 'AED ' : ''}
-                          suffix={value.includes('%') ? '%' : value.includes('+') ? '+' : value.includes('/sq ft') ? '/sq ft' : ''} 
+                          target={String(value || '').replace(/[^0-9.]/g, '')} 
+                          prefix={String(value || '').startsWith('AED') ? 'AED ' : ''}
+                          suffix={String(value || '').includes('%') ? '%' : String(value || '').includes('+') ? '+' : String(value || '').includes('/sq ft') ? '/sq ft' : ''} 
                         />
                       </div>
                       <div className="text-[10px] uppercase tracking-[0.15em] text-gray-soft" style={{ fontFamily: 'var(--font-body)', fontWeight: 600 }}>

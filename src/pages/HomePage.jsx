@@ -8,13 +8,12 @@ import LeadCaptureForm from '../components/ui/LeadCaptureForm'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import AnimatedCounter from '../components/ui/AnimatedCounter'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
-import { properties as staticProperties } from '../data/properties'
-import { areas } from '../data/areas'
+// Removed staticProperties fallback
+import { fetchProperties, fetchAreas } from '../utils/api'
 import { testimonials, whyDubai } from '../data/content'
-import { fetchProperties } from '../utils/api'
 
-const staticFeatured = staticProperties.filter(p => p.featured).slice(0, 6)
-const previewAreas = areas.slice(0, 3)
+const staticFeatured = []
+// previewAreas removed, will be state-driven
 
 const parsedStats = [
   { target: 2.8, prefix: 'AED ', suffix: 'B+', label: 'Portfolio Value Transacted' },
@@ -35,12 +34,16 @@ const whyDubaiIcons = [
 export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState({ area: '', type: '', budget: '' })
   const [featuredProperties, setFeaturedProperties] = useState(staticFeatured)
+  const [liveAreas, setLiveAreas] = useState([])
   const [isPlaying, setIsPlaying] = useState(true)
   const audioRef = useRef(null)
 
   useEffect(() => {
     fetchProperties({ featured: true }).then(data => {
       if (data) setFeaturedProperties(data.slice(0, 6))
+    })
+    fetchAreas().then(data => {
+      if (data) setLiveAreas(data)
     })
   }, [])
 
@@ -142,7 +145,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               <select value={heroSearch.area} onChange={e => setHeroSearch(p => ({ ...p, area: e.target.value }))} className="premium-input premium-input-dark text-[12px]">
                 <option value="">Select Area</option>
-                {areas.map(a => <option key={a.slug} value={a.slug}>{a.name}</option>)}
+                {liveAreas.map(a => <option key={a.slug} value={a.slug}>{a.name}</option>)}
               </select>
               <select value={heroSearch.type} onChange={e => setHeroSearch(p => ({ ...p, type: e.target.value }))} className="premium-input premium-input-dark text-[12px]">
                 <option value="">Property Type</option>
@@ -400,21 +403,30 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ COMMUNITIES ═══════════════ */}
-      <section className="section-padding-lg" style={{ backgroundColor: '#ffffff' }}>
-        <div className="container-wide px-6 lg:px-10">
+      <section className="section-padding-lg relative overflow-hidden py-24 lg:py-32">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=1920&q=80"
+            alt="Dubai Real Estate Communities"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.82), rgba(4,56,42,0.88))' }} />
+        </div>
+        <div className="container-wide px-6 lg:px-10 relative z-10">
           <SectionHeading
             subtitle="Dubai Communities"
             title="Explore Dubai's Premier Areas"
             description="Discover the neighbourhoods that define Dubai's luxury landscape."
+            light
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-            {previewAreas.map((area, i) => (
+            {liveAreas.slice(0, 3).map((area, i) => (
               <AreaCard key={area.slug} area={area} index={i} />
             ))}
           </div>
           <AnimatedReveal>
             <div className="text-center mt-12">
-              <Link to="/areas" className="btn-outline btn-outline-dark">View All Areas</Link>
+              <Link to="/areas" className="btn-outline btn-outline-light">View All Areas</Link>
             </div>
           </AnimatedReveal>
         </div>

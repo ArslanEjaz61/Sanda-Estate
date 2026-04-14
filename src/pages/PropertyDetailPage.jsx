@@ -5,17 +5,14 @@ import AnimatedReveal from '../components/ui/AnimatedReveal'
 import LeadCaptureForm from '../components/ui/LeadCaptureForm'
 import PropertyCard from '../components/ui/PropertyCard'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
-import { properties as staticProperties } from '../data/properties'
 import { fetchPropertyById, fetchProperties } from '../utils/api'
 
 export default function PropertyDetailPage() {
   const { id } = useParams()
 
-  const [property, setProperty] = useState(staticProperties.find(p => p.id === id) || null)
-  const [relatedProperties, setRelatedProperties] = useState(
-    property ? staticProperties.filter(p => p.id !== property.id && p.locationSlug === property.locationSlug).slice(0, 3) : []
-  )
-  const [loading, setLoading] = useState(!property)
+  const [property, setProperty] = useState(null)
+  const [relatedProperties, setRelatedProperties] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const [activeImage, setActiveImage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -45,7 +42,7 @@ export default function PropertyDetailPage() {
         })
       }
     }).catch(err => {
-      console.warn("API Error, using fallback in Detail Page:", err)
+      console.warn("API Error:", err)
     }).finally(() => {
       setLoading(false)
     })

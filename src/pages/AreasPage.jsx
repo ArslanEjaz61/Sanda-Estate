@@ -1,8 +1,17 @@
+import { useState, useEffect } from 'react'
+import { fetchAreas } from '../utils/api'
 import AreaCard from '../components/ui/AreaCard'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
-import { areas } from '../data/areas'
 
 export default function AreasPage() {
+  const [liveAreas, setLiveAreas] = useState([])
+
+  useEffect(() => {
+    fetchAreas().then(data => {
+      if (data) setLiveAreas(data)
+    })
+  }, [])
+
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
@@ -27,7 +36,7 @@ export default function AreasPage() {
       <section className="section-padding-lg" style={{ backgroundColor: '#faf8f5' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-            {areas.map((area, i) => (
+            {liveAreas.map((area, i) => (
               <AreaCard key={area.slug} area={area} index={i} />
             ))}
           </div>

@@ -18,6 +18,7 @@ export default function AdminLayout() {
     { to: '/admin/dashboard', label: 'Dashboard', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
     { to: '/admin/properties', label: 'Properties', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg> },
     { to: '/admin/properties/new', label: 'Add Property', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><path d="M12 8v8M8 12h8" /></svg> },
+    { to: '/admin/areas', label: 'Areas', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg> },
     { to: '/admin/contacts', label: 'Contacts', icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> }
   ]
 
@@ -28,6 +29,10 @@ export default function AdminLayout() {
       try {
         const token = localStorage.getItem('admin_token')
         const res = await fetch(`${API}/contact`, { headers: { Authorization: `Bearer ${token}` } })
+        if (res.status === 401 || res.status === 403) {
+          handleLogout()
+          return
+        }
         const data = await res.json()
         if (Array.isArray(data)) {
           setUnreadCount(data.filter(c => c.status === 'unread').length)

@@ -20,6 +20,8 @@ import Dashboard from '../admin/Dashboard'
 import PropertyList from '../admin/PropertyList'
 import PropertyForm from '../admin/PropertyForm'
 import ContactList from '../admin/ContactList'
+import AreaList from '../admin/AreaList'
+import AreaForm from '../admin/AreaForm'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -54,6 +56,9 @@ export default function AppRouter() {
           <Route path="properties" element={<PropertyList />} />
           <Route path="properties/new" element={<PropertyForm />} />
           <Route path="properties/edit/:id" element={<PropertyForm />} />
+          <Route path="areas" element={<AreaList />} />
+          <Route path="areas/new" element={<AreaForm />} />
+          <Route path="areas/edit/:id" element={<AreaForm />} />
           <Route path="contacts" element={<ContactList />} />
         </Route>
 
