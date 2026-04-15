@@ -45,8 +45,8 @@ export default function PropertyCard({ property, index = 0 }) {
 
         {/* Content */}
         <div className="px-1">
-          <div className="eyebrow text-[9px] mb-2.5 tracking-[0.2em]" style={{ color: '#9a9a9a' }}>
-            {property.location} {property.subLocation && `· ${property.subLocation}`} · {property.type}
+          <div className="eyebrow text-[9px] mb-2.5 tracking-[0.2em]" style={{ color: '#9a9a9a', opacity: 0.8 }}>
+            <span className="text-emerald-deep/60 mr-1">Location:</span> {property.location} {property.subLocation && `· ${property.subLocation}`} · {property.type}
           </div>
           <h3
             className="text-[19px] lg:text-[21px] mb-3 leading-[1.25] group-hover:text-emerald-deep transition-colors duration-400"

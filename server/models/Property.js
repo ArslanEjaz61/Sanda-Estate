@@ -4,6 +4,8 @@ const propertySchema = new mongoose.Schema({
   title: { type: String, required: true },
   type: { type: String, required: true, enum: ['Apartment', 'Villa', 'Penthouse', 'Townhouse', 'Duplex', 'Studio'] },
   status: { type: String, required: true, enum: ['Ready', 'Off-Plan', 'Resale', 'Rental'], default: 'Ready' },
+  purpose: { type: String, enum: ['For Sale', 'For Rent'], default: 'For Sale' },
+  usage: { type: String, enum: ['Residential', 'Commercial'], default: 'Residential' },
   price: { type: Number, required: true },
   priceFormatted: { type: String },
   bedrooms: { type: Number, required: true },

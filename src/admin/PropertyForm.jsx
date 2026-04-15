@@ -13,7 +13,7 @@ function normalizeMediaUrl(url) {
 
 const emptyForm = {
   title: '', type: 'Apartment', status: 'Ready', price: '', bedrooms: '', bathrooms: '', area: '',
-  areaUnit: 'sq ft', location: '', locationSlug: '', subLocation: '', developer: '', description: '', features: '', amenities: '',
+  areaUnit: 'sq ft', location: '', locationSlug: '', subLocation: '', purpose: 'For Sale', usage: 'Residential', developer: '', description: '', features: '', amenities: '',
   image: '', gallery: '', video: '', floorPlan: '', completionDate: '', serviceCharges: '',
   referenceNumber: '', reraPermit: '', furnishedStatus: '', propertyAge: '', rentFrequency: '',
   agentName: '', agentPhone: '', agentPhoto: '', featured: false, goldenVisa: false,
@@ -53,6 +53,8 @@ export default function PropertyForm() {
             propertyAge: data.propertyAge || '',
             rentFrequency: data.rentFrequency || '',
             subLocation: data.subLocation || '',
+            purpose: data.purpose || 'For Sale',
+            usage: data.usage || 'Residential',
           })
           setImagePreview(data.image || '')
         })
@@ -216,6 +218,18 @@ export default function PropertyForm() {
               <label className={labelClass}>Price {form.status === 'Rental' ? '(AED) *' : '(AED) *'}</label>
               <input name="price" type="number" value={form.price} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. 5000000" />
             </div>
+            <div>
+              <label className={labelClass}>Purpose *</label>
+              <select name="purpose" value={form.purpose} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle}>
+                {['For Sale','For Rent'].map(p => <option key={p} value={p} style={{ color: '#ffffff', background: '#1a1a1a' }}>{p}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Usage *</label>
+              <select name="usage" value={form.usage} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle}>
+                {['Residential','Commercial'].map(u => <option key={u} value={u} style={{ color: '#ffffff', background: '#1a1a1a' }}>{u}</option>)}
+              </select>
+            </div>
             {form.status === 'Rental' && (
               <div>
                 <label className={labelClass}>Rent Frequency *</label>
@@ -242,8 +256,6 @@ export default function PropertyForm() {
             <div><label className={labelClass}>Area Unit</label><input name="areaUnit" value={form.areaUnit} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} /></div>
             
             <div><label className={labelClass}>Reference Number</label><input name="referenceNumber" value={form.referenceNumber} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. BAYUT-1234" /></div>
-            <div><label className={labelClass}>RERA Permit No.</label><input name="reraPermit" value={form.reraPermit} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. 1234567890" /></div>
-            
             <div>
               <label className={labelClass}>Furnished Status</label>
               <select name="furnishedStatus" value={form.furnishedStatus} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle}>
@@ -251,7 +263,7 @@ export default function PropertyForm() {
                 {['Furnished', 'Unfurnished', 'Partly Furnished'].map(s => <option key={s} value={s} style={{ color: '#ffffff', background: '#1a1a1a' }}>{s}</option>)}
               </select>
             </div>
-            <div><label className={labelClass}>Property Age/Handover</label><input name="propertyAge" value={form.propertyAge} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. Built in 2018 or Q3 2025" /></div>
+            <div><label className={labelClass}>Built-up Area</label><input name="propertyAge" value={form.propertyAge} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. 2,500 sqft or NA" /></div>
 
             {/* Legacy Date field - still useful for raw completion mapping, but propertyAge is more versatile for Bayut */}
             <div><label className={labelClass}>Completion</label><input name="completionDate" value={form.completionDate} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. Q4 2026" /></div>

@@ -17,6 +17,7 @@ export default function PropertyDetailPage() {
   const [activeImage, setActiveImage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [descExpanded, setDescExpanded] = useState(false)
 
   // Build slider media array
   const mainMedia = []
@@ -151,8 +152,8 @@ export default function PropertyDetailPage() {
                   <h1 className="mb-2.5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400, fontSize: 'clamp(1.8rem, 3vw, 2.6rem)', color: '#1a1a1a' }}>
                     {property.title}
                   </h1>
-                  <div className="text-[12px] mb-4" style={{ fontFamily: 'var(--font-body)', color: '#9a9a9a' }}>
-                    {property.location} {property.subLocation && `· ${property.subLocation}`} · {property.type} · {property.developer}
+                  <div className="eyebrow text-[9px] mb-4 tracking-[0.2em]" style={{ color: '#9a9a9a', opacity: 0.8 }}>
+                    <span className="text-emerald-deep/60 mr-1">Location:</span> {property.location} {property.subLocation && `· ${property.subLocation}`} · {property.type} · {property.developer}
                   </div>
                   <div className="text-[24px] lg:text-[28px]" style={{ fontFamily: 'var(--font-heading)', color: '#064e3b', fontWeight: 500 }}>
                     {property.priceFormatted}
@@ -181,16 +182,28 @@ export default function PropertyDetailPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-8 mb-8 pb-6" style={{ borderBottom: '1px solid #e5e0d9', fontFamily: 'var(--font-body)' }}>
                   <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Property Type:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.type}</span></div>
                   <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Property Status:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.status}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Purpose:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.purpose || 'For Sale'}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Usage:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.usage || 'Residential'}</span></div>
                   <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Reference number:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.referenceNumber || 'N/A'}</span></div>
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>RERA Permit No:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.reraPermit || 'N/A'}</span></div>
                   <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Furnishing:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.furnishedStatus || 'N/A'}</span></div>
-                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Property Age / Built:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.propertyAge || property.completionDate || 'N/A'}</span></div>
+                  <div className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(0,0,0,0.03)' }}><span className="text-[13px]" style={{ color: '#9a9a9a' }}>Built-up Area:</span> <span className="text-[13px] font-medium" style={{ color: '#1a1a1a' }}>{property.propertyAge || property.completionDate || 'N/A'}</span></div>
                 </div>
 
                 <h3 className="text-[19px] mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>Property Description</h3>
-                <div className="text-[14px] leading-[1.85] mb-8 whitespace-pre-line" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
+                <div 
+                  className={`text-[14px] leading-[1.85] mb-2 whitespace-pre-line transition-all duration-500 overflow-hidden ${!descExpanded ? 'line-clamp-3' : ''}`}
+                  style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}
+                >
                   {property.description || "No description provided for this property."}
                 </div>
+                {property.description && property.description.length > 150 && (
+                  <button 
+                    onClick={() => setDescExpanded(!descExpanded)}
+                    className="text-[11px] uppercase tracking-[0.1em] font-bold text-emerald-deep hover:text-gold-muted transition-colors mb-8"
+                  >
+                    {descExpanded ? '↑ Show Less' : '↓ Show More'}
+                  </button>
+                )}
 
                 <h3 className="text-[19px] mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>Key Features</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 mb-8">
