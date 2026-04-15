@@ -1,5 +1,5 @@
-const API_BASE = 'http://127.0.0.1:5000/api'
-const SERVER_BASE = 'http://127.0.0.1:5000'
+const API_BASE = import.meta.env.VITE_API_BASE
+const SERVER_BASE = import.meta.env.VITE_SERVER_BASE
 
 function normalizeMediaUrl(url) {
   if (!url) return url
