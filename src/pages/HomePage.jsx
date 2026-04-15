@@ -565,9 +565,9 @@ export default function HomePage() {
                 </p>
                 <div className="space-y-3">
                   {[
-                    { text: 'Boulevard Plaza, Downtown Dubai' },
-                    { text: '+971 50 123 4567', href: 'tel:+971501234567' },
-                    { text: 'hello@yourhomes.ae', href: 'mailto:hello@yourhomes.ae' },
+                    { text: 'A-202, Prime Business Center, Dubai' },
+                    { text: '+971 4 454 1313', href: 'tel:+97144541313' },
+                    { text: 'info@yourhomes.ae', href: 'mailto:info@yourhomes.ae' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-3 text-[13px]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
                       <span style={{ color: '#c9a84c', fontSize: '6px' }}>◆</span>

@@ -151,11 +151,11 @@ export default function Navbar() {
               transition={{ delay: 0.6 }}
               className="text-center pb-10 px-6"
             >
-              <a href="tel:+971501234567" className="text-[13px] text-white/30 block mb-1" style={{ fontFamily: 'var(--font-body)' }}>
-                +971 50 123 4567
+              <a href="tel:+97144541313" className="text-[13px] text-white/30 block mb-1" style={{ fontFamily: 'var(--font-body)' }}>
+                +971 4 454 1313
               </a>
-              <a href="mailto:hello@yourhomes.ae" className="text-[13px] text-white/30" style={{ fontFamily: 'var(--font-body)' }}>
-                hello@yourhomes.ae
+              <a href="mailto:info@yourhomes.ae" className="text-[13px] text-white/30" style={{ fontFamily: 'var(--font-body)' }}>
+                info@yourhomes.ae
               </a>
             </motion.div>
           </motion.div>

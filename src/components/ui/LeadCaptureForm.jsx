@@ -1,11 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { fetchAreas } from '../../utils/api'
 
 export default function LeadCaptureForm({ variant = 'full', light = false }) {
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', budget: '', area: '', propertyType: '', message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [areas, setAreas] = useState([])
+
+  useEffect(() => {
+    fetchAreas().then(data => {
+      if (data) setAreas(data)
+    })
+  }, [])
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -107,12 +115,9 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
                 <label className="premium-label" style={light ? { color: 'rgba(255,255,255,0.4)' } : {}}>Preferred Area</label>
                 <select name="area" value={formData.area} onChange={handleChange} className={inputClass}>
                   <option value="">Select area</option>
-                  <option value="palm-jumeirah">Palm Jumeirah</option>
-                  <option value="downtown">Downtown Dubai</option>
-                  <option value="marina">Dubai Marina</option>
-                  <option value="dubai-hills">Dubai Hills</option>
-                  <option value="business-bay">Business Bay</option>
-                  <option value="jvc">JVC</option>
+                  {areas.map(a => (
+                    <option key={a._id} value={a.slug}>{a.name}</option>
+                  ))}
                 </select>
               </div>
               <div>

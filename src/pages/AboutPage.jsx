@@ -113,36 +113,61 @@ export default function AboutPage() {
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative overflow-hidden min-h-screen" style={{ backgroundColor: '#064e3b' }}>
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-        <div className="container-wide px-6 lg:px-10 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center">
-            <div className="pt-44 pb-14 lg:pt-52 lg:pb-20 lg:pr-12">
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background Image & Overlays */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1920&q=80" 
+            alt="Dubai Real Estate" 
+            className="w-full h-full object-cover"
+          />
+          {/* Main Overlay Gradient */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.92) 0%, rgba(6,78,59,0.85) 40%, rgba(0,0,0,0.6) 100%)' }} />
+          {/* Subtle Grid Pattern */}
+          <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        </div>
+
+        <div className="container-wide px-6 lg:px-10 relative z-10 w-full pt-32 pb-14 lg:pt-40 lg:pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="max-w-xl">
               <AnimatedReveal>
-                <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(201,168,76,0.7)' }}>About Us</span>
-                <h1 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.08 }}>
-                  A Trusted Advisory<br />in Dubai{' '}
-                  <span className="italic" style={{ color: '#c9a84c' }}>Real Estate</span>
+                <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(201,168,76,0.85)' }}>About Your Homes</span>
+                <h1 className="text-white mb-6" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.05, fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)' }}>
+                  A Trusted Advisory<br />
+                  <span className="italic" style={{ color: '#c9a84c' }}>in Dubai Real Estate</span>
                 </h1>
-                <p className="text-[14px] max-w-md leading-[1.85] mb-10" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
-                  Property Intelligence is not just our tagline — it's the philosophy that drives every decision, recommendation, and relationship we build.
+                <p className="text-[14px] lg:text-[15px] leading-[1.8] mb-10" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.65)' }}>
+                  Property Intelligence is not just our tagline — it's the professional philosophy that drives every decision, 
+                  investment recommendation, and lifelong client partnership we build in the UAE.
                 </p>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                
+                {/* Counter Grid */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                   {parsedStats.map((stat, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }} className="text-center lg:text-left">
-                      <div className="text-[22px] lg:text-[26px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#c9a84c', fontWeight: 400 }}>
+                    <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
+                      <div className="text-[20px] lg:text-[24px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#c9a84c', fontWeight: 400 }}>
                         <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
                       </div>
-                      <div className="text-[8px] uppercase tracking-[0.16em]" style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'rgba(255,255,255,0.35)' }}>{stat.label}</div>
+                      <div className="text-[8px] uppercase tracking-[0.2em] font-medium" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.4)' }}>{stat.label}</div>
                     </motion.div>
                   ))}
                 </div>
               </AnimatedReveal>
             </div>
-            <div className="relative lg:min-h-[550px]">
-              <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80" alt="Your Homes advisory team" className="w-full h-full object-cover lg:absolute lg:inset-0" />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(6,78,59,0.3) 0%, transparent 40%)' }} />
-            </div>
+
+            <AnimatedReveal delay={0.2}>
+              <div className="relative group">
+                {/* Image Accent Border */}
+                <div className="absolute -inset-4 border border-gold-muted/20 -z-10 translate-x-3 translate-y-3 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500" />
+                <div className="aspect-[4/5] lg:aspect-square overflow-hidden rounded-sm shadow-2xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1000&q=80" 
+                    alt="Your Homes advisory team" 
+                    className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" 
+                  />
+                </div>
+              </div>
+            </AnimatedReveal>
           </div>
         </div>
       </section>

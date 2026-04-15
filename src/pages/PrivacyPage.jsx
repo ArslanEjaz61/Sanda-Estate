@@ -57,7 +57,7 @@ export default function PrivacyPage() {
                 Contact
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                For privacy-related inquiries, please contact us at privacy@yourhomes.ae or write to us at Boulevard Plaza, Tower 1, Downtown Dubai, UAE.
+                For privacy-related inquiries, please contact us at info@yourhomes.ae or write to us at A-202, Prime Business Center, Dubai, UAE.
               </p>
             </div>
             <p className="text-[13px] text-gray-soft italic">

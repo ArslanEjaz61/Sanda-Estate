@@ -26,9 +26,9 @@ export default function ContactPage() {
                 {/* Contact Details */}
                 <div className="space-y-4 mb-8">
                   {[
-                    { label: 'Office', value: 'Boulevard Plaza, Tower 1, Downtown Dubai' },
-                    { label: 'Phone', value: '+971 50 123 4567', href: 'tel:+971501234567' },
-                    { label: 'Email', value: 'hello@yourhomes.ae', href: 'mailto:hello@yourhomes.ae' },
+                    { label: 'Office', value: 'A-202, Prime Business Center, POBOX: 123022, Dubai' },
+                    { label: 'Phone', value: '+971 4 454 1313', href: 'tel:+97144541313' },
+                    { label: 'Email', value: 'info@yourhomes.ae', href: 'mailto:info@yourhomes.ae' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <span className="text-[9px] uppercase tracking-[0.15em] font-semibold min-w-[50px] pt-0.5" style={{ fontFamily: 'var(--font-body)', color: 'rgba(201,168,76,0.6)' }}>{item.label}</span>
@@ -45,9 +45,8 @@ export default function ContactPage() {
                 <div className="p-6 mt-10" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '2px' }}>
                   <h4 className="text-[11px] uppercase tracking-[0.2em] text-white/40 mb-4" style={{ fontFamily: 'var(--font-body)', fontWeight: 600 }}>Advisory Hours</h4>
                   <div className="space-y-2.5 text-[13px]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
-                    <div className="flex justify-between items-center pb-2 border-b border-white/5"><span>Mon – Thu</span><span className="text-white/80">9 AM – 7 PM</span></div>
-                    <div className="flex justify-between items-center pb-2 border-b border-white/5"><span>Friday</span><span className="text-white/80">9 AM – 12 PM, 2 PM – 7 PM</span></div>
-                    <div className="flex justify-between items-center"><span>Saturday</span><span className="text-white/80">10 AM – 4 PM</span></div>
+                    <div className="flex justify-between items-center pb-2 border-b border-white/5"><span>Monday – Saturday</span><span className="text-white/80">9 AM – 6 PM</span></div>
+                    <div className="flex justify-between items-center text-white/20 italic"><span>Sunday</span><span>Closed</span></div>
                   </div>
                 </div>
               </AnimatedReveal>

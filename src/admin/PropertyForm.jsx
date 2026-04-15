@@ -307,7 +307,7 @@ export default function PropertyForm() {
           <h3 className="text-white text-[16px] mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Assigned Agent</h3>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div><label className={labelClass}>Agent Name</label><input name="agentName" value={form.agentName} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. John Doe" /></div>
-            <div><label className={labelClass}>Agent Phone</label><input name="agentPhone" value={form.agentPhone} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. +971 50 123 4567" /></div>
+            <div><label className={labelClass}>Agent Phone</label><input name="agentPhone" value={form.agentPhone} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. +971 4 454 1313" /></div>
             <div><label className={labelClass}>Agent Photo URL</label><input name="agentPhoto" value={form.agentPhoto} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="URL to profile picture" /></div>
           </div>
         </div>
