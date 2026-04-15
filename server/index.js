@@ -44,8 +44,8 @@ app.get('/api/health', (req, res) => {
 const PORT = process.env.PORT || 5000
 
 connectDB().then(() => {
-  app.listen(PORT, '127.0.0.1', () => {
-    console.log(`🚀 Server running on http://127.0.0.1:${PORT}`)
-    console.log(`📡 API available at http://127.0.0.1:${PORT}/api`)
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on ${PORT}`)
+    console.log(`📡 API available at http://localhost:${PORT}/api`)
   })
 })

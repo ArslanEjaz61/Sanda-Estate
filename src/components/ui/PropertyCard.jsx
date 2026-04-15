@@ -75,7 +75,6 @@ export default function PropertyCard({ property, index = 0 }) {
               style={{ fontFamily: 'var(--font-heading)', color: '#064e3b', fontWeight: 600 }}
             >
               {property.priceFormatted}
-              {property.status === 'Rental' && <span className="text-[10px] text-gray-warm font-normal">/ mo</span>}
             </span>
             <span className="text-[10px] uppercase tracking-[0.15em] text-gray-soft group-hover:text-emerald-deep transition-all duration-300 flex items-center gap-1" style={{ fontFamily: 'var(--font-body)' }}>
               Details 

@@ -15,7 +15,7 @@ const emptyForm = {
   title: '', type: 'Apartment', status: 'Ready', price: '', bedrooms: '', bathrooms: '', area: '',
   areaUnit: 'sq ft', location: '', developer: '', description: '', features: '', amenities: '',
   image: '', gallery: '', video: '', floorPlan: '', completionDate: '', serviceCharges: '',
-  referenceNumber: '', reraPermit: '', furnishedStatus: '', propertyAge: '',
+  referenceNumber: '', reraPermit: '', furnishedStatus: '', propertyAge: '', rentFrequency: '',
   agentName: '', agentPhone: '', agentPhoto: '', featured: false, goldenVisa: false,
 }
 
@@ -51,6 +51,7 @@ export default function PropertyForm() {
             reraPermit: data.reraPermit || '',
             furnishedStatus: data.furnishedStatus || '',
             propertyAge: data.propertyAge || '',
+            rentFrequency: data.rentFrequency || '',
           })
           setImagePreview(data.image || '')
         })
@@ -198,9 +199,18 @@ export default function PropertyForm() {
               </select>
             </div>
             <div>
-              <label className={labelClass}>Price {form.status === 'Rental' ? '(Monthly AED) *' : '(AED) *'}</label>
+              <label className={labelClass}>Price {form.status === 'Rental' ? '(AED) *' : '(AED) *'}</label>
               <input name="price" type="number" value={form.price} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. 5000000" />
             </div>
+            {form.status === 'Rental' && (
+              <div>
+                <label className={labelClass}>Rent Frequency *</label>
+                <select name="rentFrequency" value={form.rentFrequency} onChange={handleChange} required={form.status === 'Rental'} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle}>
+                  <option value="" style={{ color: '#ffffff', background: '#1a1a1a' }}>Select Frequency</option>
+                  {['Daily','Weekly','Monthly','Yearly'].map(f => <option key={f} value={f} style={{ color: '#ffffff', background: '#1a1a1a' }}>{f}</option>)}
+                </select>
+              </div>
+            )}
             <div>
               <label className={labelClass}>Developer</label>
               <input name="developer" value={form.developer} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. Emaar" />

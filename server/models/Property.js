@@ -25,6 +25,7 @@ const propertySchema = new mongoose.Schema({
   referenceNumber: { type: String },
   reraPermit: { type: String },
   furnishedStatus: { type: String, enum: ['Furnished', 'Unfurnished', 'Partly Furnished', ''] },
+  rentFrequency: { type: String, enum: ['Daily', 'Weekly', 'Monthly', 'Yearly', ''], default: '' },
   propertyAge: { type: String },
   agent: {
     name: { type: String },
@@ -38,7 +39,11 @@ const propertySchema = new mongoose.Schema({
 // Auto-generate priceFormatted before save
 propertySchema.pre('save', function(next) {
   if (this.price) {
-    this.priceFormatted = `AED ${this.price.toLocaleString()}`
+    if (this.status === 'Rental' && this.rentFrequency) {
+      this.priceFormatted = `AED ${this.price.toLocaleString()} / ${this.rentFrequency}`
+    } else {
+      this.priceFormatted = `AED ${this.price.toLocaleString()}`
+    }
   }
   if (this.location && !this.locationSlug) {
     this.locationSlug = this.location.toLowerCase().replace(/\s+/g, '-')
@@ -50,7 +55,14 @@ propertySchema.pre('save', function(next) {
 propertySchema.pre('findOneAndUpdate', function(next) {
   const update = this.getUpdate()
   if (update.price) {
-    update.priceFormatted = `AED ${update.price.toLocaleString()}`
+    const isRental = update.status === 'Rental' || (this._update && this._update.status === 'Rental')
+    const freq = update.rentFrequency
+    
+    if (isRental && freq) {
+      update.priceFormatted = `AED ${update.price.toLocaleString()} / ${freq}`
+    } else {
+      update.priceFormatted = `AED ${update.price.toLocaleString()}`
+    }
   }
   if (update.location && !update.locationSlug) {
     update.locationSlug = update.location.toLowerCase().replace(/\s+/g, '-')
