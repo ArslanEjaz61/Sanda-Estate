@@ -152,7 +152,7 @@ export default function PropertyDetailPage() {
                     {property.title}
                   </h1>
                   <div className="text-[12px] mb-4" style={{ fontFamily: 'var(--font-body)', color: '#9a9a9a' }}>
-                    {property.location} · {property.type} · {property.developer}
+                    {property.location} {property.subLocation && `· ${property.subLocation}`} · {property.type} · {property.developer}
                   </div>
                   <div className="text-[24px] lg:text-[28px]" style={{ fontFamily: 'var(--font-heading)', color: '#064e3b', fontWeight: 500 }}>
                     {property.priceFormatted}

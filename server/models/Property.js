@@ -12,6 +12,7 @@ const propertySchema = new mongoose.Schema({
   areaUnit: { type: String, default: 'sq ft' },
   location: { type: String, required: true },
   locationSlug: { type: String, required: true },
+  subLocation: { type: String },
   developer: { type: String },
   description: { type: String },
   features: [{ type: String }],

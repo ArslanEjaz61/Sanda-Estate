@@ -13,7 +13,7 @@ function normalizeMediaUrl(url) {
 
 const emptyForm = {
   title: '', type: 'Apartment', status: 'Ready', price: '', bedrooms: '', bathrooms: '', area: '',
-  areaUnit: 'sq ft', location: '', developer: '', description: '', features: '', amenities: '',
+  areaUnit: 'sq ft', location: '', locationSlug: '', subLocation: '', developer: '', description: '', features: '', amenities: '',
   image: '', gallery: '', video: '', floorPlan: '', completionDate: '', serviceCharges: '',
   referenceNumber: '', reraPermit: '', furnishedStatus: '', propertyAge: '', rentFrequency: '',
   agentName: '', agentPhone: '', agentPhoto: '', featured: false, goldenVisa: false,
@@ -52,6 +52,7 @@ export default function PropertyForm() {
             furnishedStatus: data.furnishedStatus || '',
             propertyAge: data.propertyAge || '',
             rentFrequency: data.rentFrequency || '',
+            subLocation: data.subLocation || '',
           })
           setImagePreview(data.image || '')
         })
@@ -286,8 +287,20 @@ export default function PropertyForm() {
               </select>
             </div>
             <div>
-              <label className={labelClass}>Location Slug (Auto-set from Area)</label>
+              <label className={labelClass}>Location Slug (Auto-set)</label>
               <input name="locationSlug" value={form.locationSlug || ''} readOnly className="w-full px-4 py-3 text-[13px] text-white/50 outline-none cursor-not-allowed" style={inputStyle} />
+            </div>
+            <div className="lg:col-span-2">
+              <label className={labelClass}>Specific Location / Address *</label>
+              <input 
+                name="subLocation" 
+                value={form.subLocation} 
+                onChange={handleChange} 
+                className="w-full px-4 py-3 text-[13px] text-white outline-none" 
+                style={inputStyle} 
+                placeholder="e.g. Burj Horizon Tower / Street 14" 
+                required
+              />
             </div>
           </div>
         </div>
