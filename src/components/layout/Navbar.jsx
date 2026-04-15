@@ -48,29 +48,12 @@ export default function Navbar() {
       >
         <div className="container-wide h-full flex items-center justify-between px-8 lg:px-12">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div
-              className="w-9 h-9 flex items-center justify-center transition-all duration-400"
-              style={{
-                backgroundColor: isSolid ? '#064e3b' : 'rgba(255,255,255,0.1)',
-                backdropFilter: !isSolid ? 'blur(10px)' : 'none',
-                fontFamily: 'var(--font-heading)',
-                fontSize: '16px',
-                fontWeight: 600,
-                letterSpacing: '0.05em',
-                color: isSolid ? '#c9a84c' : '#ffffff',
-              }}
-            >
-              YH
-            </div>
-            <div className={`${textColor} transition-colors duration-500`} style={{ color: !isSolid ? '#ffffff' : undefined }}>
-              <div className="text-[15px] leading-none font-medium tracking-[0.02em]" style={{ fontFamily: 'var(--font-heading)' }}>
-                Your Homes
-              </div>
-              <div className="text-[8px] uppercase tracking-[0.3em] opacity-50 mt-0.5" style={{ fontFamily: 'var(--font-body)', fontWeight: 500 }}>
-                Property Intelligence
-              </div>
-            </div>
+          <Link to="/" className="flex items-center h-full">
+            <img 
+              src="/homelogo.png" 
+              alt="Your Homes Dubai" 
+              className={`h-11 w-auto object-contain transition-all duration-500 ${!isSolid ? 'brightness-0 invert' : ''}`}
+            />
           </Link>
 
           {/* Desktop Nav */}

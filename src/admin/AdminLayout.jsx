@@ -58,12 +58,12 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ background: '#0a1f17', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         {/* Logo */}
-        <div className="px-5 py-6 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="w-9 h-9 flex items-center justify-center font-bold text-[11px]" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>YH</div>
-          <div>
-            <div className="text-white text-[13px] font-semibold" style={{ fontFamily: 'var(--font-body)' }}>Your Homes</div>
-            <div className="text-[8px] uppercase tracking-[0.2em] text-white/30" style={{ fontFamily: 'var(--font-body)' }}>Admin Panel</div>
-          </div>
+        <div className="px-5 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <img 
+            src="/homelogo.png" 
+            alt="Your Homes Admin" 
+            className="h-10 w-auto object-contain brightness-0 invert opacity-80"
+          />
         </div>
 
         {/* Nav */}

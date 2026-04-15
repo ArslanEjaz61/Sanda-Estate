@@ -46,15 +46,13 @@ export default function Footer() {
         <div className="py-14 lg:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-6">
           {/* Brand — 4 cols */}
           <div className="lg:col-span-4">
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 flex items-center justify-center" style={{ background: 'rgba(201,168,76,0.1)', fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: 600, color: '#c9a84c', letterSpacing: '0.05em' }}>
-                YH
-              </div>
-              <div>
-                <div className="text-[15px] text-white leading-none" style={{ fontFamily: 'var(--font-heading)' }}>Your Homes</div>
-                <div className="text-[8px] uppercase tracking-[0.3em] text-white/35 mt-0.5" style={{ fontFamily: 'var(--font-body)', fontWeight: 500 }}>Property Intelligence</div>
-              </div>
-            </div>
+            <Link to="/" className="inline-block mb-5">
+              <img 
+                src="/homelogo.png" 
+                alt="Your Homes Dubai" 
+                className="h-12 w-auto object-contain brightness-0 invert opacity-90"
+              />
+            </Link>
             <p className="text-[13px] text-white/40 leading-[1.8] max-w-[280px] mb-6" style={{ fontFamily: 'var(--font-body)' }}>
               Curated real estate intelligence for investors, families, and global buyers seeking premium Dubai properties.
             </p>
