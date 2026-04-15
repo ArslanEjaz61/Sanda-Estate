@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const API = 'http://localhost:5000/api'
+const API = import.meta.env.VITE_API_BASE
 
 const emptyForm = {
   name: '',

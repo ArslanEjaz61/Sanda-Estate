@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-const API = 'http://localhost:5000/api'
+const API = import.meta.env.VITE_API_BASE
 
 export default function AdminLayout() {
   const navigate = useNavigate()

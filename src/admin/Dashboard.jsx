@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-const API = 'http://localhost:5000/api'
+const API = import.meta.env.VITE_API_BASE
 
 export default function Dashboard() {
   const [stats, setStats] = useState({ total: 0, featured: 0, ready: 0, offPlan: 0 })

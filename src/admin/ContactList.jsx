@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const API = 'http://localhost:5000/api'
+const API = import.meta.env.VITE_API_BASE
 
 export default function ContactList() {
   const [contacts, setContacts] = useState([])

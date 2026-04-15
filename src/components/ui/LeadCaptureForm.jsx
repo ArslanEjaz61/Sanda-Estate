@@ -14,7 +14,7 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

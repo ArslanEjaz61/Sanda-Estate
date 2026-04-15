@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
-const API = 'http://localhost:5000/api'
+const API = import.meta.env.VITE_API_BASE
 
 export default function AreaList() {
   const [areas, setAreas] = useState([])

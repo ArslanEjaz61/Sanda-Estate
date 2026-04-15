@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const API = 'http://localhost:5000/api'
-const SERVER_BASE = 'http://localhost:5000'
+const API = import.meta.env.VITE_API_BASE
+const SERVER_BASE = import.meta.env.VITE_SERVER_BASE
 
 function normalizeMediaUrl(url) {
   if (!url) return ''
