@@ -21,15 +21,6 @@ async function seed() {
     await mongoose.connect(process.env.MONGODB_URI)
     console.log('Connected to MongoDB')
 
-    // Clear existing data
-    await Property.deleteMany({})
-    await Admin.deleteMany({})
-    console.log('Cleared existing data')
-
-    // Seed properties
-    await Property.insertMany(properties)
-    console.log(`✅ Seeded ${properties.length} properties`)
-
     // Create default admin
     const admin = new Admin({ name: 'Admin', email: 'admin@yourhomes.ae', password: 'admin123' })
     await admin.save()
