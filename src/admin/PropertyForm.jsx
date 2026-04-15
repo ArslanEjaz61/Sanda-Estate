@@ -322,6 +322,7 @@ export default function PropertyForm() {
                 <input name="image" value={form.image} onChange={(e) => { handleChange(e); setImagePreview(e.target.value) }} className="flex-1 px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="Image URL or upload below" />
                 <label className="cursor-pointer px-4 py-3 text-[10px] uppercase tracking-[0.12em] font-semibold text-white/50 hover:text-white transition-colors flex-shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                   Upload
+                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
               </div>
               {imagePreview && (
