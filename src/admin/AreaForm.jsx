@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const API = import.meta.env.VITE_API_BASE
+const SERVER_BASE = import.meta.env.VITE_SERVER_BASE || 'http://localhost:5000'
+
+function normalizeMediaUrl(url) {
+  if (!url) return ''
+  if (url.startsWith('http')) return url
+  if (url.startsWith('/uploads')) return `${SERVER_BASE}${url}`
+  return url
+}
 
 const emptyForm = {
   name: '',
@@ -113,6 +121,10 @@ export default function AreaForm() {
     }
   }
 
+  const removeImage = (field) => {
+    setForm(prev => ({ ...prev, [field]: '' }))
+  }
+
   const inputStyle = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'var(--font-body)' }
   const labelClass = "block text-[9px] uppercase tracking-[0.15em] text-white/35 font-semibold mb-2"
 
@@ -195,6 +207,18 @@ export default function AreaForm() {
                   Upload Image
                   <input type="file" className="hidden" onChange={(e) => handleUpload(e, 'image')} />
                 </label>
+                {form.image && (
+                  <div className="relative inline-block mt-2">
+                    <img src={normalizeMediaUrl(form.image)} alt="Preview" className="w-full h-32 object-cover rounded-sm border border-white/10" />
+                    <button 
+                      type="button" 
+                      onClick={() => removeImage('image')}
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-[12px] hover:bg-red-600 shadow-lg transition-all"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <div>
@@ -205,6 +229,18 @@ export default function AreaForm() {
                   Upload Hero
                   <input type="file" className="hidden" onChange={(e) => handleUpload(e, 'heroImage')} />
                 </label>
+                {form.heroImage && (
+                  <div className="relative inline-block mt-2">
+                    <img src={normalizeMediaUrl(form.heroImage)} alt="Hero Preview" className="w-full h-32 object-cover rounded-sm border border-white/10" />
+                    <button 
+                      type="button" 
+                      onClick={() => removeImage('heroImage')}
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-[12px] hover:bg-red-600 shadow-lg transition-all"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

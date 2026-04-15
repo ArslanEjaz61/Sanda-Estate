@@ -7,6 +7,7 @@ const API = import.meta.env.VITE_API_BASE
 export default function AreaList() {
   const [areas, setAreas] = useState([])
   const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const fetchAreas = async () => {
     try {
@@ -38,6 +39,11 @@ export default function AreaList() {
     }
   }
 
+  const filteredAreas = areas.filter(a => 
+    a.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    a.tagline?.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -45,16 +51,38 @@ export default function AreaList() {
           <h1 className="text-white text-[28px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Dubai Communities</h1>
           <p className="text-[13px] text-white/35" style={{ fontFamily: 'var(--font-body)' }}>Manage neighborhoods and area details</p>
         </div>
-        <Link to="/admin/areas/new" className="btn-gold !py-2.5 !px-6 !text-[11px]">Add New Area</Link>
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <input 
+              type="text" 
+              placeholder="Search areas..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="bg-white/[0.03] border border-white/10 px-4 py-2.5 rounded-sm text-[12px] text-white outline-none focus:border-gold-muted/30 transition-all w-64"
+              style={{ fontFamily: 'var(--font-body)' }}
+            />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          <Link to="/admin/areas/new" className="btn-gold !py-2.5 !px-6 !text-[11px]">Add New Area</Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           <div className="col-span-full py-20 text-center text-white/20">Loading areas...</div>
-        ) : areas.length === 0 ? (
-          <div className="col-span-full py-20 text-center text-white/20">No areas found. Add your first area to get started.</div>
+        ) : filteredAreas.length === 0 ? (
+          <div className="col-span-full py-20 text-center text-white/20">
+            {searchTerm ? `No areas matching "${searchTerm}"` : 'No areas found. Add your first area to get started.'}
+          </div>
         ) : (
-          areas.map((area, i) => (
+          filteredAreas.map((area, i) => (
             <motion.div 
               key={area._id}
               initial={{ opacity: 0, y: 20 }}

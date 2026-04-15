@@ -124,6 +124,19 @@ export default function PropertyForm() {
     } catch (err) { setError('Video upload failed') } finally { setLoading(false) }
   }
 
+  const removeMainImage = () => {
+    setForm(prev => ({ ...prev, image: '' }))
+    setImagePreview('')
+  }
+
+  const removeGalleryImage = (index) => {
+    setForm(prev => {
+      const images = prev.gallery.split('\n').filter(Boolean)
+      images.splice(index, 1)
+      return { ...prev, gallery: images.join('\n') }
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -309,10 +322,20 @@ export default function PropertyForm() {
                 <input name="image" value={form.image} onChange={(e) => { handleChange(e); setImagePreview(e.target.value) }} className="flex-1 px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="Image URL or upload below" />
                 <label className="cursor-pointer px-4 py-3 text-[10px] uppercase tracking-[0.12em] font-semibold text-white/50 hover:text-white transition-colors flex-shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                   Upload
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
               </div>
-              {imagePreview && <img src={normalizeMediaUrl(imagePreview)} alt="Preview" className="mt-3 w-40 h-28 object-cover rounded-sm border border-white/10" />}
+              {imagePreview && (
+                <div className="relative inline-block mt-3">
+                  <img src={normalizeMediaUrl(imagePreview)} alt="Preview" className="w-40 h-28 object-cover rounded-sm border border-white/10" />
+                  <button 
+                    type="button" 
+                    onClick={removeMainImage}
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-[12px] hover:bg-red-600 shadow-lg transition-all"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
             </div>
             
             <div>
@@ -327,10 +350,17 @@ export default function PropertyForm() {
               {form.gallery && form.gallery.split('\n').filter(Boolean).length > 0 && (
                 <>
                   <div className="text-[11px] text-[#c9a84c] mt-1 mb-2">{form.gallery.split('\n').filter(Boolean).length} gallery images attached</div>
-                  <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3">
                     {form.gallery.split('\n').filter(Boolean).map((url, i) => (
                       <div key={i} className="relative group">
                         <img src={normalizeMediaUrl(url)} alt={`Gallery ${i}`} className="w-full aspect-square object-cover rounded-sm border border-white/10" />
+                        <button 
+                          type="button"
+                          onClick={() => removeGalleryImage(i)}
+                          className="absolute -top-2 -right-2 w-5 h-5 bg-red-500/90 rounded-full flex items-center justify-center text-white text-[10px] opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 shadow-xl z-10"
+                        >
+                          ✕
+                        </button>
                       </div>
                     ))}
                   </div>
