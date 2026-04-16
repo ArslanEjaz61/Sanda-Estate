@@ -89,13 +89,13 @@ export default function HomePage() {
             className="w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.6) 100%)' }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(6,78,59,0.12) 0%, transparent 50%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(14,58,47,0.12) 0%, transparent 50%)' }} />
         </div>
 
         <div className="relative z-10 w-full px-6 lg:pl-16 xl:pl-24 pt-32 lg:pt-40">
           <div className="max-w-2xl">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
-              <span className="eyebrow text-[10px] tracking-[0.35em]" style={{ color: 'rgba(201,168,76,0.8)' }}>
+              <span className="eyebrow text-[10px] tracking-[0.35em]" style={{ color: 'rgba(194,167,109,0.8)' }}>
                 Premium Property Intelligence — Dubai
               </span>
             </motion.div>
@@ -224,12 +224,12 @@ export default function HomePage() {
             alt="Dubai skyline"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.95), rgba(4,56,42,0.9))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.95), rgba(14,58,47,0.9))' }} />
         </div>
         <div className="container-narrow relative z-10">
           <AnimatedReveal>
             <div className="max-w-2xl mx-auto text-center">
-              <span className="eyebrow mb-4 block" style={{ color: 'rgba(201,168,76,0.8)' }}>Our Philosophy</span>
+              <span className="eyebrow mb-4 block" style={{ color: 'rgba(194,167,109,0.8)' }}>Our Philosophy</span>
               <div className="gold-line-center mb-6" />
               <h2 className="mb-5 text-white" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
                 The Art of Property Intelligence
@@ -245,7 +245,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ FEATURED PROPERTIES ═══════════════ */}
-      <section className="section-padding-lg" style={{ backgroundColor: '#ffffff' }}>
+      <section className="section-padding-lg" style={{ backgroundColor: 'var(--color-white)' }}>
         <div className="container-wide px-6 lg:px-10">
           <SectionHeading
             subtitle="Curated Collection"

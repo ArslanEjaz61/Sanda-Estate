@@ -138,7 +138,7 @@ export default function PropertyDetailPage() {
       </AnimatePresence>
 
       {/* ═══════════════ CONTENT ═══════════════ */}
-      <section className="section-padding" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="section-padding" style={{ backgroundColor: 'var(--color-ivory)' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14">
             <div className="lg:col-span-2">
@@ -155,7 +155,7 @@ export default function PropertyDetailPage() {
                   <div className="eyebrow text-[9px] mb-4 tracking-[0.2em]" style={{ color: '#9a9a9a', opacity: 0.8 }}>
                     <span className="text-emerald-deep/60 mr-1">Location:</span> {property.location} {property.subLocation && `· ${property.subLocation}`} · {property.type} · {property.developer}
                   </div>
-                  <div className="text-[24px] lg:text-[28px]" style={{ fontFamily: 'var(--font-heading)', color: '#064e3b', fontWeight: 500 }}>
+                  <div className="text-[24px] lg:text-[28px]" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-emerald-deep)', fontWeight: 500 }}>
                     {property.priceFormatted}
                   </div>
                 </div>
