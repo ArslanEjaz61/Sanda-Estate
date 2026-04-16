@@ -129,7 +129,7 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.9 }}
               className="flex flex-col sm:flex-row gap-3"
             >
-              <Link to="/properties" className="btn-gold">Explore Properties</Link>
+              <Link to="/properties" className="btn-emerald">Explore Properties</Link>
               <Link to="/contact" className="btn-outline btn-outline-light">Book Consultation</Link>
             </motion.div>
           </div>

@@ -82,7 +82,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop CTA */}
-          <Link to="/contact" className="hidden lg:block btn-gold !py-2.5 !px-5 !text-[10px]">
+          <Link to="/contact" className="hidden lg:block btn-emerald !py-2.5 !px-5 !text-[10px]">
             Book Consultation
           </Link>
 
@@ -138,7 +138,7 @@ export default function Navbar() {
                 transition={{ delay: 0.5, duration: 0.5 }}
                 className="mt-4"
               >
-                <Link to="/contact" className="btn-gold" onClick={() => setMobileOpen(false)}>
+                <Link to="/contact" className="btn-emerald" onClick={() => setMobileOpen(false)}>
                   Book Consultation
                 </Link>
               </motion.div>
