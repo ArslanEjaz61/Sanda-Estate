@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Downtown Dubai",
+    "slug": "downtown-dubai",
+    "tagline": "Prime Core Investment Zone",
+    "shortDescription": "The heart of Dubai and home to iconic landmarks like Burj Khalifa. This is the most premium and high-demand area for...",
+    "description": "The heart of Dubai and home to iconic landmarks like Burj Khalifa. This is the most premium and high-demand area for both short-term rentals and luxury living.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Downtown Dubai.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "0\u20131 km",
+    "image": "/assets/images/areas/downtown-dubai_0.jpg",
+    "heroImage": "/assets/images/areas/downtown-dubai_1.jpg"
+  },
+  {
+    "name": "Business Bay",
+    "slug": "business-bay",
+    "tagline": "Urban Growth Hub",
+    "shortDescription": "A fast-growing commercial and residential district next to Downtown, centered around the Dubai...",
+    "description": "A fast-growing commercial and residential district next to Downtown, centered around the Dubai Canal.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Business Bay.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "2\u20133 km",
+    "image": "/assets/images/areas/business-bay_0.jpg",
+    "heroImage": "/assets/images/areas/business-bay_1.jpg"
+  },
+  {
+    "name": "Dubai Marina",
+    "slug": "dubai-marina",
+    "tagline": "Waterfront Lifestyle Investment",
+    "shortDescription": "A vibrant waterfront community popular with expats, tourists, and young...",
+    "description": "A vibrant waterfront community popular with expats, tourists, and young professionals.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Dubai Marina.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "20\u201325 km",
+    "image": "/assets/images/areas/dubai-marina_0.jpg",
+    "heroImage": "/assets/images/areas/dubai-marina_1.jpg"
+  },
+  {
+    "name": "Palm Jumeirah",
+    "slug": "palm-jumeirah",
+    "tagline": "Ultra-Luxury Segment",
+    "shortDescription": "An iconic man-made island known for ultra-luxury villas and beachfront...",
+    "description": "An iconic man-made island known for ultra-luxury villas and beachfront apartments.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Palm Jumeirah.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "25\u201330 km",
+    "image": "/assets/images/areas/palm-jumeirah_0.jpg",
+    "heroImage": "/assets/images/areas/palm-jumeirah_1.jpg"
+  },
+  {
+    "name": "Dubai Hills Estate",
+    "slug": "dubai-hills-estate",
+    "tagline": "Modern Family Community",
+    "shortDescription": "A master-planned community by Emaar Properties , offering villas, townhouses, and...",
+    "description": "A master-planned community by Emaar Properties , offering villas, townhouses, and apartments.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Dubai Hills Estate.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "10\u201315 km",
+    "image": "/assets/images/areas/dubai-hills-estate_0.jpg",
+    "heroImage": "/assets/images/areas/dubai-hills-estate_1.jpg"
+  },
+  {
+    "name": "Jumeirah Village Circle",
+    "slug": "jumeirah-village-circle",
+    "tagline": "JVC (Affordable High ROI Zone",
+    "shortDescription": "A rapidly developing residential area known for affordability and strong rental...",
+    "description": "A rapidly developing residential area known for affordability and strong rental yields.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Jumeirah Village Circle.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "15\u201320 km",
+    "image": "/assets/images/areas/jumeirah-village-circle_0.jpg",
+    "heroImage": "/assets/images/areas/jumeirah-village-circle_1.jpg"
+  },
+  {
+    "name": "Dubai Creek Harbour",
+    "slug": "dubai-creek-harbour",
+    "tagline": "Future Downtown Alternative",
+    "shortDescription": "An emerging waterfront destination expected to rival Downtown in the...",
+    "description": "An emerging waterfront destination expected to rival Downtown in the future.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Dubai Creek Harbour.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "10\u201315 km",
+    "image": "/assets/images/areas/dubai-creek-harbour_0.jpg",
+    "heroImage": "/assets/images/areas/dubai-creek-harbour_1.jpg"
+  },
+  {
+    "name": "Arabian Ranches",
+    "slug": "arabian-ranches",
+    "tagline": "Villa Community Investment",
+    "shortDescription": "A well-established villa community ideal for...",
+    "description": "A well-established villa community ideal for families.",
+    "lifestyle": "Experience a world-class lifestyle in the heart of Arabian Ranches.",
+    "investmentAppeal": "Exceptional investment potential with high demand and strong yields.",
+    "stats": {
+      "avgPrice": "Premium",
+      "rentalYield": "6-9%",
+      "priceGrowth": "Strong",
+      "totalUnits": "Limited Collection"
+    },
+    "distanceFromDubaiMall": "20\u201325 km",
+    "image": "/assets/images/areas/arabian-ranches_0.jpg",
+    "heroImage": "/assets/images/areas/arabian-ranches_1.jpg"
+  }
+]

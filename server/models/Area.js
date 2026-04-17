@@ -14,6 +14,7 @@ const areaSchema = new mongoose.Schema({
     priceGrowth: { type: String },
     totalUnits: { type: String },
   },
+  distanceFromDubaiMall: { type: String },
   image: { type: String }, // Main preview image
   heroImage: { type: String }, // Large hero background image
 }, { timestamps: true })

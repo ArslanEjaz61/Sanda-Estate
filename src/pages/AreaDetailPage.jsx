@@ -62,8 +62,18 @@ export default function AreaDetailPage() {
               <span>→</span>
               <span className="text-white/70">{area.name}</span>
             </div>
-            <div className="text-[11px] uppercase tracking-[0.25em] mb-3" style={{ color: '#c9a84c', fontFamily: 'var(--font-body)' }}>
-              {area.tagline}
+            <div className="flex flex-wrap items-center gap-4 mb-3">
+              <div className="text-[11px] uppercase tracking-[0.25em]" style={{ color: '#c9a84c', fontFamily: 'var(--font-body)' }}>
+                {area.tagline}
+              </div>
+              {area.distanceFromDubaiMall && (
+                <>
+                  <span className="text-white/30">•</span>
+                  <div className="text-[11px] uppercase tracking-[0.25em] text-white/70" style={{ fontFamily: 'var(--font-body)' }}>
+                    {area.distanceFromDubaiMall} to Dubai Mall
+                  </div>
+                </>
+              )}
             </div>
             <h1 className="text-white" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
               {area.name}
@@ -126,10 +136,10 @@ export default function AreaDetailPage() {
                   <AnimatedReveal key={key} delay={i * 0.15} direction="up">
                     <div className="p-8 text-center" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e0d9' }}>
                       <div className="text-2xl lg:text-3xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#064e3b' }}>
-                        <AnimatedCounter 
-                          target={String(value || '').replace(/[^0-9.]/g, '')} 
+                        <AnimatedCounter
+                          target={String(value || '').replace(/[^0-9.]/g, '')}
                           prefix={String(value || '').startsWith('AED') ? 'AED ' : ''}
-                          suffix={String(value || '').includes('%') ? '%' : String(value || '').includes('+') ? '+' : String(value || '').includes('/sq ft') ? '/sq ft' : ''} 
+                          suffix={String(value || '').includes('%') ? '%' : String(value || '').includes('+') ? '+' : String(value || '').includes('/sq ft') ? '/sq ft' : ''}
                         />
                       </div>
                       <div className="text-[10px] uppercase tracking-[0.15em] text-gray-soft" style={{ fontFamily: 'var(--font-body)', fontWeight: 600 }}>

@@ -38,19 +38,25 @@ export default function AreaCard({ area, index = 0 }) {
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-600" />
 
           {/* Tags */}
-          {tags.length > 0 && (
-            <div className="absolute top-4 left-4 flex gap-2">
-              {tags.map(tag => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 text-[8px] uppercase tracking-[0.15em] font-bold text-white/90 backdrop-blur-sm"
-                  style={{ background: 'rgba(201,168,76,0.7)' }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className="absolute top-4 left-4 flex flex-wrap gap-2 pr-4">
+            {tags.map(tag => (
+              <span
+                key={tag}
+                className="px-2.5 py-1 text-[8px] uppercase tracking-[0.15em] font-bold text-white/90 backdrop-blur-sm"
+                style={{ background: 'rgba(201,168,76,0.7)' }}
+              >
+                {tag}
+              </span>
+            ))}
+            {area.distanceFromDubaiMall && (
+               <span
+               className="px-2.5 py-1 text-[8px] uppercase tracking-[0.15em] font-bold text-white/90 backdrop-blur-sm"
+               style={{ background: 'rgba(6, 78, 59, 0.7)' }}
+             >
+               {area.distanceFromDubaiMall} to Dubai Mall
+             </span>
+            )}
+          </div>
 
           {/* Content */}
           <div className="absolute bottom-0 left-0 right-0 p-5 lg:p-7">
@@ -75,7 +81,7 @@ export default function AreaCard({ area, index = 0 }) {
             >
               Explore Area
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-300 group-hover:translate-x-1">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
           </div>
