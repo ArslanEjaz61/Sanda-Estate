@@ -64,8 +64,8 @@ export default function ContactList() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-white text-[28px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Inquiries</h1>
-        <p className="text-[13px] text-white/35" style={{ fontFamily: 'var(--font-body)' }}>{contacts.length} total messages</p>
+        <h1 className="text-white text-[28px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Leads</h1>
+        <p className="text-[13px] text-white/35" style={{ fontFamily: 'var(--font-body)' }}>{contacts.length} total leads from website</p>
       </div>
 
       <div className="overflow-x-auto">
@@ -84,7 +84,17 @@ export default function ContactList() {
             {loading ? (
               <tr><td colSpan="6" className="py-10 text-center text-white/30 text-[13px]">Loading messages...</td></tr>
             ) : contacts.length === 0 ? (
-              <tr><td colSpan="6" className="py-10 text-center text-white/30 text-[13px]">No inquiries yet</td></tr>
+              <tr>
+                <td colSpan="6" className="py-24 text-center">
+                  <div className="flex flex-col items-center gap-4 opacity-40">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <div>
+                      <h3 className="text-[16px] text-white font-medium mb-1">Your pipeline is ready!</h3>
+                      <p className="text-[13px] text-white/50 max-w-[280px] mx-auto">All inquiries from the website will appear here automatically as leads.</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
             ) : (
               contacts.map(c => (
                 <tr 

@@ -4,22 +4,34 @@ import { Link } from 'react-router-dom'
 const API = import.meta.env.VITE_API_BASE
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({ total: 0, featured: 0, ready: 0, offPlan: 0 })
+  const [stats, setStats] = useState({ total: 0, featured: 0, ready: 0, offPlan: 0, leads: 0 })
   const [recent, setRecent] = useState([])
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token')
+    // Fetch Properties
     fetch(`${API}/properties`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data)) {
-          setStats({
+          setStats(prev => ({
+            ...prev,
             total: data.length,
             featured: data.filter(p => p.featured).length,
             ready: data.filter(p => p.status === 'Ready').length,
             offPlan: data.filter(p => p.status === 'Off-Plan').length,
-          })
+          }))
           setRecent(data.slice(0, 5))
+        }
+      })
+      .catch(() => {})
+
+    // Fetch Leads Count
+    fetch(`${API}/contact`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setStats(prev => ({ ...prev, leads: data.length }))
         }
       })
       .catch(() => {})
@@ -28,8 +40,8 @@ export default function Dashboard() {
   const statCards = [
     { label: 'Total Properties', value: stats.total, color: '#0E3A2F' },
     { label: 'Featured', value: stats.featured, color: '#C2A76D' },
-    { label: 'Ready', value: stats.ready, color: '#047857' },
     { label: 'Off-Plan', value: stats.offPlan, color: '#0a7c5e' },
+    { label: 'Total Leads', value: stats.leads, color: '#047857' },
   ]
 
   return (
