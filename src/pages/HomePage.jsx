@@ -9,7 +9,7 @@ import AnimatedReveal from '../components/ui/AnimatedReveal'
 import AnimatedCounter from '../components/ui/AnimatedCounter'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
 // Removed staticProperties fallback
-import { fetchProperties, fetchAreas } from '../utils/api'
+import { fetchProperties, fetchAreas, fetchSettings } from '../utils/api'
 import { testimonials, whyDubai } from '../data/content'
 
 const staticFeatured = []
@@ -35,6 +35,7 @@ export default function HomePage() {
   const [heroSearch, setHeroSearch] = useState({ area: '', type: '', budget: '' })
   const [featuredProperties, setFeaturedProperties] = useState(staticFeatured)
   const [liveAreas, setLiveAreas] = useState([])
+  const [settings, setSettings] = useState(null)
   const [isPlaying, setIsPlaying] = useState(true)
   const audioRef = useRef(null)
 
@@ -45,7 +46,27 @@ export default function HomePage() {
     fetchAreas().then(data => {
       if (data) setLiveAreas(data)
     })
+    fetchSettings().then(data => {
+      if (data) setSettings(data)
+    })
   }, [])
+
+  const defaults = {
+    address: 'A-202, Prime Business Center, Dubai',
+    phone: '+971 4 454 1313',
+    email: 'info@yourhomes.ae'
+  }
+
+  const contactInfo = {
+    ...defaults,
+    ...settings
+  }
+
+  const items = [
+    { text: contactInfo.address },
+    { text: contactInfo.phone, href: `tel:${(contactInfo.phone || '').replace(/\s+/g, '')}` },
+    { text: contactInfo.email, href: `mailto:${contactInfo.email}` },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -564,11 +585,7 @@ export default function HomePage() {
                   Whether exploring investments, searching for a dream home, or seeking expert advice — we're here to help.
                 </p>
                 <div className="space-y-3">
-                  {[
-                    { text: 'A-202, Prime Business Center, Dubai' },
-                    { text: '+971 4 454 1313', href: 'tel:+97144541313' },
-                    { text: 'info@yourhomes.ae', href: 'mailto:info@yourhomes.ae' },
-                  ].map((item, i) => (
+                  {items.map((item, i) => (
                     <div key={i} className="flex items-center gap-3 text-[13px]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
                       <span style={{ color: '#c9a84c', fontSize: '6px' }}>◆</span>
                       {item.href ? <a href={item.href} className="hover:text-charcoal transition-colors">{item.text}</a> : <span>{item.text}</span>}

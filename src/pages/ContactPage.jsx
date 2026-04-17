@@ -1,12 +1,39 @@
+import { useState, useEffect } from 'react'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import LeadCaptureForm from '../components/ui/LeadCaptureForm'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
+import { fetchSettings } from '../utils/api'
 
 export default function ContactPage() {
+  const [settings, setSettings] = useState(null)
+
+  useEffect(() => {
+    fetchSettings().then(data => {
+      if (data) setSettings(data)
+    })
+  }, [])
+
+  const defaults = {
+    address: 'A-202, Prime Business Center, POBOX: 123022, Dubai',
+    phone: '+971 4 454 1313',
+    email: 'info@yourhomes.ae'
+  }
+
+  const contactDetails = {
+    ...defaults,
+    ...settings
+  }
+
+  const items = [
+    { label: 'Office', value: contactDetails.address },
+    { label: 'Phone', value: contactDetails.phone, href: `tel:${(contactDetails.phone || '').replace(/\s+/g, '')}` },
+    { label: 'Email', value: contactDetails.email, href: `mailto:${contactDetails.email}` },
+  ]
+
   return (
     <>
       {/* ═══════════════ HERO — Confidential Consultation ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#064e3b' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#0E3A2F' }}>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">
@@ -16,7 +43,7 @@ export default function ContactPage() {
                 <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Get in Touch</span>
                 <h1 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.08, fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)' }}>
                   Confidential{' '}<br />
-                  <span className="italic" style={{ color: '#c9a84c' }}>Consultation.</span>
+                  <span className="italic" style={{ color: '#C2A76D' }}>Consultation.</span>
                 </h1>
                 <p className="text-[14px] max-w-md leading-[1.85] mb-8" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
                   Whether you're a first-time buyer or a seasoned investor, our advisory team
@@ -25,11 +52,7 @@ export default function ContactPage() {
 
                 {/* Contact Details */}
                 <div className="space-y-4 mb-8">
-                  {[
-                    { label: 'Office', value: 'A-202, Prime Business Center, POBOX: 123022, Dubai' },
-                    { label: 'Phone', value: '+971 4 454 1313', href: 'tel:+97144541313' },
-                    { label: 'Email', value: 'info@yourhomes.ae', href: 'mailto:info@yourhomes.ae' },
-                  ].map((item, i) => (
+                  {items.map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <span className="text-[9px] uppercase tracking-[0.15em] font-semibold min-w-[50px] pt-0.5" style={{ fontFamily: 'var(--font-body)', color: 'rgba(201,168,76,0.6)' }}>{item.label}</span>
                       {item.href ? (

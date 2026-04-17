@@ -55,7 +55,7 @@ export default function PropertyList() {
           <h1 className="text-white text-[28px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Properties</h1>
           <p className="text-[13px] text-white/35" style={{ fontFamily: 'var(--font-body)' }}>{properties.length} properties found</p>
         </div>
-        <Link to="/admin/properties/new" className="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] font-bold" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>
+        <Link to="/admin/properties/new" className="px-5 py-2.5 text-[10px] uppercase tracking-[0.15em] font-bold" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>
           + Add Property
         </Link>
       </div>
@@ -93,9 +93,9 @@ export default function PropertyList() {
                   <td className="py-3 px-4 text-[13px] text-white/70 max-w-[200px] truncate">{p.title}</td>
                   <td className="py-3 px-4 text-[12px] text-white/40">{p.type}</td>
                   <td className="py-3 px-4 text-[12px] text-white/40">{p.location}</td>
-                  <td className="py-3 px-4 text-[12px] text-[#c9a84c]">{p.priceFormatted || `AED ${p.price?.toLocaleString()}`}</td>
+                  <td className="py-3 px-4 text-[12px] text-[#C2A76D]">{p.priceFormatted || `AED ${p.price?.toLocaleString()}`}</td>
                   <td className="py-3 px-4">
-                    <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(4,120,87,0.15)' : 'rgba(201,168,76,0.15)', color: p.status === 'Ready' ? '#047857' : '#c9a84c' }}>{p.status}</span>
+                    <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(4,120,87,0.15)' : 'rgba(201,168,76,0.15)', color: p.status === 'Ready' ? '#047857' : '#C2A76D' }}>{p.status}</span>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2">

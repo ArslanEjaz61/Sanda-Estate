@@ -32,11 +32,11 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #064e3b 0%, #0a1f17 100%)' }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0E3A2F 0%, #0e3a2f 100%)' }}>
       <div className="w-full max-w-md mx-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 flex items-center justify-center font-bold text-sm" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>YH</div>
+            <div className="w-10 h-10 flex items-center justify-center font-bold text-sm" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>YH</div>
             <div>
               <div className="text-white text-[15px] font-semibold" style={{ fontFamily: 'var(--font-body)' }}>Your Homes</div>
               <div className="text-[9px] uppercase tracking-[0.2em] text-white/40" style={{ fontFamily: 'var(--font-body)' }}>Admin Panel</div>
@@ -63,7 +63,7 @@ export default function AdminLogin() {
               <label className="block text-[10px] uppercase tracking-[0.15em] text-white/40 font-semibold mb-2" style={{ fontFamily: 'var(--font-body)' }}>Password</label>
               <input type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} placeholder="••••••••" required className="w-full px-4 py-3 text-[13px] text-white outline-none transition-all" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'var(--font-body)' }} />
             </div>
-            <button type="submit" disabled={loading} className="w-full py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>
+            <button type="submit" disabled={loading} className="w-full py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>

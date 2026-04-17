@@ -84,3 +84,31 @@ export async function fetchAreaBySlug(slug) {
     return null
   }
 }
+
+export async function fetchSettings() {
+  try {
+    const res = await fetch(`${API_BASE}/settings`)
+    if (!res.ok) throw new Error('API error')
+    return await res.json()
+  } catch (error) {
+    console.warn('API unavailable:', error.message)
+    return null
+  }
+}
+
+export async function updateSettings(settings) {
+  const token = localStorage.getItem('admin_token')
+  const res = await fetch(`${API_BASE}/settings`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(settings)
+  })
+  if (!res.ok) {
+    const error = await res.json()
+    throw new Error(error.message || 'Failed to update settings')
+  }
+  return await res.json()
+}

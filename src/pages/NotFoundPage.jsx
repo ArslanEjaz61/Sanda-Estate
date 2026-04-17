@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   return (
     <section
       className="min-h-screen flex items-center justify-center px-6"
-      style={{ backgroundColor: '#064e3b' }}
+      style={{ backgroundColor: '#0E3A2F' }}
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -42,7 +42,7 @@ export default function NotFoundPage() {
             className="px-8 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold transition-all duration-300 hover:scale-[1.02]"
             style={{
               fontFamily: 'var(--font-body)',
-              backgroundColor: '#c9a84c',
+              backgroundColor: '#C2A76D',
               color: '#1a1a1a',
             }}
           >

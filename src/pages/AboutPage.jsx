@@ -134,7 +134,7 @@ export default function AboutPage() {
                 <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(201,168,76,0.85)' }}>About Your Homes</span>
                 <h1 className="text-white mb-6" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.05, fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)' }}>
                   A Trusted Advisory<br />
-                  <span className="italic" style={{ color: '#c9a84c' }}>in Dubai Real Estate</span>
+                  <span className="italic" style={{ color: '#C2A76D' }}>in Dubai Real Estate</span>
                 </h1>
                 <p className="text-[14px] lg:text-[15px] leading-[1.8] mb-10" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.65)' }}>
                   Property Intelligence is not just our tagline — it's the professional philosophy that drives every decision, 
@@ -145,7 +145,7 @@ export default function AboutPage() {
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 pt-8" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                   {parsedStats.map((stat, i) => (
                     <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
-                      <div className="text-[20px] lg:text-[24px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#c9a84c', fontWeight: 400 }}>
+                      <div className="text-[20px] lg:text-[24px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#C2A76D', fontWeight: 400 }}>
                         <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
                       </div>
                       <div className="text-[8px] uppercase tracking-[0.2em] font-medium" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.4)' }}>{stat.label}</div>
@@ -173,12 +173,12 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════ AWARDS STRIP ═══════════════ */}
-      <section className="py-10 lg:py-12" style={{ backgroundColor: '#0a1f17' }}>
+      <section className="py-10 lg:py-12" style={{ backgroundColor: '#0e3a2f' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {awards.map((award, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="text-center py-4">
-                <div className="flex justify-center mb-3 text-[#c9a84c]">{award.icon}</div>
+                <div className="flex justify-center mb-3 text-[#C2A76D]">{award.icon}</div>
                 <div className="text-[12px] font-semibold text-white/80 mb-1" style={{ fontFamily: 'var(--font-body)' }}>{award.title}</div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-white/30" style={{ fontFamily: 'var(--font-body)' }}>{award.org}</div>
               </motion.div>
@@ -188,7 +188,7 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════ STORY ═══════════════ */}
-      <section className="section-padding-lg" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="section-padding-lg" style={{ backgroundColor: '#f7f6f3' }}>
         <div className="container-narrow">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <AnimatedReveal>
@@ -221,12 +221,12 @@ export default function AboutPage() {
                 <AnimatedReveal key={i} delay={i * 0.1}>
                   <div className={`flex flex-col lg:flex-row items-center gap-6 lg:gap-10 ${i % 2 === 0 ? '' : 'lg:flex-row-reverse'} mb-10`}>
                     <div className={`lg:w-5/12 ${i % 2 === 0 ? 'lg:text-right' : 'lg:text-left'}`}>
-                      <div className="text-[30px] mb-2" style={{ fontFamily: 'var(--font-heading)', color: '#c9a84c', fontWeight: 400 }}>{m.year}</div>
+                      <div className="text-[30px] mb-2" style={{ fontFamily: 'var(--font-heading)', color: '#C2A76D', fontWeight: 400 }}>{m.year}</div>
                       <h4 className="text-[19px] mb-2" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>{m.title}</h4>
                       <p className="text-[13px] leading-[1.75]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>{m.desc}</p>
                     </div>
                     <div className="hidden lg:flex w-2/12 justify-center">
-                      <div className="w-3 h-3 rounded-full" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', boxShadow: '0 0 0 6px rgba(201,168,76,0.15)' }} />
+                      <div className="w-3 h-3 rounded-full" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)', boxShadow: '0 0 0 6px rgba(201,168,76,0.15)' }} />
                     </div>
                     <div className="lg:w-5/12" />
                   </div>
@@ -238,7 +238,7 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════ VALUES ═══════════════ */}
-      <section className="section-padding" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="section-padding" style={{ backgroundColor: '#f7f6f3' }}>
         <div className="container-narrow">
           <SectionHeading subtitle="Our Principles" title="What Sets Us Apart" description="Three pillars define every client experience." />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -249,10 +249,10 @@ export default function AboutPage() {
             ].map((pillar, i) => (
               <AnimatedReveal key={i} delay={i * 0.12}>
                 <div className="premium-card p-7 h-full group">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5 transition-all duration-300" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.08), rgba(6,78,59,0.04))', color: '#064e3b' }}>
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5 transition-all duration-300" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.08), rgba(6,78,59,0.04))', color: '#0E3A2F' }}>
                     <pillar.Icon />
                   </div>
-                  <div className="text-[10px] uppercase tracking-[0.18em] font-bold mb-3" style={{ fontFamily: 'var(--font-body)', color: '#c9a84c' }}>{pillar.num}</div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] font-bold mb-3" style={{ fontFamily: 'var(--font-body)', color: '#C2A76D' }}>{pillar.num}</div>
                   <h4 className="text-[18px] mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>{pillar.title}</h4>
                   <p className="text-[13px] leading-[1.75]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>{pillar.desc}</p>
                 </div>
@@ -288,7 +288,7 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════ TEAM ═══════════════ */}
-      <section className="section-padding" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="section-padding" style={{ backgroundColor: '#f7f6f3' }}>
         <div className="container-narrow">
           <SectionHeading subtitle="Our Advisors" title="Meet the Team" description="Dedicated property professionals committed to exceptional client experiences." />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -299,7 +299,7 @@ export default function AboutPage() {
                     <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   </div>
                   <h4 className="text-[17px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>{member.name}</h4>
-                  <div className="text-[10px] uppercase tracking-[0.15em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#c9a84c' }}>{member.role}</div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#C2A76D' }}>{member.role}</div>
                   <p className="text-[12px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>{member.bio}</p>
                 </div>
               </AnimatedReveal>
@@ -314,10 +314,10 @@ export default function AboutPage() {
           <SectionHeading subtitle="How We Work" title="Our Advisory Process" description="A refined, four-step approach designed around you." />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { step: '01', title: 'Discovery', desc: 'We listen. Understanding your goals, timeline, budget, and lifestyle preferences forms the foundation of your strategy.', color: '#064e3b', Icon: ProcessIcons.Discovery },
+              { step: '01', title: 'Discovery', desc: 'We listen. Understanding your goals, timeline, budget, and lifestyle preferences forms the foundation of your strategy.', color: '#0E3A2F', Icon: ProcessIcons.Discovery },
               { step: '02', title: 'Intelligence', desc: 'Our team researches, analyses, and curates a shortlist of properties aligned with your criteria and market conditions.', color: '#047857', Icon: ProcessIcons.Intelligence },
               { step: '03', title: 'Experience', desc: 'Guided viewings, developer introductions, and detailed comparisons — we make the selection process seamless.', color: '#0a7c5e', Icon: ProcessIcons.Experience },
-              { step: '04', title: 'Completion', desc: 'From negotiation to legal handover, we manage every detail to ensure a smooth, stress-free transaction.', color: '#c9a84c', Icon: ProcessIcons.Completion },
+              { step: '04', title: 'Completion', desc: 'From negotiation to legal handover, we manage every detail to ensure a smooth, stress-free transaction.', color: '#C2A76D', Icon: ProcessIcons.Completion },
             ].map((item, i) => (
               <AnimatedReveal key={i} delay={i * 0.12}>
                 <div className="relative p-6 lg:p-7 h-full overflow-hidden" style={{ backgroundColor: item.color }}>
@@ -346,7 +346,7 @@ export default function AboutPage() {
         <div className="relative z-10 container-narrow text-center px-6">
           <AnimatedReveal>
             <h2 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
-              Let's Find Your <span className="italic" style={{ color: '#c9a84c' }}>Perfect Property</span>
+              Let's Find Your <span className="italic" style={{ color: '#C2A76D' }}>Perfect Property</span>
             </h2>
             <p className="text-[14px] max-w-md mx-auto mb-9" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
               Begin with a private consultation. Our team will build a personalised property strategy tailored to your goals.

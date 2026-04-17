@@ -139,7 +139,7 @@ export default function ContactList() {
                   </div>
                   <div>
                     <div className="text-[9px] uppercase tracking-[0.15em] text-white/30 mb-1">Email</div>
-                    <a href={`mailto:${selectedMessage.email}`} className="text-[14px] text-[#c9a84c] hover:underline">{selectedMessage.email}</a>
+                    <a href={`mailto:${selectedMessage.email}`} className="text-[14px] text-[#C2A76D] hover:underline">{selectedMessage.email}</a>
                   </div>
                   <div>
                     <div className="text-[9px] uppercase tracking-[0.15em] text-white/30 mb-1">Phone</div>

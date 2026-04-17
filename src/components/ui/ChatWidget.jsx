@@ -30,19 +30,19 @@ export default function ChatWidget() {
             style={{ height: '400px' }}
           >
             {/* Header */}
-            <div className="px-4 py-3 flex items-center justify-between" style={{ background: '#064e3b', color: 'white' }}>
+            <div className="px-4 py-3 flex items-center justify-between" style={{ background: '#0E3A2F', color: 'white' }}>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#c9a84c] animate-pulse"></div>
+                <div className="w-2 h-2 rounded-full bg-[#C2A76D] animate-pulse"></div>
                 <span className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>YH Advisor</span>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white transition-colors">✕</button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#faf8f5]">
+            <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#f7f6f3]">
               {messages.map((m, i) => (
                 <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${m.sender === 'user' ? 'bg-[#064e3b] text-white rounded-tr-sm' : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'}`}>
+                  <div className={`max-w-[85%] p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${m.sender === 'user' ? 'bg-[#0E3A2F] text-white rounded-tr-sm' : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'}`}>
                     {m.text}
                   </div>
                 </div>
@@ -56,9 +56,9 @@ export default function ChatWidget() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-1 px-3 py-2 text-[13px] bg-[#faf8f5] rounded-md outline-none border border-transparent focus:border-[#c9a84c]/40 transition-colors"
+                className="flex-1 px-3 py-2 text-[13px] bg-[#f7f6f3] rounded-md outline-none border border-transparent focus:border-[#C2A76D]/40 transition-colors"
               />
-              <button type="submit" className="w-9 h-9 flex items-center justify-center rounded-md bg-[#c9a84c] text-white hover:bg-[#b8953b] transition-colors">
+              <button type="submit" className="w-9 h-9 flex items-center justify-center rounded-md bg-[#C2A76D] text-white hover:bg-[#b8953b] transition-colors">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               </button>
             </form>
@@ -70,7 +70,7 @@ export default function ChatWidget() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(6,78,59,0.3)] hover:scale-105 transition-transform"
-        style={{ background: 'linear-gradient(135deg, #064e3b, #04382a)' }}
+        style={{ background: 'linear-gradient(135deg, #0E3A2F, #04382a)' }}
       >
         {isOpen ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

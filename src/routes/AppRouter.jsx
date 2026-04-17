@@ -22,6 +22,7 @@ import PropertyForm from '../admin/PropertyForm'
 import ContactList from '../admin/ContactList'
 import AreaList from '../admin/AreaList'
 import AreaForm from '../admin/AreaForm'
+import Settings from '../admin/Settings'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -60,6 +61,7 @@ export default function AppRouter() {
           <Route path="areas/new" element={<AreaForm />} />
           <Route path="areas/edit/:id" element={<AreaForm />} />
           <Route path="contacts" element={<ContactList />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

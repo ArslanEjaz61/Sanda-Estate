@@ -375,7 +375,7 @@ export default function PropertyForm() {
               </div>
               {form.gallery && form.gallery.split('\n').filter(Boolean).length > 0 && (
                 <>
-                  <div className="text-[11px] text-[#c9a84c] mt-1 mb-2">{form.gallery.split('\n').filter(Boolean).length} gallery images attached</div>
+                  <div className="text-[11px] text-[#C2A76D] mt-1 mb-2">{form.gallery.split('\n').filter(Boolean).length} gallery images attached</div>
                   <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-3">
                     {form.gallery.split('\n').filter(Boolean).map((url, i) => (
                       <div key={i} className="relative group">
@@ -418,11 +418,11 @@ export default function PropertyForm() {
           <h3 className="text-white text-[16px] mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Additional Options</h3>
           <div className="flex flex-wrap gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} className="w-4 h-4 accent-[#c9a84c]" />
+              <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} className="w-4 h-4 accent-[#C2A76D]" />
               <span className="text-[12px] text-white/60">Featured Property</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" name="goldenVisa" checked={form.goldenVisa} onChange={handleChange} className="w-4 h-4 accent-[#c9a84c]" />
+              <input type="checkbox" name="goldenVisa" checked={form.goldenVisa} onChange={handleChange} className="w-4 h-4 accent-[#C2A76D]" />
               <span className="text-[12px] text-white/60">Golden Visa Eligible</span>
             </label>
           </div>
@@ -430,7 +430,7 @@ export default function PropertyForm() {
 
         {/* Submit */}
         <div className="flex items-center gap-4">
-          <button type="submit" disabled={loading} className="px-8 py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a' }}>
+          <button type="submit" disabled={loading} className="px-8 py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)', color: '#1a1a1a' }}>
             {loading ? 'Saving...' : isEditing ? 'Update Property' : 'Create Property'}
           </button>
           <button type="button" onClick={() => navigate('/admin/properties')} className="px-8 py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold text-white/40 hover:text-white/60 transition-colors" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>Cancel</button>

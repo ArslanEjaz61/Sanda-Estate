@@ -2,10 +2,10 @@ import AnimatedReveal from '../components/ui/AnimatedReveal'
 
 export default function TermsPage() {
   return (
-    <section className="pt-44 pb-20 lg:pt-52 lg:pb-28" style={{ backgroundColor: '#faf8f5' }}>
+    <section className="pt-44 pb-20 lg:pt-52 lg:pb-28" style={{ backgroundColor: '#f7f6f3' }}>
       <div className="container-narrow px-6">
         <AnimatedReveal>
-          <div className="text-[11px] uppercase tracking-[0.3em] mb-4" style={{ color: '#c9a84c', fontFamily: 'var(--font-body)' }}>
+          <div className="text-[11px] uppercase tracking-[0.3em] mb-4" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>
             Legal
           </div>
           <h1 className="mb-10" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>

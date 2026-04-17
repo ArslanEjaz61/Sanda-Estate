@@ -72,7 +72,7 @@ export default function Navbar() {
                     <motion.div
                       layoutId="nav-active"
                       className="absolute -bottom-1 left-0 right-0 h-[1.5px]"
-                      style={{ background: 'linear-gradient(90deg, #c9a84c, #d4af37)' }}
+                      style={{ background: 'linear-gradient(90deg, #C2A76D, #b6985d)' }}
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
@@ -110,7 +110,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="fixed inset-0 z-40 lg:hidden flex flex-col"
-            style={{ backgroundColor: '#064e3b' }}
+            style={{ backgroundColor: '#0E3A2F' }}
           >
             <div className="flex-1 flex flex-col items-center justify-center gap-7 pt-20">
               {navLinks.map((link, i) => (

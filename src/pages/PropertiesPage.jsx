@@ -87,7 +87,7 @@ export default function PropertiesPage() {
             <span className="eyebrow text-[10px] mb-3 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Our Collection</span>
             <h1 className="text-white mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
               Explore Dubai's{' '}
-              <span className="italic" style={{ color: '#c9a84c' }}>Premier</span>{' '}
+              <span className="italic" style={{ color: '#C2A76D' }}>Premier</span>{' '}
               Properties
             </h1>
             <p className="text-[14px] max-w-lg" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
@@ -98,7 +98,7 @@ export default function PropertiesPage() {
       </section>
 
       {/* ═══════════════ FILTERS ═══════════════ */}
-      <section className="py-5 lg:py-6" style={{ backgroundColor: '#faf8f5', borderBottom: '1px solid #f0ebe5' }}>
+      <section className="py-5 lg:py-6" style={{ backgroundColor: '#f7f6f3', borderBottom: '1px solid #f7f6f3' }}>
         <div className="container-wide px-6 lg:px-10">
           <button
             className="lg:hidden w-full py-3 mb-3 text-[11px] uppercase tracking-[0.15em] font-semibold"
@@ -168,7 +168,7 @@ export default function PropertiesPage() {
       </section>
 
       {/* ═══════════════ GRID ═══════════════ */}
-      <section className="section-padding pt-8" style={{ backgroundColor: '#faf8f5' }}>
+      <section className="section-padding pt-8" style={{ backgroundColor: '#f7f6f3' }}>
         <div className="container-wide px-6 lg:px-10">
           {paginatedProperties.length > 0 ? (
             <>
@@ -186,7 +186,7 @@ export default function PropertiesPage() {
                       className="w-10 h-10 flex items-center justify-center text-[12px] transition-all duration-300"
                       style={{
                         fontFamily: 'var(--font-body)',
-                        backgroundColor: currentPage === page ? '#064e3b' : 'transparent',
+                        backgroundColor: currentPage === page ? '#0E3A2F' : 'transparent',
                         color: currentPage === page ? '#ffffff' : '#6b6b6b',
                         border: currentPage === page ? 'none' : '1px solid #e5e0d9',
                       }}
@@ -207,7 +207,7 @@ export default function PropertiesPage() {
       </section>
 
       {/* ═══════════════ DEVELOPER LOGOS FOOTER ═══════════════ */}
-      <section className="py-12 lg:py-14" style={{ backgroundColor: '#ffffff', borderTop: '1px solid #f0ebe5' }}>
+      <section className="py-12 lg:py-14" style={{ backgroundColor: '#ffffff', borderTop: '1px solid #f7f6f3' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-20">
             <span className="text-[9px] uppercase tracking-[0.15em] mb-2 lg:mb-0" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9a9a9a' }}>Featured Developers</span>

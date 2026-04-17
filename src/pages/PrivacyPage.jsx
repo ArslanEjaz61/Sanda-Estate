@@ -1,11 +1,26 @@
+import { useState, useEffect } from 'react'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
+import { fetchSettings } from '../utils/api'
 
 export default function PrivacyPage() {
+  const [settings, setSettings] = useState(null)
+
+  useEffect(() => {
+    fetchSettings().then(data => {
+      if (data) setSettings(data)
+    })
+  }, [])
+
+  const contactInfo = settings || {
+    address: 'A-202, Prime Business Center, Dubai, UAE',
+    email: 'info@yourhomes.ae'
+  }
+
   return (
-    <section className="pt-44 pb-20 lg:pt-52 lg:pb-28" style={{ backgroundColor: '#faf8f5' }}>
+    <section className="pt-44 pb-20 lg:pt-52 lg:pb-28" style={{ backgroundColor: '#f7f6f3' }}>
       <div className="container-narrow px-6">
         <AnimatedReveal>
-          <div className="text-[11px] uppercase tracking-[0.3em] mb-4" style={{ color: '#c9a84c', fontFamily: 'var(--font-body)' }}>
+          <div className="text-[11px] uppercase tracking-[0.3em] mb-4" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>
             Legal
           </div>
           <h1 className="mb-10" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
@@ -49,7 +64,7 @@ export default function PrivacyPage() {
                 Your Rights
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                You have the right to access, correct, or delete your personal data at any time. To exercise these rights, please contact us at privacy@yourhomes.ae. We will respond to all requests within 30 days.
+                You have the right to access, correct, or delete your personal data at any time. To exercise these rights, please contact us at {contactInfo.email}. We will respond to all requests within 30 days.
               </p>
             </div>
             <div>
@@ -57,11 +72,11 @@ export default function PrivacyPage() {
                 Contact
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                For privacy-related inquiries, please contact us at info@yourhomes.ae or write to us at A-202, Prime Business Center, Dubai, UAE.
+                For privacy-related inquiries, please contact us at {contactInfo.email} or write to us at {contactInfo.address}.
               </p>
             </div>
             <p className="text-[13px] text-gray-soft italic">
-              Last updated: March 2026
+              Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
             </p>
           </div>
         </AnimatedReveal>

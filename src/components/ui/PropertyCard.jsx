@@ -69,10 +69,10 @@ export default function PropertyCard({ property, index = 0 }) {
               </span>
             )}
           </div>
-          <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid #f0ebe5' }}>
+          <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid #f7f6f3' }}>
             <span
               className="text-[17px] font-semibold flex items-baseline gap-1"
-              style={{ fontFamily: 'var(--font-heading)', color: '#064e3b', fontWeight: 600 }}
+              style={{ fontFamily: 'var(--font-heading)', color: '#0E3A2F', fontWeight: 600 }}
             >
               {property.priceFormatted}
             </span>
