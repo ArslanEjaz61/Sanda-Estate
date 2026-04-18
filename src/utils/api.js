@@ -112,3 +112,18 @@ export async function updateSettings(settings) {
   }
   return await res.json()
 }
+
+export async function sendChatMessage(message, history = []) {
+  try {
+    const res = await fetch(`${API_BASE}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, history })
+    })
+    if (!res.ok) throw new Error('Chat API error')
+    return await res.json()
+  } catch (error) {
+    console.warn('Chat API error:', error.message)
+    return { reply: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.", properties: [], leadCollected: false }
+  }
+}
