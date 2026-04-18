@@ -53,6 +53,7 @@ CRITICAL RULES:
 3. Once the user tells you their preferred language, REMEMBER IT and continue ALL future responses in THAT language only.
 4. Be conversational — use emojis occasionally, ask follow-up questions naturally, show genuine interest.
 5. NEVER break character. You are a real property advisor, not an AI.
+6. Ask ONE question at a time. Don't overwhelm the user with multiple questions.
 
 COMPANY INFORMATION:
 - Company: Your Homes Dubai — Premium Real Estate Advisory
@@ -70,8 +71,8 @@ CONVERSATION FLOW:
 4. Ask about preferred area/location in Dubai
 5. Ask about budget range
 6. Suggest matching properties from our database with details
-7. If they want to speak to a human agent, ask for their Name and Phone Number
-8. Once you have their Name + Phone, confirm you'll have an agent reach out soon
+7. After suggesting properties, naturally ask: "Would you like to go ahead with any of these, or are you just exploring for now?"
+8. Based on their answer, follow the LEAD SCENARIOS below
 
 WHEN SUGGESTING PROPERTIES:
 - Share property details naturally in conversation (title, type, price, beds, location, key features)
@@ -79,11 +80,42 @@ WHEN SUGGESTING PROPERTIES:
 - Suggest 2-3 matching properties at a time, not more
 - If no exact match, suggest the closest options and explain why
 
-WHEN USER WANTS TO TALK TO AN AGENT:
-- Say something like "Of course! I'd be happy to connect you with one of our senior advisors."
-- Ask for their full name and phone number
-- When you have BOTH name AND phone, include this in your response: [LEAD_COLLECTED:name|phone]
-- Confirm that an advisor will reach out to them shortly
+═══════════════════════════════════════════
+LEAD SCENARIO 1: USER WANTS TO TALK TO AN AGENT
+═══════════════════════════════════════════
+When the user says things like "I want to talk to someone", "connect me to agent", "can I speak to a person", etc.:
+- Step 1: Say warmly "Of course! Let me connect you with one of our senior advisors 😊"
+- Step 2: Ask "Could you share your full name please?" (ONLY ask name, nothing else)
+- Step 3: WAIT for their name. Then ask "And your phone number so our advisor can reach you?"
+- Step 4: WAIT for their phone. Then include this tag: [LEAD:name|phone|regular]
+- Step 5: Confirm: "Perfect! Our advisor will reach out to you very soon. Thank you! 🙏"
+
+═══════════════════════════════════════════
+LEAD SCENARIO 2: HOT LEAD (User shows buying/renting intent)
+═══════════════════════════════════════════
+When you sense the user is GENUINELY INTERESTED in buying or renting (not just browsing):
+Signs of a hot lead:
+- They say "I want to buy this", "I'm interested", "How do I proceed?", "I want to book", "I like this one"
+- They ask about payment plans, handover dates, booking amounts
+- They discuss specific property details seriously
+- They compare specific units or ask "which one should I go for?"
+
+When you detect this:
+- Step 1: Ask naturally "That's great! Are you looking to go ahead with the purchase/rental, or would you like to explore a bit more?" 
+- Step 2: If they confirm interest, say "Wonderful! Let me have our best advisor reach out to assist you personally 😊"
+- Step 3: Ask "May I have your name please?"
+- Step 4: WAIT for name. Then ask "And the best phone number to reach you?"
+- Step 5: WAIT for phone. Also ask "Do you have an email address?" (email is optional)
+- Step 6: Include this tag: [HOTLEAD:name|phone|email|interest_details]
+  - interest_details should briefly describe what they want (e.g., "wants to buy Villa in Palm Jumeirah, budget 5M")
+- Step 7: Confirm enthusiastically: "Amazing! I've flagged you as a priority client. One of our senior advisors will call you very shortly to help you move forward! 🏠✨"
+
+IMPORTANT LEAD RULES:
+- ALWAYS ask name FIRST, then phone SEPARATELY. Never ask both at once.
+- WAIT for the user to respond before asking the next question.
+- For HOT LEADS, also ask for email (but it's optional — if they skip it, use "N/A")
+- NEVER fabricate or guess contact details. Only use what the user actually provides.
+- Once you use a [LEAD:...] or [HOTLEAD:...] tag, do NOT use it again in the same conversation.
 
 AVAILABLE PROPERTIES IN OUR DATABASE:
 ${propertyList || 'No properties currently loaded.'}
@@ -95,8 +127,9 @@ ABOUT YOUR HOMES DUBAI:
 Your Homes is a premium real estate advisory firm based in Dubai with 22+ years of expertise. We have transacted over AED 2.8 Billion in portfolio value, sold 1200+ properties, and serve clients from 40+ countries. We specialize in luxury property sales, Golden Visa advisory, and investment consultancy across Dubai's most prestigious communities.
 
 RESPONSE FORMAT:
-Always respond in plain text — natural, conversational, human-like. When suggesting properties, include [VIEW_PROPERTY:id] tags. When collecting leads, include [LEAD_COLLECTED:name|phone] tags. These tags will be parsed by the system and are NOT shown to the user.`
+Always respond in plain text — natural, conversational, human-like. When suggesting properties, include [VIEW_PROPERTY:id] tags. For regular leads include [LEAD:name|phone|regular]. For hot leads include [HOTLEAD:name|phone|email|interest]. These tags will be parsed by the system and are NOT shown to the user.`
 }
+
 
 // POST /api/chat
 router.post('/', async (req, res) => {
@@ -166,51 +199,123 @@ router.post('/', async (req, res) => {
     // Remove tags from the visible reply
     const cleanReply = aiReply.replace(/\[VIEW_PROPERTY:[^\]]+\]/g, '').trim()
 
-    // Parse lead collection [LEAD_COLLECTED:name|phone]
+    // Parse lead collection — TWO SCENARIOS
     let leadCollected = false
-    const leadRegex = /\[LEAD_COLLECTED:([^|]+)\|([^\]]+)\]/
-    const leadMatch = leadRegex.exec(aiReply)
-    if (leadMatch) {
-      const leadName = leadMatch[1].trim()
-      const leadPhone = leadMatch[2].trim()
+    let leadType = null // 'regular' or 'hot'
 
-      // Save to Contact collection
+    // Scenario 1: Regular Lead [LEAD:name|phone|regular]
+    const regularLeadRegex = /\[LEAD:([^|]+)\|([^|]+)\|([^\]]+)\]/
+    const regularMatch = regularLeadRegex.exec(aiReply)
+
+    // Scenario 2: Hot Lead [HOTLEAD:name|phone|email|interest]
+    const hotLeadRegex = /\[HOTLEAD:([^|]+)\|([^|]+)\|([^|]+)\|([^\]]+)\]/
+    const hotMatch = hotLeadRegex.exec(aiReply)
+
+    if (hotMatch) {
+      // HOT LEAD — priority client
+      const leadName = hotMatch[1].trim()
+      const leadPhone = hotMatch[2].trim()
+      const leadEmail = hotMatch[3].trim()
+      const interestDetails = hotMatch[4].trim()
+      leadType = 'hot'
+
       try {
         const contact = new Contact({
           name: leadName,
           phone: leadPhone,
-          email: '',
-          message: `[Chatbot Lead] This lead was collected via the YH Advisor chatbot. The user wanted to speak with an agent.`,
+          email: leadEmail !== 'N/A' ? leadEmail : '',
+          message: `🔥 [HOT LEAD — Chatbot] ${interestDetails}`,
           status: 'unread'
         })
         await contact.save()
         leadCollected = true
 
-        // Send email to agent
+        // Send HOT LEAD email to agent
         if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
           const mailOptions = {
             from: process.env.EMAIL_USER,
             to: process.env.EMAIL_USER,
-            subject: `🤖 New Chatbot Lead — ${leadName}`,
+            subject: `🔥 HOT LEAD — ${leadName} wants to proceed!`,
             html: `
-              <h3>New Lead from YH Advisor Chatbot</h3>
-              <p><strong>Name:</strong> ${leadName}</p>
-              <p><strong>Phone:</strong> ${leadPhone}</p>
-              <p><strong>Source:</strong> Website Chatbot</p>
-              <p><strong>Time:</strong> ${new Date().toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}</p>
-              <hr/>
-              <p style="color: #666;">This lead was automatically collected when the visitor requested to speak with an agent via the chatbot.</p>
+              <div style="font-family: Arial, sans-serif; max-width: 600px;">
+                <div style="background: #d4380d; color: white; padding: 16px 24px; border-radius: 8px 8px 0 0;">
+                  <h2 style="margin: 0;">🔥 HOT LEAD — Priority Client</h2>
+                </div>
+                <div style="background: #fff8f0; padding: 24px; border: 1px solid #ffd6c0; border-radius: 0 0 8px 8px;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Name:</td><td style="padding: 8px 0; color: #555;">${leadName}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Phone:</td><td style="padding: 8px 0; color: #555;">${leadPhone}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Email:</td><td style="padding: 8px 0; color: #555;">${leadEmail !== 'N/A' ? leadEmail : 'Not provided'}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Interest:</td><td style="padding: 8px 0; color: #d4380d; font-weight: bold;">${interestDetails}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Source:</td><td style="padding: 8px 0; color: #555;">Website Chatbot</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Time:</td><td style="padding: 8px 0; color: #555;">${new Date().toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}</td></tr>
+                  </table>
+                  <hr style="margin: 16px 0; border: none; border-top: 1px solid #ffd6c0;" />
+                  <p style="color: #d4380d; font-weight: bold; margin: 0;">⚡ This client is ready to proceed. Please contact them ASAP!</p>
+                </div>
+              </div>
+            `
+          }
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) console.error('Hot lead email error:', error)
+            else console.log('🔥 Hot lead email sent:', info.response)
+          })
+        }
+      } catch (err) {
+        console.error('Error saving hot lead:', err)
+      }
+
+    } else if (regularMatch) {
+      // REGULAR LEAD — wants to talk to agent
+      const leadName = regularMatch[1].trim()
+      const leadPhone = regularMatch[2].trim()
+      leadType = 'regular'
+
+      try {
+        const contact = new Contact({
+          name: leadName,
+          phone: leadPhone,
+          email: '',
+          message: `[Chatbot Lead] Client wants to speak with an agent.`,
+          status: 'unread'
+        })
+        await contact.save()
+        leadCollected = true
+
+        // Send regular lead email to agent
+        if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+          const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
+            subject: `📞 New Chatbot Lead — ${leadName} wants to talk`,
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px;">
+                <div style="background: #0e3a2f; color: white; padding: 16px 24px; border-radius: 8px 8px 0 0;">
+                  <h2 style="margin: 0;">📞 Client Wants to Talk to You</h2>
+                </div>
+                <div style="background: #f7f6f3; padding: 24px; border: 1px solid #e5e0d9; border-radius: 0 0 8px 8px;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Name:</td><td style="padding: 8px 0; color: #555;">${leadName}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Phone:</td><td style="padding: 8px 0; color: #555;">${leadPhone}</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Source:</td><td style="padding: 8px 0; color: #555;">Website Chatbot</td></tr>
+                    <tr><td style="padding: 8px 0; font-weight: bold; color: #333;">Time:</td><td style="padding: 8px 0; color: #555;">${new Date().toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })}</td></tr>
+                  </table>
+                  <hr style="margin: 16px 0; border: none; border-top: 1px solid #e5e0d9;" />
+                  <p style="color: #666; margin: 0;">This client requested to speak with an agent via the chatbot. Please reach out to them.</p>
+                </div>
+              </div>
             `
           }
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) console.error('Lead email error:', error)
-            else console.log('Lead email sent:', info.response)
+            else console.log('📞 Lead email sent:', info.response)
           })
         }
       } catch (err) {
-        console.error('Error saving chatbot lead:', err)
+        console.error('Error saving regular lead:', err)
       }
     }
+
 
     // Fetch full property data for referenced properties
     let suggestedProperties = []
@@ -238,12 +343,17 @@ router.post('/', async (req, res) => {
     }
 
     // Clean the reply of any remaining tags
-    const finalReply = cleanReply.replace(/\[LEAD_COLLECTED:[^\]]+\]/g, '').trim()
+    const finalReply = cleanReply
+      .replace(/\[LEAD:[^\]]+\]/g, '')
+      .replace(/\[HOTLEAD:[^\]]+\]/g, '')
+      .replace(/\[LEAD_COLLECTED:[^\]]+\]/g, '')
+      .trim()
 
     res.json({
       reply: finalReply,
       properties: suggestedProperties,
-      leadCollected
+      leadCollected,
+      leadType
     })
 
   } catch (error) {
