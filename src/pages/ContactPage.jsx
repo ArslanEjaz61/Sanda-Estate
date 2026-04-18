@@ -33,17 +33,17 @@ export default function ContactPage() {
   return (
     <>
       {/* ═══════════════ HERO — Confidential Consultation ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#0E3A2F' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#0e3a2f' }}>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">
             {/* Left — Content */}
             <div className="pt-48 pb-14 lg:pt-56 lg:pb-20 lg:pr-14">
               <AnimatedReveal>
-                <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Get in Touch</span>
+                <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Get in Touch</span>
                 <h1 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.08, fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)' }}>
                   Confidential{' '}<br />
-                  <span className="italic" style={{ color: '#C2A76D' }}>Consultation.</span>
+                  <span className="italic" style={{ color: '#c2a76d' }}>Consultation.</span>
                 </h1>
                 <p className="text-[14px] max-w-md leading-[1.85] mb-8" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
                   Whether you're a first-time buyer or a seasoned investor, our advisory team
@@ -54,7 +54,7 @@ export default function ContactPage() {
                 <div className="space-y-4 mb-8">
                   {items.map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <span className="text-[9px] uppercase tracking-[0.15em] font-semibold min-w-[50px] pt-0.5" style={{ fontFamily: 'var(--font-body)', color: 'rgba(201,168,76,0.6)' }}>{item.label}</span>
+                      <span className="text-[9px] uppercase tracking-[0.15em] font-semibold min-w-[50px] pt-0.5" style={{ fontFamily: 'var(--font-body)', color: 'rgba(194,167,109,0.6)' }}>{item.label}</span>
                       {item.href ? (
                         <a href={item.href} className="text-[13px] transition-colors hover:text-white" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.55)' }}>{item.value}</a>
                       ) : (

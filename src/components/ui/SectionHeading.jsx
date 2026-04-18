@@ -14,13 +14,13 @@ export default function SectionHeading({
     <AnimatedReveal>
       <div className={`flex flex-col ${alignClass} mb-10 lg:mb-14 ${className}`}>
         {subtitle && (
-          <span className="eyebrow mb-4" style={{ color: light ? '#C2A76D' : '#C2A76D' }}>
+          <span className="eyebrow mb-4" style={{ color: '#c2a76d' }}>
             {subtitle}
           </span>
         )}
         <div
           className="w-[40px] h-[1.5px] mb-5"
-          style={{ background: 'linear-gradient(90deg, #C2A76D, #b6985d)' }}
+          style={{ background: '#c2a76d' }}
         />
         <h2
           className="max-w-3xl leading-[1.1]"

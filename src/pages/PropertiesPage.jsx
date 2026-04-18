@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import PropertyCard from '../components/ui/PropertyCard'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
@@ -8,8 +9,16 @@ import { fetchProperties, fetchAreas } from '../utils/api'
 const ITEMS_PER_PAGE = 9
 
 export default function PropertiesPage() {
+  const [searchParams] = useSearchParams()
+  
   const [filters, setFilters] = useState({
-    search: '', type: 'All', priceRange: 0, area: 'All', bedrooms: 'Any', status: 'All', sort: 'featured',
+    search: searchParams.get('search') || '',
+    type: searchParams.get('type') || 'All',
+    priceRange: parseInt(searchParams.get('priceRange')) || 0,
+    area: searchParams.get('area') || 'All',
+    bedrooms: searchParams.get('bedrooms') || 'Any',
+    status: 'All',
+    sort: 'featured',
   })
   const [liveAreas, setLiveAreas] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -79,15 +88,15 @@ export default function PropertiesPage() {
             alt="Dubai Luxury Properties"
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.92), rgba(4,56,42,0.88))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.92), rgba(14,58,47,0.88))' }} />
         </div>
         <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10 pt-48 pb-10 lg:pt-56 lg:pb-14">
           <AnimatedReveal>
-            <span className="eyebrow text-[10px] mb-3 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Our Collection</span>
+            <span className="eyebrow text-[10px] mb-3 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Our Collection</span>
             <h1 className="text-white mb-3" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
               Explore Dubai's{' '}
-              <span className="italic" style={{ color: '#C2A76D' }}>Premier</span>{' '}
+              <span className="italic" style={{ color: '#c2a76d' }}>Premier</span>{' '}
               Properties
             </h1>
             <p className="text-[14px] max-w-lg" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>
@@ -109,7 +118,7 @@ export default function PropertiesPage() {
           </button>
 
           <div className={`${showFilters ? 'block' : 'hidden'} lg:block`}>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
               <div>
                 <label className="premium-label">Search</label>
                 <input
@@ -125,8 +134,6 @@ export default function PropertiesPage() {
                 { label: 'Price Range', key: 'priceRange', options: priceRanges.map((r, i) => ({ value: i, label: r.label })), isIndex: true },
                 { label: 'Area', key: 'area', options: [{ value: 'All', label: 'All Areas' }, ...liveAreas.map(a => ({ value: a.slug, label: a.name }))] },
                 { label: 'Bedrooms', key: 'bedrooms', options: bedroomOptions.map(b => ({ value: b, label: b })) },
-                { label: 'Status', key: 'status', options: [{ value: 'All', label: 'All Status' }, { value: 'Ready', label: 'Ready' }, { value: 'Off-Plan', label: 'Off-Plan' }, { value: 'Resale', label: 'Resale' }, { value: 'Rental', label: 'Rental' }] },
-                { label: 'Sort By', key: 'sort', options: [{ value: 'featured', label: 'Featured' }, { value: 'price-low', label: 'Price: Low–High' }, { value: 'price-high', label: 'Price: High–Low' }, { value: 'newest', label: 'Newest' }] },
               ].map(filter => (
                 <div key={filter.key}>
                   <label className="premium-label">{filter.label}</label>
@@ -160,9 +167,6 @@ export default function PropertiesPage() {
             <span className="text-[12px]" style={{ fontFamily: 'var(--font-body)', color: '#9a9a9a' }}>
               Showing {paginatedProperties.length} of {filteredProperties.length} properties
             </span>
-            <span className="text-[11px] uppercase tracking-[0.12em]" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9a9a9a' }}>
-              Grid View  ·  Map View
-            </span>
           </div>
         </div>
       </section>
@@ -186,7 +190,7 @@ export default function PropertiesPage() {
                       className="w-10 h-10 flex items-center justify-center text-[12px] transition-all duration-300"
                       style={{
                         fontFamily: 'var(--font-body)',
-                        backgroundColor: currentPage === page ? '#0E3A2F' : 'transparent',
+                        backgroundColor: currentPage === page ? '#0e3a2f' : 'transparent',
                         color: currentPage === page ? '#ffffff' : '#6b6b6b',
                         border: currentPage === page ? 'none' : '1px solid #e5e0d9',
                       }}

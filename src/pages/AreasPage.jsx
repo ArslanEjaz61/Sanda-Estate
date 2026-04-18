@@ -15,14 +15,14 @@ export default function AreasPage() {
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#0E3A2F' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#0e3a2f' }}>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10 pt-48 pb-14 lg:pt-56 lg:pb-20 text-center">
           <AnimatedReveal>
-            <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Dubai Communities</span>
+            <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Dubai Communities</span>
             <h1 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
               Explore Dubai's{' '}
-              <span className="italic" style={{ color: '#C2A76D' }}>Premier</span>{' '}
+              <span className="italic" style={{ color: '#c2a76d' }}>Premier</span>{' '}
               Areas
             </h1>
             <p className="text-[14px] max-w-xl mx-auto leading-[1.85]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.5)' }}>

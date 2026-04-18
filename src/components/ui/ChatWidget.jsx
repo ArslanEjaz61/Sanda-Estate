@@ -26,13 +26,13 @@ export default function ChatWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="absolute bottom-16 right-0 w-[calc(100vw-3rem)] max-w-sm bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col border border-gray-100"
-            style={{ height: '400px' }}
+            className="absolute bottom-16 right-0 w-[calc(100vw-3rem)] max-w-sm bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col"
+            style={{ height: '400px', border: '1.5px solid rgba(247, 246, 243, 0.4)' }}
           >
             {/* Header */}
-            <div className="px-4 py-3 flex items-center justify-between" style={{ background: '#0E3A2F', color: 'white' }}>
+            <div className="px-4 py-3 flex items-center justify-between" style={{ background: '#0e3a2f', color: 'white' }}>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#C2A76D] animate-pulse"></div>
+                <div className="w-2 h-2 rounded-full bg-[#c2a76d] animate-pulse"></div>
                 <span className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>YH Advisor</span>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white transition-colors">✕</button>
@@ -42,7 +42,7 @@ export default function ChatWidget() {
             <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#f7f6f3]">
               {messages.map((m, i) => (
                 <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${m.sender === 'user' ? 'bg-[#0E3A2F] text-white rounded-tr-sm' : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'}`}>
+                  <div className={`max-w-[85%] p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${m.sender === 'user' ? 'bg-[#0e3a2f] text-white rounded-tr-sm' : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'}`}>
                     {m.text}
                   </div>
                 </div>
@@ -56,9 +56,9 @@ export default function ChatWidget() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder="Type your message..."
-                className="flex-1 px-3 py-2 text-[13px] bg-[#f7f6f3] rounded-md outline-none border border-transparent focus:border-[#C2A76D]/40 transition-colors"
+                className="flex-1 px-3 py-2 text-[13px] bg-[#f7f6f3] rounded-md outline-none border border-transparent focus:border-[#c2a76d]/40 transition-colors"
               />
-              <button type="submit" className="w-9 h-9 flex items-center justify-center rounded-md bg-[#C2A76D] text-white hover:bg-[#b8953b] transition-colors">
+              <button type="submit" className="w-9 h-9 flex items-center justify-center rounded-md bg-[#c2a76d] text-white hover:bg-gold-muted transition-colors">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               </button>
             </form>
@@ -69,8 +69,8 @@ export default function ChatWidget() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(6,78,59,0.3)] hover:scale-105 transition-transform"
-        style={{ background: 'linear-gradient(135deg, #0E3A2F, #04382a)' }}
+        className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(14,58,47,0.3)] hover:scale-105 transition-transform"
+        style={{ background: 'linear-gradient(135deg, #0e3a2f, #04382a)', border: '2px solid rgba(247, 246, 243, 0.3)' }}
       >
         {isOpen ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

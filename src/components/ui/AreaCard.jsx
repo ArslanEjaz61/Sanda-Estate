@@ -43,7 +43,7 @@ export default function AreaCard({ area, index = 0 }) {
               <span
                 key={tag}
                 className="px-2.5 py-1 text-[8px] uppercase tracking-[0.15em] font-bold text-white/90 backdrop-blur-sm"
-                style={{ background: 'rgba(201,168,76,0.7)' }}
+                style={{ background: 'rgba(194,167,109,0.7)' }}
               >
                 {tag}
               </span>

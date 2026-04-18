@@ -49,10 +49,10 @@ export default function AdminLayout() {
   }, [])
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-3 text-[12px] uppercase tracking-[0.12em] font-semibold transition-all duration-200 ${isActive ? 'text-[#C2A76D] bg-white/[0.06]' : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'}`
+    `flex items-center gap-3 px-4 py-3 text-[12px] uppercase tracking-[0.12em] font-semibold transition-all duration-200 ${isActive ? 'text-[#c2a76d] bg-white/[0.06]' : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'}`
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#0f1a15' }}>
+    <div className="min-h-screen flex" style={{ background: '#0a1a15' }}>
       {/* Mobile overlay */}
       {sidebarOpen && <div className="lg:hidden fixed inset-0 bg-black/50 z-40" onClick={() => setSidebarOpen(false)} />}
 
@@ -112,11 +112,11 @@ export default function AdminLayout() {
               )}
             </div>
           </div>
-          <a href="/" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-[0.12em] text-[#C2A76D]/60 hover:text-[#C2A76D] font-semibold transition-colors" style={{ fontFamily: 'var(--font-body)' }}>View Website →</a>
+          <a href="/" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-[0.12em] text-[#c2a76d]/60 hover:text-[#c2a76d] font-semibold transition-colors" style={{ fontFamily: 'var(--font-body)' }}>View Website →</a>
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-6 lg:p-8 overflow-auto" style={{ background: '#111f19' }}>
+        <main className="flex-1 p-6 lg:p-8 overflow-auto" style={{ background: '#0d1a15' }}>
           <Outlet />
         </main>
       </div>

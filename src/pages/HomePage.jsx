@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import SectionHeading from '../components/ui/SectionHeading'
@@ -38,6 +38,7 @@ export default function HomePage() {
   const [settings, setSettings] = useState(null)
   const [isPlaying, setIsPlaying] = useState(true)
   const audioRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchProperties({ featured: true }).then(data => {
@@ -94,6 +95,24 @@ export default function HomePage() {
       }
     }
   }, [isPlaying])
+ 
+  const handleHeroSearch = (e) => {
+    e.preventDefault()
+    const params = new URLSearchParams()
+    if (heroSearch.area) params.set('area', heroSearch.area)
+    if (heroSearch.type) params.set('type', heroSearch.type)
+    
+    // Map budget string to index
+    const budgetMap = {
+      'under-2m': '1',
+      '2m-5m': '2',
+      '5m-10m': '3',
+      '10m+': '4'
+    }
+    if (heroSearch.budget) params.set('priceRange', budgetMap[heroSearch.budget])
+    
+    navigate(`/properties?${params.toString()}`)
+  }
 
   return (
     <>
@@ -129,7 +148,7 @@ export default function HomePage() {
               style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.05, fontSize: 'clamp(2.8rem, 6vw, 5.2rem)' }}
             >
               Discover Dubai's Most{' '}
-              <span className="italic" style={{ color: '#c9a84c' }}>Intelligent</span>{' '}
+              <span className="italic" style={{ color: '#c2a76d' }}>Intelligent</span>{' '}
               Property<br />Opportunities
             </motion.h1>
 
@@ -182,7 +201,7 @@ export default function HomePage() {
                 <option value="5m-10m">AED 5M – 10M</option>
                 <option value="10m+">AED 10M+</option>
               </select>
-              <Link to="/properties" className="btn-gold text-center !py-3.5">Search</Link>
+              <button onClick={handleHeroSearch} className="btn-gold text-center !py-3.5">Search</button>
             </div>
           </div>
         </motion.div>
@@ -195,12 +214,12 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ STAT BANNER ═══════════════ */}
-      <section className="py-8 lg:py-10" style={{ backgroundColor: '#064e3b' }}>
+      <section className="py-8 lg:py-10" style={{ backgroundColor: '#0e3a2f' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x divide-white/10">
             {parsedStats.map((stat, i) => (
               <div key={i} className="text-center lg:px-6">
-                <div className="text-2xl lg:text-[28px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#c9a84c', fontWeight: 400 }}>
+                <div className="text-2xl lg:text-[28px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#c2a76d', fontWeight: 400 }}>
                   <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
                 </div>
                 <div className="text-[9px] uppercase tracking-[0.18em] text-white/40" style={{ fontFamily: 'var(--font-body)', fontWeight: 500 }}>
@@ -294,14 +313,14 @@ export default function HomePage() {
             alt="Luxury tech real estate"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(10,31,23,0.95), rgba(10,31,23,0.85))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.95), rgba(14,58,47,0.85))' }} />
         </div>
-        <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(201,168,76,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+        <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(194,167,109,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left - Content */}
             <AnimatedReveal>
-              <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Flagship Technology</span>
+              <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Flagship Technology</span>
               <h2 className="mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, color: '#ffffff', fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
                 YH Property Advisor
               </h2>
@@ -312,7 +331,7 @@ export default function HomePage() {
               {/* Mock prompt card */}
               <div className="mb-6 p-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)' }}>
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: '#c2a76d' }}>
                     <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
                   </div>
                   <span className="text-[12px] font-medium text-white/70" style={{ fontFamily: 'var(--font-body)' }}>YH Advisor</span>
@@ -330,7 +349,7 @@ export default function HomePage() {
             <AnimatedReveal delay={0.2}>
               <div className="glass rounded-sm overflow-hidden">
                 <div className="px-6 py-4 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)' }}>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: '#c2a76d' }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>
                   </div>
                   <div>
@@ -340,7 +359,7 @@ export default function HomePage() {
                 </div>
                 <div className="p-5 space-y-3">
                   <div className="flex gap-3">
-                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center mt-1" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)' }}>
+                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center mt-1" style={{ background: '#c2a76d' }}>
                       <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
                     </div>
                     <div className="glass p-3.5 max-w-sm">
@@ -351,7 +370,7 @@ export default function HomePage() {
                   </div>
                   {['Dubai Hills Estate — 6.2% yield', 'Arabian Ranches III — Family-first', 'DAMAC Hills — Best value'].map((item, i) => (
                     <motion.div key={i} initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 + i * 0.15 }} className="ml-9">
-                      <div className="px-3.5 py-2.5" style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.12)' }}>
+                      <div className="px-3.5 py-2.5" style={{ background: 'rgba(194,167,109,0.1)', border: '1px solid rgba(194,167,109,0.12)' }}>
                         <p className="text-[11px]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.6)' }}>{item}</p>
                       </div>
                     </motion.div>
@@ -360,7 +379,7 @@ export default function HomePage() {
                 <div className="px-5 pb-5">
                   <div className="flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 4px 4px 14px' }}>
                     <input type="text" placeholder="Ask about any property..." className="flex-1 bg-transparent text-[12px] outline-none" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)' }} readOnly />
-                    <button className="px-4 py-2 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: 'linear-gradient(135deg, #c9a84c, #d4af37)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>Ask YH</button>
+                    <button className="px-4 py-2 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: '#c2a76d', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>Ask YH</button>
                   </div>
                 </div>
               </div>
@@ -393,7 +412,7 @@ export default function HomePage() {
               <AnimatedReveal key={i} delay={i * 0.08}>
                 <div className="premium-card p-7 h-full group">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-11 h-11 flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(6,78,59,0.06)', color: '#064e3b' }}>
+                    <div className="w-11 h-11 flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(14,58,47,0.06)', color: '#0e3a2f' }}>
                       {whyDubaiIcons[i]}
                     </div>
                     <div className="text-[10px] uppercase tracking-[0.18em] font-bold pt-3" style={{ fontFamily: 'var(--font-body)', color: '#9a9a9a' }}>
@@ -431,7 +450,7 @@ export default function HomePage() {
             alt="Dubai Real Estate Communities"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.82), rgba(4,56,42,0.88))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.82), rgba(14,58,47,0.88))' }} />
         </div>
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <SectionHeading
@@ -462,7 +481,7 @@ export default function HomePage() {
             {parsedStats.map((stat, i) => (
               <AnimatedReveal key={i} delay={i * 0.12}>
                 <div className="text-center p-5" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="text-[30px] lg:text-[36px] mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#c9a84c', fontWeight: 300 }}>
+                  <div className="text-[30px] lg:text-[36px] mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#c2a76d', fontWeight: 300 }}>
                     <AnimatedCounter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
                   </div>
                   <div className="text-[9px] uppercase tracking-[0.18em]" style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'rgba(255,255,255,0.35)' }}>
@@ -499,12 +518,12 @@ export default function HomePage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3 pt-5" style={{ borderTop: '1px solid #f0ebe5' }}>
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(6,78,59,0.08)', color: '#064e3b', fontFamily: 'var(--font-body)' }}>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(14,58,47,0.08)', color: '#0e3a2f', fontFamily: 'var(--font-body)' }}>
                       {t.name.split(' ').slice(0, 2).map(n => n[0]).join('')}
                     </div>
                     <div>
                       <div className="text-[14px] font-medium" style={{ fontFamily: 'var(--font-heading)', color: '#1a1a1a' }}>
-                        {t.name.split(' ').length > 2 ? t.name.split(' ').slice(0, 2).join(' ') : t.name}
+                        {t.name}
                       </div>
                       <div className="text-[10px]" style={{ fontFamily: 'var(--font-body)', color: '#9a9a9a' }}>
                         {t.location} · {t.role}
@@ -519,12 +538,12 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ GOLDEN VISA ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#064e3b' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#0e3a2f' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             <div className="py-16 lg:py-20 lg:pr-16 flex flex-col justify-center">
               <AnimatedReveal>
-                <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Investor Advisory</span>
+                <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Investor Advisory</span>
                 <h2 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
                   Golden Visa &<br />Investment Advisory
                 </h2>
@@ -544,7 +563,7 @@ export default function HomePage() {
             </div>
             <div className="relative min-h-[300px] lg:min-h-[400px]">
               <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80" alt="Dubai investment" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0" style={{ backgroundColor: 'rgba(6,78,59,0.2)' }} />
+              <div className="absolute inset-0" style={{ backgroundColor: 'rgba(14,58,47,0.2)' }} />
             </div>
           </div>
         </div>
@@ -554,11 +573,11 @@ export default function HomePage() {
       <section className="relative py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1920&q=80" alt="Dubai" className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(6,78,59,0.93), rgba(6,78,59,0.82))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.93), rgba(14,58,47,0.82))' }} />
         </div>
         <div className="relative z-10 container-narrow text-center px-6">
           <AnimatedReveal>
-            <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(201,168,76,0.7)' }}>Start Your Journey</span>
+            <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Start Your Journey</span>
             <h2 className="text-white mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
               Ready to Find Your Ideal<br />Dubai Property?
             </h2>
@@ -587,7 +606,7 @@ export default function HomePage() {
                 <div className="space-y-3">
                   {items.map((item, i) => (
                     <div key={i} className="flex items-center gap-3 text-[13px]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
-                      <span style={{ color: '#c9a84c', fontSize: '6px' }}>◆</span>
+                      <span style={{ color: '#c2a76d', fontSize: '6px' }}>◆</span>
                       {item.href ? <a href={item.href} className="hover:text-charcoal transition-colors">{item.text}</a> : <span>{item.text}</span>}
                     </div>
                   ))}

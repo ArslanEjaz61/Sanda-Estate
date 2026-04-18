@@ -95,7 +95,7 @@ export default function Footer() {
                 className="flex-1 px-3 py-2.5 text-[12px] bg-white/[0.05] border border-white/10 border-r-0 text-white/70 placeholder-white/25 outline-none focus:border-gold-muted/40 transition-colors"
                 style={{ fontFamily: 'var(--font-body)' }}
               />
-              <button className="px-4 py-2.5 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>
+              <button className="px-4 py-2.5 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: '#c2a76d', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>
                 Subscribe
               </button>
             </div>

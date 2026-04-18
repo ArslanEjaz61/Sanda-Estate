@@ -38,10 +38,10 @@ export default function Dashboard() {
   }, [])
 
   const statCards = [
-    { label: 'Total Properties', value: stats.total, color: '#0E3A2F' },
-    { label: 'Featured', value: stats.featured, color: '#C2A76D' },
-    { label: 'Off-Plan', value: stats.offPlan, color: '#0a7c5e' },
-    { label: 'Total Leads', value: stats.leads, color: '#047857' },
+    { label: 'Total Properties', value: stats.total, color: '#0e3a2f' },
+    { label: 'Featured', value: stats.featured, color: '#c2a76d' },
+    { label: 'Off-Plan', value: stats.offPlan, color: '#155544' },
+    { label: 'Total Leads', value: stats.leads, color: '#1c6f59' },
   ]
 
   return (
@@ -64,7 +64,7 @@ export default function Dashboard() {
       {/* Recent Properties */}
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-white text-[18px]" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Recent Properties</h3>
-        <Link to="/admin/properties" className="text-[10px] uppercase tracking-[0.12em] text-[#C2A76D]/60 hover:text-[#C2A76D] font-semibold transition-colors" style={{ fontFamily: 'var(--font-body)' }}>View All →</Link>
+        <Link to="/admin/properties" className="text-[10px] uppercase tracking-[0.12em] text-[#c2a76d]/60 hover:text-[#c2a76d] font-semibold transition-colors" style={{ fontFamily: 'var(--font-body)' }}>View All →</Link>
       </div>
 
       <div className="overflow-x-auto">
@@ -87,9 +87,9 @@ export default function Dashboard() {
                   </div>
                 </td>
                 <td className="py-3 px-4 text-[12px] text-white/40">{p.type}</td>
-                <td className="py-3 px-4 text-[12px] text-[#C2A76D]">{p.priceFormatted || `AED ${p.price?.toLocaleString()}`}</td>
+                <td className="py-3 px-4 text-[12px] text-[#c2a76d]">{p.priceFormatted || `AED ${p.price?.toLocaleString()}`}</td>
                 <td className="py-3 px-4">
-                  <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(4,120,87,0.15)' : 'rgba(201,168,76,0.15)', color: p.status === 'Ready' ? '#047857' : '#C2A76D' }}>{p.status}</span>
+                  <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(14,58,47,0.15)' : 'rgba(194,167,109,0.15)', color: p.status === 'Ready' ? '#0e3a2f' : '#c2a76d' }}>{p.status}</span>
                 </td>
               </tr>
             ))}

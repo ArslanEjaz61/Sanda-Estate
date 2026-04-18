@@ -51,7 +51,7 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
           exit={{ opacity: 0 }}
           className="text-center py-14"
         >
-          <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: 'linear-gradient(135deg, #C2A76D, #b6985d)' }}>
+          <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: '#c2a76d' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <h3 className="text-2xl mb-2" style={{ fontFamily: 'var(--font-heading)', color: light ? '#fff' : '#1a1a1a' }}>
@@ -74,7 +74,7 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
           <div className="flex items-center gap-4 mb-2 pb-4" style={{ borderBottom: `1px solid ${light ? 'rgba(255,255,255,0.08)' : '#f7f6f3'}` }}>
             {['Confidential', 'Tailored Guidance', 'No Obligation'].map((item, i) => (
               <span key={i} className={`text-[9px] uppercase tracking-[0.15em] font-semibold flex items-center gap-1.5 ${light ? 'text-white/40' : 'text-gray-soft'}`} style={{ fontFamily: 'var(--font-body)' }}>
-                <span style={{ color: '#C2A76D', fontSize: '6px' }}>◆</span>
+                <span style={{ color: '#c2a76d', fontSize: '6px' }}>◆</span>
                 {item}
               </span>
             ))}

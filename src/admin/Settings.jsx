@@ -69,7 +69,7 @@ export default function Settings() {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Core Contact Section */}
         <section className="p-6 lg:p-8 rounded-lg bg-white/[0.02]" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
-          <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#C2A76D] mb-6 font-bold">Contact Information</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#c2a76d] mb-6 font-bold">Contact Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="block text-[11px] uppercase tracking-[0.12em] text-white/50 mb-2 font-semibold">Office Address</label>
@@ -78,7 +78,7 @@ export default function Settings() {
                 value={settings.address}
                 onChange={handleChange}
                 rows="2"
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
                 required
               />
             </div>
@@ -89,7 +89,7 @@ export default function Settings() {
                 name="phone"
                 value={settings.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
                 required
               />
             </div>
@@ -100,7 +100,7 @@ export default function Settings() {
                 name="email"
                 value={settings.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
                 required
               />
             </div>
@@ -112,7 +112,7 @@ export default function Settings() {
                 value={settings.whatsapp}
                 onChange={handleChange}
                 placeholder="e.g. 97144541313"
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
               />
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function Settings() {
 
         {/* Social Links Section */}
         <section className="p-6 lg:p-8 rounded-lg bg-white/[0.02]" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
-          <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#C2A76D] mb-6 font-bold">Social Presence</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#c2a76d] mb-6 font-bold">Social Presence</h2>
           <div className="space-y-6">
             <div>
               <label className="block text-[11px] uppercase tracking-[0.12em] text-white/50 mb-2 font-semibold">Instagram URL</label>
@@ -129,7 +129,7 @@ export default function Settings() {
                 name="socials.instagram"
                 value={settings.socials.instagram}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
               />
             </div>
             <div>
@@ -139,7 +139,7 @@ export default function Settings() {
                 name="socials.facebook"
                 value={settings.socials.facebook}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
               />
             </div>
             <div>
@@ -149,7 +149,7 @@ export default function Settings() {
                 name="socials.linkedin"
                 value={settings.socials.linkedin}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#C2A76D]/50 transition-colors"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
               />
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function Settings() {
           <button
             type="submit"
             disabled={saving}
-            className="px-8 py-4 bg-[#C2A76D] hover:bg-[#b8973b] disabled:bg-[#C2A76D]/30 text-black text-[11px] uppercase tracking-[0.2em] font-bold rounded transition-all duration-300 shadow-lg shadow-gold-muted/10"
+            className="px-8 py-4 bg-[#c2a76d] hover:bg-[#b8973b] disabled:bg-[#c2a76d]/30 text-black text-[11px] uppercase tracking-[0.2em] font-bold rounded transition-all duration-300 shadow-lg shadow-gold-muted/10"
           >
             {saving ? 'Saving...' : 'Save Settings'}
           </button>

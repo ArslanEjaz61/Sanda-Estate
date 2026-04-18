@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   return (
     <section
       className="min-h-screen flex items-center justify-center px-6"
-      style={{ backgroundColor: '#0E3A2F' }}
+      style={{ backgroundColor: '#0e3a2f' }}
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -17,7 +17,7 @@ export default function NotFoundPage() {
           className="text-[120px] lg:text-[180px] leading-none mb-4"
           style={{
             fontFamily: 'var(--font-heading)',
-            color: 'rgba(201,168,76,0.15)',
+            color: 'rgba(194,167,109,0.15)',
             fontWeight: 300,
           }}
         >
@@ -42,7 +42,7 @@ export default function NotFoundPage() {
             className="px-8 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold transition-all duration-300 hover:scale-[1.02]"
             style={{
               fontFamily: 'var(--font-body)',
-              backgroundColor: '#C2A76D',
+              backgroundColor: '#c2a76d',
               color: '#1a1a1a',
             }}
           >

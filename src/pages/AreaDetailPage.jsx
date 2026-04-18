@@ -63,7 +63,7 @@ export default function AreaDetailPage() {
               <span className="text-white/70">{area.name}</span>
             </div>
             <div className="flex flex-wrap items-center gap-4 mb-3">
-              <div className="text-[11px] uppercase tracking-[0.25em]" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>
+              <div className="text-[11px] uppercase tracking-[0.25em]" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
                 {area.tagline}
               </div>
               {area.distanceFromDubaiMall && (
@@ -87,7 +87,7 @@ export default function AreaDetailPage() {
         <div className="container-narrow">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <AnimatedReveal>
-              <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>
+              <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
                 Overview
               </div>
               <div className="gold-line mb-8" />
@@ -99,7 +99,7 @@ export default function AreaDetailPage() {
               </p>
             </AnimatedReveal>
             <AnimatedReveal delay={0.2}>
-              <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>
+              <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
                 Lifestyle
               </div>
               <div className="gold-line mb-8" />
@@ -118,7 +118,7 @@ export default function AreaDetailPage() {
       <section className="section-padding" style={{ backgroundColor: '#f7f6f3' }}>
         <div className="container-narrow">
           <AnimatedReveal>
-            <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>
+            <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
               Investment Profile
             </div>
             <div className="gold-line mb-8" />
@@ -135,7 +135,7 @@ export default function AreaDetailPage() {
                 {area.stats && Object.entries(area.stats).map(([key, value], i) => (
                   <AnimatedReveal key={key} delay={i * 0.15} direction="up">
                     <div className="p-8 text-center" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e0d9' }}>
-                      <div className="text-2xl lg:text-3xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#0E3A2F' }}>
+                      <div className="text-2xl lg:text-3xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#0e3a2f' }}>
                         <AnimatedCounter
                           target={String(value || '').replace(/[^0-9.]/g, '')}
                           prefix={String(value || '').startsWith('AED') ? 'AED ' : ''}
@@ -160,7 +160,7 @@ export default function AreaDetailPage() {
           <div className="container-wide px-6 lg:px-10">
             <AnimatedReveal>
               <div className="text-center mb-12">
-                <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#C2A76D', fontFamily: 'var(--font-body)' }}>Featured in {area.name}</div>
+                <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>Featured in {area.name}</div>
                 <div className="gold-line-center mb-6" />
                 <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Available Properties</h2>
               </div>
@@ -182,16 +182,16 @@ export default function AreaDetailPage() {
       )}
 
       {/* CTA */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: '#0E3A2F' }}>
+      <section className="py-20 lg:py-28" style={{ backgroundColor: '#0e3a2f' }}>
         <div className="container-narrow text-center px-6">
           <AnimatedReveal>
             <h2 className="text-white mb-6" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>
-              Interested in <span style={{ color: '#C2A76D' }}>{area.name}</span>?
+              Interested in <span style={{ color: '#c2a76d' }}>{area.name}</span>?
             </h2>
             <p className="text-white/60 text-base max-w-xl mx-auto mb-10" style={{ fontFamily: 'var(--font-body)' }}>
               Speak with our area specialist for personalised insights, off-market opportunities, and expert guidance on {area.name}.
             </p>
-            <Link to="/contact" className="inline-block px-10 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold transition-all duration-300 hover:scale-[1.02]" style={{ fontFamily: 'var(--font-body)', backgroundColor: '#C2A76D', color: '#1a1a1a' }}>
+            <Link to="/contact" className="inline-block px-10 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold transition-all duration-300 hover:scale-[1.02]" style={{ fontFamily: 'var(--font-body)', backgroundColor: '#c2a76d', color: '#1a1a1a' }}>
               Talk to an Advisor
             </Link>
           </AnimatedReveal>

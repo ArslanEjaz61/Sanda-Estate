@@ -8,8 +8,8 @@
   --color-emerald-light: #1a5c4c;
   --color-gold: #c2a76d;
   --color-gold-muted: #c2a76d;
-  --color-gold-light: #d4af37;
-  --color-gold-pale: #f0e6c8;
+  --color-gold-light: #c2a76d;
+  --color-gold-pale: #f7f6f3;
   --color-ivory: #f7f6f3;
   --color-ivory-dark: #efeeea;
   --color-ivory-warm: #e8e6e1;
@@ -141,13 +141,13 @@
   .gold-line {
     width: 50px;
     height: 1.5px;
-    background: linear-gradient(90deg, var(--color-gold-muted), var(--color-gold-light));
+    background: var(--color-gold-muted);
   }
 
   .gold-line-center {
     width: 50px;
     height: 1.5px;
-    background: linear-gradient(90deg, var(--color-gold-muted), var(--color-gold-light));
+    background: var(--color-gold-muted);
     margin: 0 auto;
   }
 
@@ -166,7 +166,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    background: linear-gradient(135deg, #c9a84c, #d4af37);
+    background: var(--color-gold-muted);
     color: #1a1a1a;
     border: none;
     transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -176,7 +176,7 @@
 
   .btn-gold:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 25px rgba(201, 168, 76, 0.25);
+    box-shadow: 0 8px 25px rgba(194, 167, 109, 0.2);
   }
 
   .btn-emerald {
@@ -353,7 +353,7 @@
   }
 
   .badge-gold {
-    background: linear-gradient(135deg, #c9a84c, #d4af37);
+    background: var(--color-gold-muted);
     color: #1a1a1a;
   }
 

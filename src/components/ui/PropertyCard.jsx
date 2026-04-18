@@ -24,7 +24,7 @@ export default function PropertyCard({ property, index = 0 }) {
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
             <span
               className="px-5 py-2.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-white backdrop-blur-md translate-y-3 group-hover:translate-y-0 transition-transform duration-500"
-              style={{ background: 'rgba(6,78,59,0.85)' }}
+              style={{ background: 'rgba(14,58,47,0.85)' }}
             >
               View Property
             </span>
@@ -72,7 +72,7 @@ export default function PropertyCard({ property, index = 0 }) {
           <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid #f7f6f3' }}>
             <span
               className="text-[17px] font-semibold flex items-baseline gap-1"
-              style={{ fontFamily: 'var(--font-heading)', color: '#0E3A2F', fontWeight: 600 }}
+              style={{ fontFamily: 'var(--font-heading)', color: '#0e3a2f', fontWeight: 600 }}
             >
               {property.priceFormatted}
             </span>
