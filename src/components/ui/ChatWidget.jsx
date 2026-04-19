@@ -172,11 +172,14 @@ export default function ChatWidget() {
                 <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className="flex flex-col gap-1.5 max-w-[88%]">
                     {/* Text bubble */}
-                    <div className={`p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${
-                      m.sender === 'user'
-                        ? 'bg-[#0e3a2f] text-white rounded-tr-sm'
-                        : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'
-                    }`}>
+                    <div
+                      className={`p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${
+                        m.sender === 'user'
+                          ? 'bg-[#0e3a2f] text-white rounded-tr-sm'
+                          : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'
+                      }`}
+                      style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+                    >
                       {renderText(m.text)}
                     </div>
 

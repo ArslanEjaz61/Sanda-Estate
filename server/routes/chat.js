@@ -22,6 +22,21 @@ const transporter = nodemailer.createTransport({
 const LONGCAT_API_URL = 'https://api.longcat.chat/openai/v1/chat/completions'
 const LONGCAT_API_KEY = process.env.LONGCAT_API_KEY
 
+// Cache system prompt to avoid rebuilding on every request
+let cachedPrompt = null
+let cacheTimestamp = 0
+const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
+
+async function getCachedSystemPrompt() {
+  const now = Date.now()
+  if (cachedPrompt && (now - cacheTimestamp) < CACHE_TTL) {
+    return cachedPrompt
+  }
+  cachedPrompt = await buildSystemPrompt()
+  cacheTimestamp = now
+  return cachedPrompt
+}
+
 // Build system prompt with live database context
 async function buildSystemPrompt() {
   const [properties, areas, settings] = await Promise.all([
@@ -31,11 +46,12 @@ async function buildSystemPrompt() {
   ])
 
   const propertyList = properties.map(p => {
-    return `- ID: ${p._id} | "${p.title}" | Type: ${p.type} | Status: ${p.status} | Price: ${p.priceFormatted || 'AED ' + p.price?.toLocaleString()} | Beds: ${p.bedrooms} | Baths: ${p.bathrooms} | Area: ${p.area} ${p.areaUnit} | Location: ${p.location} | Developer: ${p.developer || 'N/A'} | Features: ${(p.features || []).join(', ')} | Golden Visa: ${p.goldenVisa ? 'Yes' : 'No'}`
+    const gv = p.goldenVisa ? ' | GV:Yes' : ''
+    return `- ID:${p._id} | "${p.title}" | ${p.type} | ${p.status} | ${p.priceFormatted || 'AED ' + p.price?.toLocaleString()} | ${p.bedrooms}BR/${p.bathrooms}BA | ${p.area}${p.areaUnit} | ${p.location}${gv}`
   }).join('\n')
 
   const areaList = areas.map(a => {
-    return `- "${a.name}" (slug: ${a.slug}) | Tagline: ${a.tagline} | Avg Price: ${a.stats?.avgPrice || 'N/A'} | Rental Yield: ${a.stats?.rentalYield || 'N/A'} | Price Growth: ${a.stats?.priceGrowth || 'N/A'} | Distance from Dubai Mall: ${a.distanceFromDubaiMall || 'N/A'}`
+    return `- "${a.name}" (${a.slug}) | ${a.stats?.avgPrice || 'N/A'} avg | Yield:${a.stats?.rentalYield || 'N/A'}`
   }).join('\n')
 
   const companyInfo = {
@@ -144,8 +160,8 @@ router.post('/', async (req, res) => {
       return res.status(500).json({ message: 'Chat API key not configured' })
     }
 
-    // Build system prompt with live data
-    const systemPrompt = await buildSystemPrompt()
+    // Build system prompt (cached for 5 min)
+    const systemPrompt = await getCachedSystemPrompt()
 
     // Build messages array for the API
     const messages = [
@@ -165,28 +181,57 @@ router.post('/', async (req, res) => {
     // Add the current message
     messages.push({ role: 'user', content: message })
 
-    // Call Longcat API
-    const response = await fetch(LONGCAT_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${LONGCAT_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'LongCat-Flash-Chat',
-        messages: messages,
-        max_tokens: 2000,
-        temperature: 0.75,
-      })
-    })
+    // Call Longcat API with timeout and retry
+    const MAX_RETRIES = 2
+    let lastError = null
+    let data = null
 
-    if (!response.ok) {
-      const errorBody = await response.text()
-      console.error('Longcat API error:', response.status, errorBody)
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const controller = new AbortController()
+        const timeout = setTimeout(() => controller.abort(), 60000) // 60s timeout
+
+        const response = await fetch(LONGCAT_API_URL, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${LONGCAT_API_KEY}`,
+            'Content-Type': 'application/json',
+            'Connection': 'keep-alive'
+          },
+          body: JSON.stringify({
+            model: 'LongCat-Flash-Chat',
+            messages: messages,
+            max_tokens: 1500,
+            temperature: 0.7,
+          }),
+          signal: controller.signal
+        })
+
+        clearTimeout(timeout)
+
+        if (!response.ok) {
+          const errorBody = await response.text()
+          console.error(`Longcat API error (attempt ${attempt + 1}):`, response.status, errorBody)
+          lastError = new Error(`API returned ${response.status}`)
+          continue
+        }
+
+        data = await response.json()
+        break // success, stop retrying
+      } catch (err) {
+        console.error(`Longcat API fetch error (attempt ${attempt + 1}):`, err.message)
+        lastError = err
+        if (attempt < MAX_RETRIES) {
+          await new Promise(r => setTimeout(r, 1000)) // wait 1s before retry
+        }
+      }
+    }
+
+    if (!data) {
+      console.error('All Longcat API attempts failed:', lastError?.message)
       return res.status(500).json({ message: 'AI service temporarily unavailable. Please try again.' })
     }
 
-    const data = await response.json()
     let aiReply = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't process that. Could you try again?"
 
     // Parse property references [VIEW_PROPERTY:id]
