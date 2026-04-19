@@ -305,86 +305,93 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════ YH PROPERTY ADVISOR ═══════════════ */}
+      {/* ═══════════════ HOW IT WORKS ═══════════════ */}
       <section className="section-padding-lg relative overflow-hidden py-24 lg:py-32">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1920&q=80"
-            alt="Luxury tech real estate"
+            alt="Dubai luxury real estate process"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.95), rgba(14,58,47,0.85))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.95), rgba(14,58,47,0.88))' }} />
         </div>
         <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(194,167,109,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Left - Content */}
-            <AnimatedReveal>
-              <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Flagship Technology</span>
-              <h2 className="mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, color: '#ffffff', fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
-                YH Property Advisor
+          <AnimatedReveal>
+            <div className="text-center mb-16">
+              <span className="eyebrow text-[10px] mb-4 block" style={{ color: 'rgba(194,167,109,0.7)' }}>Your Journey</span>
+              <h2 className="text-white mb-4" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+                How It Works
               </h2>
-              <p className="text-[14px] leading-[1.85] mb-8 max-w-md" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.45)' }}>
-                Intelligent search powered by Your Homes. Describe your ideal property in natural language and let our advisor find the best matches from our curated portfolio.
+              <p className="text-[14px] max-w-lg mx-auto" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.45)' }}>
+                From first conversation to keys in hand — our proven process makes Dubai property simple.
               </p>
+            </div>
+          </AnimatedReveal>
 
-              {/* Mock prompt card */}
-              <div className="mb-6 p-5" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: '#c2a76d' }}>
-                    <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
+            {[
+              {
+                step: '01',
+                title: 'Tell Us Your Goals',
+                description: 'Share your vision — investment, dream home, or rental income. We listen, understand your budget, and identify the right opportunities.',
+                icon: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                )
+              },
+              {
+                step: '02',
+                title: 'We Curate Options',
+                description: 'Our advisors handpick properties that match your criteria from our verified portfolio — saving you weeks of research.',
+                icon: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
+                  </svg>
+                )
+              },
+              {
+                step: '03',
+                title: 'You Decide & We Close',
+                description: 'Visit shortlisted properties, negotiate with confidence, and close with our full legal and administrative support.',
+                icon: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                )
+              }
+            ].map((item, i) => (
+              <AnimatedReveal key={i} delay={i * 0.15}>
+                <div className="relative p-8 lg:p-10 h-full group" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  {/* Step number */}
+                  <div className="absolute top-6 right-6 text-[40px] font-bold leading-none" style={{ fontFamily: 'var(--font-heading)', color: 'rgba(194,167,109,0.1)' }}>
+                    {item.step}
                   </div>
-                  <span className="text-[12px] font-medium text-white/70" style={{ fontFamily: 'var(--font-body)' }}>YH Advisor</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-auto" />
+                  {/* Icon */}
+                  <div className="w-12 h-12 flex items-center justify-center mb-6" style={{ color: '#c2a76d', border: '1px solid rgba(194,167,109,0.2)' }}>
+                    {item.icon}
+                  </div>
+                  <h3 className="text-[18px] text-white mb-3 group-hover:text-[#c2a76d] transition-colors duration-300" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-[13px] leading-[1.8]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.45)' }}>
+                    {item.description}
+                  </p>
                 </div>
-                <p className="text-[13px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.55)' }}>
-                  "Looking for a villa under 4M AED with a pool in a family-friendly community — what are the best options?"
-                </p>
-              </div>
-
-              <Link to="/contact" className="btn-gold inline-block">Try Free Consultation</Link>
-            </AnimatedReveal>
-
-            {/* Right - Chat Mockup */}
-            <AnimatedReveal delay={0.2}>
-              <div className="glass rounded-sm overflow-hidden">
-                <div className="px-6 py-4 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: '#c2a76d' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>
-                  </div>
-                  <div>
-                    <div className="text-[13px] text-white font-medium" style={{ fontFamily: 'var(--font-body)' }}>YH Advisor</div>
-                    <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-body)' }}>YH-powered · Online</span>
-                  </div>
-                </div>
-                <div className="p-5 space-y-3">
-                  <div className="flex gap-3">
-                    <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center mt-1" style={{ background: '#c2a76d' }}>
-                      <span className="text-[8px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
-                    </div>
-                    <div className="glass p-3.5 max-w-sm">
-                      <p className="text-[12px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.65)' }}>
-                        Based on your criteria, here are the top 3 community matches with strong rental yields and family amenities...
-                      </p>
-                    </div>
-                  </div>
-                  {['Dubai Hills Estate — 6.2% yield', 'Arabian Ranches III — Family-first', 'DAMAC Hills — Best value'].map((item, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, x: 15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 + i * 0.15 }} className="ml-9">
-                      <div className="px-3.5 py-2.5" style={{ background: 'rgba(194,167,109,0.1)', border: '1px solid rgba(194,167,109,0.12)' }}>
-                        <p className="text-[11px]" style={{ fontFamily: 'var(--font-body)', color: 'rgba(255,255,255,0.6)' }}>{item}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="px-5 pb-5">
-                  <div className="flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 4px 4px 14px' }}>
-                    <input type="text" placeholder="Ask about any property..." className="flex-1 bg-transparent text-[12px] outline-none" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)' }} readOnly />
-                    <button className="px-4 py-2 text-[9px] uppercase tracking-[0.15em] font-bold" style={{ background: '#c2a76d', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>Ask YH</button>
-                  </div>
-                </div>
-              </div>
-            </AnimatedReveal>
+              </AnimatedReveal>
+            ))}
           </div>
+
+          {/* Bottom CTA */}
+          <AnimatedReveal>
+            <div className="text-center mt-14">
+              <Link to="/contact" className="btn-gold">Start Your Journey</Link>
+            </div>
+          </AnimatedReveal>
 
           {/* Bottom logos */}
           <div className="mt-16 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -397,6 +404,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
 
       {/* ═══════════════ WHY INVEST IN DUBAI ═══════════════ */}
       <section className="section-padding-lg" style={{ backgroundColor: '#faf8f5' }}>
