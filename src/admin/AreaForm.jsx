@@ -25,8 +25,10 @@ const emptyForm = {
     priceGrowth: '',
     totalUnits: '',
   },
+  distanceFromDubaiMall: '',
   image: '',
   heroImage: '',
+  locationImages: [],
 }
 
 export default function AreaForm() {
@@ -36,6 +38,7 @@ export default function AreaForm() {
   const [form, setForm] = useState(emptyForm)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [pendingLocationPreviews, setPendingLocationPreviews] = useState([])
 
   useEffect(() => {
     if (isEditing) {
@@ -44,7 +47,14 @@ export default function AreaForm() {
           const res = await fetch(`${API}/areas`)
           const data = await res.json()
           const area = data.find(a => a._id === id)
-          if (area) setForm(area)
+          if (area) {
+            setForm({
+              ...emptyForm,
+              ...area,
+              stats: area.stats || emptyForm.stats,
+              locationImages: Array.isArray(area.locationImages) ? area.locationImages : [],
+            })
+          }
         } catch (err) {
           setError('Failed to load area')
         }
@@ -82,14 +92,52 @@ export default function AreaForm() {
         headers: { Authorization: `Bearer ${token}` }, 
         body: formData 
       })
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.message || 'Upload failed')
       if (data.url) {
         setForm(prev => ({ ...prev, [field]: data.url }))
       }
     } catch (err) { 
-      setError('Upload failed') 
+      setError(err.message || 'Upload failed')
     } finally { 
       setLoading(false) 
+    }
+  }
+
+  const handleMultiUpload = async (e, field) => {
+    const files = Array.from(e.target.files || [])
+    if (files.length === 0) return
+    const token = localStorage.getItem('admin_token')
+    const previewUrls = files.map(f => ({
+      url: URL.createObjectURL(f),
+      name: f.name,
+    }))
+    setPendingLocationPreviews(prev => [...prev, ...previewUrls])
+    try {
+      setLoading(true)
+      const formData = new FormData()
+      for (const file of files) formData.append('images', file)
+      const res = await fetch(`${API}/upload/multiple`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.message || 'Upload failed')
+      const uploadedUrls = Array.isArray(data.urls) ? data.urls : []
+      if (uploadedUrls.length > 0) {
+        setForm(prev => ({
+          ...prev,
+          [field]: [...(Array.isArray(prev[field]) ? prev[field] : []), ...uploadedUrls]
+        }))
+      }
+    } catch (err) {
+      setError(err.message || 'Upload failed')
+    } finally {
+      setLoading(false)
+      for (const p of previewUrls) URL.revokeObjectURL(p.url)
+      setPendingLocationPreviews(prev => prev.filter(p => !previewUrls.some(x => x.url === p.url)))
+      e.target.value = ''
     }
   }
 
@@ -125,6 +173,13 @@ export default function AreaForm() {
     setForm(prev => ({ ...prev, [field]: '' }))
   }
 
+  const removeArrayItem = (field, index) => {
+    setForm(prev => ({
+      ...prev,
+      [field]: (Array.isArray(prev[field]) ? prev[field] : []).filter((_, i) => i !== index)
+    }))
+  }
+
   const inputStyle = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'var(--font-body)' }
   const labelClass = "block text-[9px] uppercase tracking-[0.15em] text-white/35 font-semibold mb-2"
 
@@ -155,6 +210,18 @@ export default function AreaForm() {
             <div className="lg:col-span-2">
               <label className={labelClass}>Tagline *</label>
               <input name="tagline" value={form.tagline} onChange={handleChange} required className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. The Icon of Island Living" />
+            </div>
+            <div className="lg:col-span-2">
+              <label className={labelClass}>Distance</label>
+              <textarea
+                name="distanceFromDubaiMall"
+                value={form.distanceFromDubaiMall}
+                onChange={handleChange}
+                rows={3}
+                className="w-full min-h-[5.5rem] px-4 py-3 text-[13px] text-white outline-none resize-y"
+                style={inputStyle}
+                placeholder="Distance from Dubai Mall: 2–3 km"
+              />
             </div>
           </div>
         </div>
@@ -242,6 +309,51 @@ export default function AreaForm() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <label className={labelClass}>Location Images (Featured Section)</label>
+            <div className="space-y-4">
+              <label className="cursor-pointer block text-center py-3 text-[10px] uppercase tracking-widest font-bold bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all">
+                Upload Location Images
+                <input type="file" className="hidden" multiple accept="image/*" onChange={(e) => handleMultiUpload(e, 'locationImages')} />
+              </label>
+
+              {Array.isArray(pendingLocationPreviews) && pendingLocationPreviews.length > 0 && (
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] text-white/35 font-semibold mb-2" style={{ fontFamily: 'var(--font-body)' }}>
+                    Selected (uploading)
+                  </div>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {pendingLocationPreviews.map((p, idx) => (
+                      <div key={`${p.url}-${idx}`} className="relative">
+                        <img src={p.url} alt={p.name || `Pending ${idx + 1}`} className="w-full h-24 object-cover rounded-sm border border-white/10 opacity-70" />
+                        <div className="absolute inset-0 flex items-center justify-center text-[10px] uppercase tracking-[0.2em] font-semibold text-white/80" style={{ fontFamily: 'var(--font-body)', background: 'rgba(0,0,0,0.25)' }}>
+                          Uploading...
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {Array.isArray(form.locationImages) && form.locationImages.length > 0 && (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  {form.locationImages.map((url, idx) => (
+                    <div key={`${url}-${idx}`} className="relative">
+                      <img src={normalizeMediaUrl(url)} alt={`Location ${idx + 1}`} className="w-full h-24 object-cover rounded-sm border border-white/10" />
+                      <button
+                        type="button"
+                        onClick={() => removeArrayItem('locationImages', idx)}
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-[12px] hover:bg-red-600 shadow-lg transition-all"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

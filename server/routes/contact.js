@@ -1,21 +1,12 @@
 import express from 'express'
 import Contact from '../models/Contact.js'
 import auth from '../middleware/auth.js'
-import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
+import { resolveSmtpAuth, createMailTransport } from '../utils/mail.js'
 
 dotenv.config()
 
 const router = express.Router()
-
-// Setup nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: 'gmail', // You can change this based on the provider
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-})
 
 // POST /api/contact — Public route to submit an inquiry
 router.post('/', async (req, res) => {
@@ -23,11 +14,12 @@ router.post('/', async (req, res) => {
     const contact = new Contact(req.body)
     await contact.save()
 
-    // Optional: Send email notification to admin
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    const { user: smtpUser, pass: smtpPass, hasAuth } = await resolveSmtpAuth()
+    if (hasAuth) {
+      const transport = createMailTransport(smtpUser, smtpPass)
       const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER, // Send to the admin's own email
+        from: smtpUser,
+        to: smtpUser,
         subject: `New Lead Inquiry from ${contact.name}`,
         html: `
           <h3>New Property Inquiry</h3>
@@ -38,12 +30,11 @@ router.post('/', async (req, res) => {
           <p><strong>Area:</strong> ${contact.area || 'N/A'}</p>
           <p><strong>Property Type:</strong> ${contact.propertyType || 'N/A'}</p>
           <p><strong>Message:</strong> ${contact.message || 'N/A'}</p>
-        `
+        `,
       }
-      
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) console.error("Error sending email:", error)
-        else console.log("Email sent:", info.response)
+      transport.sendMail(mailOptions, (error, info) => {
+        if (error) console.error('Error sending email:', error)
+        else console.log('Email sent:', info.response)
       })
     }
 

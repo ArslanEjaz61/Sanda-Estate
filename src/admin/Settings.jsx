@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { fetchSettings, updateSettings } from '../utils/api'
+import { fetchAdminSettings, updateSettings } from '../utils/api'
 
 export default function Settings() {
   const [settings, setSettings] = useState({
     address: '',
     phone: '',
     email: '',
+    smtpUser: '',
+    smtpAppPassword: '',
     whatsapp: '',
     socials: {
       instagram: '',
@@ -18,10 +20,23 @@ export default function Settings() {
   const [message, setMessage] = useState({ type: '', text: '' })
 
   useEffect(() => {
-    fetchSettings().then(data => {
-      if (data) setSettings(data)
-      setLoading(false)
-    })
+    fetchAdminSettings()
+      .then((data) => {
+        if (data) {
+          setSettings((prev) => ({
+            ...prev,
+            ...data,
+            smtpUser: data.smtpUser || '',
+            smtpAppPassword: data.smtpAppPassword || '',
+            socials: { ...prev.socials, ...(data.socials || {}) },
+          }))
+        }
+        setLoading(false)
+      })
+      .catch(() => {
+        setMessage({ type: 'error', text: 'Could not load settings (admin session required).' })
+        setLoading(false)
+      })
   }, [])
 
   const handleSubmit = async (e) => {
@@ -114,6 +129,42 @@ export default function Settings() {
                 placeholder="e.g. 97144541313"
                 className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
               />
+            </div>
+          </div>
+        </section>
+
+        <section className="p-6 lg:p-8 rounded-lg bg-white/[0.02]" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+          <h2 className="text-[10px] uppercase tracking-[0.2em] text-[#c2a76d] mb-2 font-bold">Outbound email (leads &amp; chatbot)</h2>
+          <p className="text-[12px] text-white/35 mb-6" style={{ fontFamily: 'var(--font-body)' }}>
+            Used to send contact form notifications and chatbot lead emails to agents. Gmail / Google Workspace: use the same account with a 16-character{' '}
+            <a href="https://support.google.com/accounts/answer/185833" target="_blank" rel="noreferrer" className="text-[#c2a76d]/90 hover:underline">App Password</a>
+            (not your normal login password). If left empty here, the server falls back to <code className="text-white/50">EMAIL_USER</code> / <code className="text-white/50">EMAIL_PASS</code> in <code className="text-white/50">.env</code>.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <label className="block text-[11px] uppercase tracking-[0.12em] text-white/50 mb-2 font-semibold">SMTP sign-in email</label>
+              <input
+                type="email"
+                name="smtpUser"
+                value={settings.smtpUser}
+                onChange={handleChange}
+                placeholder="e.g. notifications@yourdomain.com"
+                autoComplete="off"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-[11px] uppercase tracking-[0.12em] text-white/50 mb-2 font-semibold">App password</label>
+              <input
+                type="password"
+                name="smtpAppPassword"
+                value={settings.smtpAppPassword}
+                onChange={handleChange}
+                placeholder="Leave blank to keep the current saved password"
+                autoComplete="new-password"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
+              />
+              <p className="mt-2 text-[11px] text-white/30">Saving with this field empty does not erase an existing app password.</p>
             </div>
           </div>
         </section>

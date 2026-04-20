@@ -1,10 +1,240 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react'
 import SectionHeading from '../components/ui/SectionHeading'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import AnimatedCounter from '../components/ui/AnimatedCounter'
 import { DeveloperLogos } from '../components/ui/DeveloperLogos'
-import { team } from '../data/content'
+import { team as teamFallback } from '../data/content'
+import { fetchTeamPublic } from '../utils/teamApi'
+
+const SERVER_BASE = import.meta.env.VITE_SERVER_BASE || ''
+
+function normalizeTeamImage(url) {
+  if (!url) return ''
+  if (url.startsWith('http')) return url
+  if (url.startsWith('/uploads')) return `${SERVER_BASE}${url}`
+  return url
+}
+
+function telHref(phone) {
+  const raw = String(phone || '').trim()
+  if (!raw) return ''
+  if (raw.startsWith('+')) {
+    const rest = raw.slice(1).replace(/\D/g, '')
+    return rest ? `+${rest}` : ''
+  }
+  const digits = raw.replace(/\D/g, '')
+  return digits || ''
+}
+
+/** Gap between team cards (Tailwind gap-8 = 2rem) */
+const TEAM_CARD_GAP_PX = 32
+
+function AboutTeamSection({ members }) {
+  const scrollRef = useRef(null)
+  const cardMetricsRef = useRef({ cardWidth: 260 })
+  const [pause, setPause] = useState(false)
+  const [cardWidth, setCardWidth] = useState(260)
+  const list = members.map((m, i) => ({
+    id: m._id || m.id || i,
+    name: m.name,
+    role: m.role,
+    bio: m.bio,
+    image: normalizeTeamImage(m.image) || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+    publicEmail: m.publicEmail,
+    phone: m.phone,
+    areaName: m.areaName || '',
+    areaSlug: m.areaSlug || '',
+  }))
+  const useSlider = list.length > 4
+
+  cardMetricsRef.current.cardWidth = cardWidth
+
+  const measureCards = useCallback(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const cs = getComputedStyle(el)
+    const padL = parseFloat(cs.paddingLeft) || 0
+    const padR = parseFloat(cs.paddingRight) || 0
+    const W = el.clientWidth - padL - padR
+    // Match Tailwind lg/md — use viewport, not strip width (strip shrinks beside arrows).
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1024
+    let perView = 1
+    if (vw >= 1024) perView = 4
+    else if (vw >= 640) perView = 2
+    const inner = W - (perView - 1) * TEAM_CARD_GAP_PX
+    const w = Math.max(100, Math.floor(inner / perView))
+    setCardWidth(w)
+  }, [])
+
+  useLayoutEffect(() => {
+    if (!useSlider) return
+    measureCards()
+    const el = scrollRef.current
+    if (!el) return
+    const ro = new ResizeObserver(measureCards)
+    ro.observe(el)
+    window.addEventListener('resize', measureCards)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', measureCards)
+    }
+  }, [useSlider, measureCards, list.length])
+
+  useEffect(() => {
+    if (!useSlider || pause) return
+    const id = setInterval(() => {
+      const el = scrollRef.current
+      if (!el) return
+      const maxScroll = el.scrollWidth - el.clientWidth
+      if (maxScroll <= 0) return
+      const cw = cardMetricsRef.current.cardWidth
+      const step = cw + TEAM_CARD_GAP_PX
+      if (el.scrollLeft >= maxScroll - 2) {
+        el.scrollTo({ left: 0, behavior: 'auto' })
+      } else {
+        el.scrollBy({ left: step, behavior: 'smooth' })
+      }
+    }, 5000)
+    return () => clearInterval(id)
+  }, [useSlider, pause, list.length, cardWidth])
+
+  const scrollStep = (dir) => {
+    const el = scrollRef.current
+    if (!el) return
+    const cw = cardMetricsRef.current.cardWidth
+    const step = cw + TEAM_CARD_GAP_PX
+    const maxScroll = el.scrollWidth - el.clientWidth
+    if (maxScroll <= 0) return
+    if (dir > 0) {
+      if (el.scrollLeft >= maxScroll - 2) {
+        el.scrollTo({ left: 0, behavior: 'auto' })
+      } else {
+        el.scrollBy({ left: step, behavior: 'smooth' })
+      }
+    } else {
+      if (el.scrollLeft <= 2) return
+      el.scrollBy({ left: -step, behavior: 'smooth' })
+    }
+  }
+
+  const arrowBtnClass =
+    'hidden md:inline-flex shrink-0 items-center justify-center w-11 h-11 rounded-full border border-[#0e3a2f]/15 bg-white text-[#0e3a2f] shadow-[0_4px_14px_rgba(14,58,47,0.12)] hover:bg-[#f7f6f3] hover:border-[#c2a76d]/40 hover:text-[#0a3028] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c2a76d]/50 self-center'
+
+  const arrowBtnMobileClass =
+    'inline-flex md:hidden shrink-0 items-center justify-center w-10 h-10 rounded-full border border-[#0e3a2f]/15 bg-white text-[#0e3a2f] shadow-sm active:scale-95 transition-transform'
+
+  const cardInner = (member, i) => (
+    <div className="text-center group h-full">
+      <div className="aspect-[3/4] img-zoom mb-4 overflow-hidden rounded-sm">
+        <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+      </div>
+      <h4 className="text-[17px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>{member.name}</h4>
+      <div className="text-[10px] uppercase tracking-[0.15em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#c2a76d' }}>{member.role}</div>
+      {member.areaName && member.areaSlug && (
+        <Link
+          to={`/areas/${member.areaSlug}`}
+          className="text-[10px] uppercase tracking-[0.12em] mb-2 block hover:underline"
+          style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#0e3a2f' }}
+        >
+          {member.areaName}
+        </Link>
+      )}
+      {member.areaName && !member.areaSlug && (
+        <div className="text-[10px] uppercase tracking-[0.12em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#6b6b6b' }}>{member.areaName}</div>
+      )}
+      {member.publicEmail && (
+        <a href={`mailto:${member.publicEmail}`} className="text-[11px] text-[#0e3a2f] hover:underline block mb-2" style={{ fontFamily: 'var(--font-body)' }}>{member.publicEmail}</a>
+      )}
+      {member.phone && telHref(member.phone) && (
+        <a href={`tel:${telHref(member.phone)}`} className="text-[11px] text-[#0e3a2f] hover:underline block mb-2" style={{ fontFamily: 'var(--font-body)' }}>{member.phone}</a>
+      )}
+      <p className="text-[12px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>{member.bio}</p>
+    </div>
+  )
+
+  if (useSlider) {
+    return (
+      <div className="w-full">
+        <div className="flex items-stretch gap-4 md:gap-6">
+          <button
+            type="button"
+            aria-label="Previous team members"
+            onClick={() => scrollStep(-1)}
+            className={arrowBtnClass}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <div
+            ref={scrollRef}
+            onMouseEnter={() => setPause(true)}
+            onMouseLeave={() => setPause(false)}
+            onTouchStart={() => setPause(true)}
+            onTouchEnd={() => setPause(false)}
+            className="flex min-h-0 min-w-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-visible scroll-smooth pb-5 py-1 touch-pan-x [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            style={{ gap: TEAM_CARD_GAP_PX }}
+          >
+            {list.map((member, i) => (
+              <div
+                key={String(member.id)}
+                className="flex-none shrink-0 snap-center"
+                style={{ width: cardWidth, minWidth: cardWidth, maxWidth: cardWidth }}
+              >
+                {cardInner(member, i)}
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            aria-label="Next team members"
+            onClick={() => scrollStep(1)}
+            className={arrowBtnClass}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <div className="mt-3 flex items-center justify-center gap-8 md:hidden">
+          <button
+            type="button"
+            aria-label="Previous team member"
+            onClick={() => scrollStep(-1)}
+            className={arrowBtnMobileClass}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            aria-label="Next team member"
+            onClick={() => scrollStep(1)}
+            className={arrowBtnMobileClass}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <p className="text-center text-[10px] text-[#9a9a9a] mt-2" style={{ fontFamily: 'var(--font-body)' }}>Swipe or use arrows to see the full team</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {list.map((member, i) => (
+        <AnimatedReveal key={member.id} delay={i * 0.1}>
+          {cardInner(member, i)}
+        </AnimatedReveal>
+      ))}
+    </div>
+  )
+}
 
 const parsedStats = [
   { target: 2.8, prefix: 'AED ', suffix: 'B+', label: 'Portfolio Value Transacted' },
@@ -110,6 +340,18 @@ const ProcessIcons = {
 }
 
 export default function AboutPage() {
+  const [teamRemote, setTeamRemote] = useState(undefined)
+
+  useEffect(() => {
+    fetchTeamPublic()
+      .then((data) => setTeamRemote(Array.isArray(data) ? data : []))
+      .catch(() => setTeamRemote(null))
+  }, [])
+
+  // If API is reachable, always prefer admin-managed team (even if empty).
+  // Only fall back to bundled content when the API is unavailable.
+  const displayTeam = teamRemote === null ? teamFallback : (teamRemote || [])
+
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
@@ -291,20 +533,15 @@ export default function AboutPage() {
       <section className="section-padding" style={{ backgroundColor: '#f7f6f3' }}>
         <div className="container-narrow">
           <SectionHeading subtitle="Our Advisors" title="Meet the Team" description="Dedicated property professionals committed to exceptional client experiences." />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, i) => (
-              <AnimatedReveal key={member.id} delay={i * 0.1}>
-                <div className="text-center group">
-                  <div className="aspect-[3/4] img-zoom mb-4 overflow-hidden">
-                    <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                  </div>
-                  <h4 className="text-[17px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>{member.name}</h4>
-                  <div className="text-[10px] uppercase tracking-[0.15em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#c2a76d' }}>{member.role}</div>
-                  <p className="text-[12px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>{member.bio}</p>
-                </div>
-              </AnimatedReveal>
-            ))}
-          </div>
+          {teamRemote === undefined ? (
+            <div className="py-16 text-center text-[13px] text-[#9a9a9a]" style={{ fontFamily: 'var(--font-body)' }}>Loading team...</div>
+          ) : Array.isArray(displayTeam) && displayTeam.length === 0 ? (
+            <div className="py-16 text-center text-[13px] text-[#9a9a9a]" style={{ fontFamily: 'var(--font-body)' }}>
+              No team members yet.
+            </div>
+          ) : (
+            <AboutTeamSection members={displayTeam} />
+          )}
         </div>
       </section>
 

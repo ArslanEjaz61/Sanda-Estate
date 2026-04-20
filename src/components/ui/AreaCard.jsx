@@ -50,10 +50,11 @@ export default function AreaCard({ area, index = 0 }) {
             ))}
             {area.distanceFromDubaiMall && (
                <span
-               className="px-2.5 py-1 text-[8px] uppercase tracking-[0.15em] font-bold text-white/90 backdrop-blur-sm"
+               title={area.distanceFromDubaiMall}
+               className="max-w-[min(100%,16rem)] px-2.5 py-1.5 text-[8px] font-bold text-white/90 backdrop-blur-sm normal-case tracking-normal leading-snug whitespace-normal break-words"
                style={{ background: 'rgba(14, 58, 47, 0.7)' }}
              >
-               {area.distanceFromDubaiMall} to Dubai Mall
+               {area.distanceFromDubaiMall}
              </span>
             )}
           </div>

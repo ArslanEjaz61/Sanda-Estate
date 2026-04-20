@@ -14,9 +14,10 @@ const areaSchema = new mongoose.Schema({
     priceGrowth: { type: String },
     totalUnits: { type: String },
   },
-  distanceFromDubaiMall: { type: String },
+  distanceFromDubaiMall: { type: String }, // free text, e.g. "2–3 km" (hint in admin placeholder)
   image: { type: String }, // Main preview image
   heroImage: { type: String }, // Large hero background image
+  locationImages: [{ type: String }], // Images used in "Featured in ..." section
 }, { timestamps: true })
 
 export default mongoose.model('Area', areaSchema)

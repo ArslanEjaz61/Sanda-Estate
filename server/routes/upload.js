@@ -46,20 +46,43 @@ const uploadVideo = multer({
 
 const router = express.Router()
 
+function ensureCloudinaryConfigured(req, res, next) {
+  const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env
+  if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
+    return res.status(500).json({
+      message: 'Cloudinary is not configured on the server. Please set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.'
+    })
+  }
+  next()
+}
+
+function runUpload(multerMiddleware) {
+  return (req, res, next) => {
+    multerMiddleware(req, res, (err) => {
+      if (!err) return next()
+      const isMulter = err instanceof multer.MulterError
+      const message = isMulter ? err.message : (err?.message || 'Upload failed')
+      console.error('Upload error:', err)
+      return res.status(500).json({ message })
+    })
+  }
+}
+
 // POST /api/upload — Upload single image
-router.post('/', auth, uploadImages.single('image'), (req, res) => {
+router.post('/', auth, ensureCloudinaryConfigured, runUpload(uploadImages.single('image')), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No image file provided.' })
     }
     res.json({ url: req.file.path, filename: req.file.filename })
   } catch (error) {
+    console.error('Upload handler error:', error?.message || error)
     res.status(500).json({ message: error.message })
   }
 })
 
 // POST /api/upload/multiple — Upload multiple images
-router.post('/multiple', auth, uploadImages.array('images', 20), (req, res) => {
+router.post('/multiple', auth, ensureCloudinaryConfigured, runUpload(uploadImages.array('images', 20)), (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: 'No image files provided.' })
@@ -67,6 +90,7 @@ router.post('/multiple', auth, uploadImages.array('images', 20), (req, res) => {
     const urls = req.files.map(f => f.path)
     res.json({ urls })
   } catch (error) {
+    console.error('Multiple upload handler error:', error?.message || error)
     res.status(500).json({ message: error.message })
   }
 })

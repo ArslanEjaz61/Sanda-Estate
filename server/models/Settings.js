@@ -13,6 +13,16 @@ const settingsSchema = new mongoose.Schema({
     type: String, 
     default: 'info@yourhomes.ae' 
   },
+  /** Gmail (or Google Workspace) address used to sign in and send outbound mail (leads, chatbot). */
+  smtpUser: {
+    type: String,
+    default: '',
+  },
+  /** App password for smtpUser (not shown on public API). */
+  smtpAppPassword: {
+    type: String,
+    default: '',
+  },
   whatsapp: { 
     type: String, 
     default: '' 
@@ -21,7 +31,7 @@ const settingsSchema = new mongoose.Schema({
     instagram: { type: String, default: '' },
     facebook: { type: String, default: '' },
     linkedin: { type: String, default: '' }
-  }
+  },
 }, {
   timestamps: true
 })

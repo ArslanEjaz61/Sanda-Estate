@@ -76,16 +76,17 @@ export default function ContactList() {
               <th className="text-left py-3 px-4 text-[9px] uppercase tracking-[0.15em] text-white/30 font-semibold">Date</th>
               <th className="text-left py-3 px-4 text-[9px] uppercase tracking-[0.15em] text-white/30 font-semibold">Name</th>
               <th className="text-left py-3 px-4 text-[9px] uppercase tracking-[0.15em] text-white/30 font-semibold">Email</th>
+              <th className="text-left py-3 px-4 text-[9px] uppercase tracking-[0.15em] text-white/30 font-semibold whitespace-nowrap">Phone</th>
               <th className="text-left py-3 px-4 text-[9px] uppercase tracking-[0.15em] text-white/30 font-semibold max-w-[200px]">Message Preview</th>
               <th className="text-left py-3 px-4 text-[9px] uppercase tracking-[0.15em] text-white/30 font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan="6" className="py-10 text-center text-white/30 text-[13px]">Loading messages...</td></tr>
+              <tr><td colSpan="7" className="py-10 text-center text-white/30 text-[13px]">Loading messages...</td></tr>
             ) : contacts.length === 0 ? (
               <tr>
-                <td colSpan="6" className="py-24 text-center">
+                <td colSpan="7" className="py-24 text-center">
                   <div className="flex flex-col items-center gap-4 opacity-40">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     <div>
@@ -113,6 +114,19 @@ export default function ContactList() {
                   <td className="py-4 px-4 text-[12px] text-white/50">{new Date(c.createdAt).toLocaleDateString()}</td>
                   <td className={`py-4 px-4 text-[13px] ${c.status === 'unread' ? 'text-white font-semibold' : 'text-white/70'}`}>{c.name}</td>
                   <td className="py-4 px-4 text-[12px] text-white/50">{c.email}</td>
+                  <td className="py-4 px-4 text-[12px] text-white/60 whitespace-nowrap max-w-[140px]">
+                    {c.phone ? (
+                      <a
+                        href={`tel:${String(c.phone).replace(/\s+/g, '')}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-[#c2a76d] hover:underline"
+                      >
+                        {c.phone}
+                      </a>
+                    ) : (
+                      <span className="text-white/25">—</span>
+                    )}
+                  </td>
                   <td className={`py-4 px-4 text-[13px] max-w-[250px] truncate ${c.status === 'unread' ? 'text-white/80' : 'text-white/40'}`}>
                     {c.message || 'No message provided...'}
                   </td>
@@ -153,7 +167,13 @@ export default function ContactList() {
                   </div>
                   <div>
                     <div className="text-[9px] uppercase tracking-[0.15em] text-white/30 mb-1">Phone</div>
-                    <div className="text-[14px] text-white/90">{selectedMessage.phone || 'N/A'}</div>
+                    {selectedMessage.phone ? (
+                      <a href={`tel:${String(selectedMessage.phone).replace(/\s+/g, '')}`} className="text-[14px] text-[#c2a76d] hover:underline">
+                        {selectedMessage.phone}
+                      </a>
+                    ) : (
+                      <div className="text-[14px] text-white/40">N/A</div>
+                    )}
                   </div>
                 </div>
 

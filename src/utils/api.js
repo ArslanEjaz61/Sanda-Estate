@@ -96,6 +96,19 @@ export async function fetchSettings() {
   }
 }
 
+/** Admin only — includes SMTP app password for editing. */
+export async function fetchAdminSettings() {
+  const token = localStorage.getItem('admin_token')
+  const res = await fetch(`${API_BASE}/settings/admin`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.message || 'Failed to load settings')
+  }
+  return await res.json()
+}
+
 export async function updateSettings(settings) {
   const token = localStorage.getItem('admin_token')
   const res = await fetch(`${API_BASE}/settings`, {

@@ -3,21 +3,13 @@ import Property from '../models/Property.js'
 import Area from '../models/Area.js'
 import Settings from '../models/Settings.js'
 import Contact from '../models/Contact.js'
-import nodemailer from 'nodemailer'
+import TeamMember from '../models/TeamMember.js'
 import dotenv from 'dotenv'
+import { resolveSmtpAuth, createMailTransport } from '../utils/mail.js'
 
 dotenv.config()
 
 const router = express.Router()
-
-// Nodemailer transporter (reuse from contact route)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-})
 
 const LONGCAT_API_URL = 'https://api.longcat.chat/openai/v1/chat/completions'
 const LONGCAT_API_KEY = process.env.LONGCAT_API_KEY
@@ -45,6 +37,12 @@ async function buildSystemPrompt() {
     Settings.getSettings()
   ])
 
+  const teamRoutable = await TeamMember.find({
+    isActive: true,
+    routingKey: { $ne: '' },
+    notifyEmail: { $ne: '' },
+  }).sort({ sortOrder: 1, createdAt: -1 }).lean()
+
   const propertyList = properties.map(p => {
     const gv = p.goldenVisa ? ' | GV:Yes' : ''
     return `- ID:${p._id} | "${p.title}" | ${p.type} | ${p.status} | ${p.priceFormatted || 'AED ' + p.price?.toLocaleString()} | ${p.bedrooms}BR/${p.bathrooms}BA | ${p.area}${p.areaUnit} | ${p.location}${gv}`
@@ -53,6 +51,8 @@ async function buildSystemPrompt() {
   const areaList = areas.map(a => {
     return `- "${a.name}" (${a.slug}) | ${a.stats?.avgPrice || 'N/A'} avg | Yield:${a.stats?.rentalYield || 'N/A'}`
   }).join('\n')
+
+  const areaNameBySlug = Object.fromEntries(areas.map((a) => [a.slug, a.name]))
 
   const companyInfo = {
     address: settings?.address || 'A-202, Prime Business Center, POBOX: 123022, Dubai, UAE',
@@ -65,9 +65,9 @@ async function buildSystemPrompt() {
 
 CRITICAL RULES:
 1. You must always sound like a REAL HUMAN having a natural conversation — warm, friendly, approachable. Use casual friendly language naturally. Never sound robotic.
-2. On the VERY FIRST message from a user (like "hi", "hello", "hey", etc.), greet them warmly and ask: "Which language would you prefer to chat in? 🌍 English, العربية, اردو, हिंदी, or any other?" 
+2. On the VERY FIRST message from a user (like "hi", "hello", "hey", etc.), greet them warmly and ask: "Which language would you prefer to chat in? English, العربية, اردو, हिंदी, or any other?"
 3. Once the user tells you their preferred language, REMEMBER IT and continue ALL future responses in THAT language only.
-4. Be conversational — use emojis occasionally, ask follow-up questions naturally, show genuine interest.
+4. IMPORTANT: Do NOT use emojis, emoticons, or decorative symbols in your replies. Keep replies plain text only.
 5. NEVER break character. You are a real property advisor, not an AI.
 6. Ask ONE question at a time. Don't overwhelm the user with multiple questions.
 
@@ -100,11 +100,11 @@ WHEN SUGGESTING PROPERTIES:
 LEAD SCENARIO 1: USER WANTS TO TALK TO AN AGENT
 ═══════════════════════════════════════════
 When the user says things like "I want to talk to someone", "connect me to agent", "can I speak to a person", etc.:
-- Step 1: Say warmly "Of course! Let me connect you with one of our senior advisors 😊"
+- Step 1: Say warmly "Of course! Let me connect you with one of our senior advisors."
 - Step 2: Ask "Could you share your full name please?" (ONLY ask name, nothing else)
 - Step 3: WAIT for their name. Then ask "And your phone number so our advisor can reach you?"
 - Step 4: WAIT for their phone. Then include this tag: [LEAD:name|phone|regular]
-- Step 5: Confirm: "Perfect! Our advisor will reach out to you very soon. Thank you! 🙏"
+- Step 5: Confirm: "Perfect! Our advisor will reach out to you very soon. Thank you."
 
 ═══════════════════════════════════════════
 LEAD SCENARIO 2: HOT LEAD (User shows buying/renting intent)
@@ -118,20 +118,47 @@ Signs of a hot lead:
 
 When you detect this:
 - Step 1: Ask naturally "That's great! Are you looking to go ahead with the purchase/rental, or would you like to explore a bit more?" 
-- Step 2: If they confirm interest, say "Wonderful! Let me have our best advisor reach out to assist you personally 😊"
+- Step 2: If they confirm interest, say "Wonderful! Let me have our best advisor reach out to assist you personally."
 - Step 3: Ask "May I have your name please?"
 - Step 4: WAIT for name. Then ask "And the best phone number to reach you?"
 - Step 5: WAIT for phone. Also ask "Do you have an email address?" (email is optional)
 - Step 6: Include this tag: [HOTLEAD:name|phone|email|interest_details]
   - interest_details should briefly describe what they want (e.g., "wants to buy Villa in Palm Jumeirah, budget 5M")
-- Step 7: Confirm enthusiastically: "Amazing! I've flagged you as a priority client. One of our senior advisors will call you very shortly to help you move forward! 🏠✨"
+- Step 7: Confirm enthusiastically: "Amazing! I've flagged you as a priority client. One of our senior advisors will call you very shortly to help you move forward!"
 
+${(() => {
+  const routable = Array.isArray(teamRoutable) ? teamRoutable : []
+  if (!routable.length) return ''
+  return `═══════════════════════════════════════════
+LEAD SCENARIO 3: USER WANTS A SPECIFIC ADVISOR (Founder, investment advisory, named leader)
+═══════════════════════════════════════════
+Examples: "I want to speak to the founder", "connect me to investment advisory", "Chief Advisory Officer".
+
+Internal team routing (never read routing keys aloud; use only in the hidden tag):
+${routable.map((t) => {
+  const line = String(t.phone || '').trim()
+  const phoneHint = line ? ` Advisor mobile (from CRM, optional to mention if user asks): ${line}.` : ''
+  const slug = t.areaSlug ? String(t.areaSlug).trim() : ''
+  const areaHint = slug && areaNameBySlug[slug] ? ` Primary area: ${areaNameBySlug[slug]}.` : ''
+  return `- routingKey "${String(t.routingKey).trim()}": ${t.role || ''} — ${t.name || ''}.${areaHint}${phoneHint} Hints: ${String(t.routingKeywords || t.role || '').trim()}`
+}).join('\n')}
+
+Flow:
+1. Acknowledge warmly and confirm you will connect them with the right person.
+2. Ask for their full name and wait.
+3. Ask for their phone number and wait.
+4. Output exactly one tag: [TEAM_LEAD:full_name|phone|routingKey]
+   The routingKey must match one of the keys listed above (e.g. founder vs investment).
+5. If unsure which routingKey, ask one short clarifying question first.
+
+`
+})()}
 IMPORTANT LEAD RULES:
 - ALWAYS ask name FIRST, then phone SEPARATELY. Never ask both at once.
 - WAIT for the user to respond before asking the next question.
 - For HOT LEADS, also ask for email (but it's optional — if they skip it, use "N/A")
 - NEVER fabricate or guess contact details. Only use what the user actually provides.
-- Once you use a [LEAD:...] or [HOTLEAD:...] tag, do NOT use it again in the same conversation.
+- Once you use a [LEAD:...], [HOTLEAD:...], or [TEAM_LEAD:...] tag, do NOT use it again in the same conversation.
 
 AVAILABLE PROPERTIES IN OUR DATABASE:
 ${propertyList || 'No properties currently loaded.'}
@@ -143,7 +170,7 @@ ABOUT YOUR HOMES DUBAI:
 Your Homes is a premium real estate advisory firm based in Dubai with 22+ years of expertise. We have transacted over AED 2.8 Billion in portfolio value, sold 1200+ properties, and serve clients from 40+ countries. We specialize in luxury property sales, Golden Visa advisory, and investment consultancy across Dubai's most prestigious communities.
 
 RESPONSE FORMAT:
-Always respond in plain text — natural, conversational, human-like. When suggesting properties, include [VIEW_PROPERTY:id] tags. For regular leads include [LEAD:name|phone|regular]. For hot leads include [HOTLEAD:name|phone|email|interest]. These tags will be parsed by the system and are NOT shown to the user.`
+Always respond in plain text — natural, conversational, human-like. When suggesting properties, include [VIEW_PROPERTY:id] tags. For regular leads include [LEAD:name|phone|regular]. For hot leads include [HOTLEAD:name|phone|email|interest]. For a specific advisor handoff include [TEAM_LEAD:name|phone|routingKey]. These tags will be parsed by the system and are NOT shown to the user.`
 }
 
 
@@ -246,7 +273,7 @@ router.post('/', async (req, res) => {
 
     // Parse lead collection — TWO SCENARIOS
     let leadCollected = false
-    let leadType = null // 'regular' or 'hot'
+    let leadType = null // 'regular' | 'hot' | 'team'
 
     // Scenario 1: Regular Lead [LEAD:name|phone|regular]
     const regularLeadRegex = /\[LEAD:([^|]+)\|([^|]+)\|([^\]]+)\]/
@@ -256,7 +283,64 @@ router.post('/', async (req, res) => {
     const hotLeadRegex = /\[HOTLEAD:([^|]+)\|([^|]+)\|([^|]+)\|([^\]]+)\]/
     const hotMatch = hotLeadRegex.exec(aiReply)
 
-    if (hotMatch) {
+    // Scenario 3: Team routing [TEAM_LEAD:name|phone|routingKey]
+    const teamLeadRegex = /\[TEAM_LEAD:([^|]+)\|([^|]+)\|([^\]]+)\]/
+    const teamMatch = teamLeadRegex.exec(aiReply)
+
+    if (teamMatch) {
+      const clientName = teamMatch[1].trim()
+      const clientPhone = teamMatch[2].trim()
+      const routingKey = teamMatch[3].trim()
+
+      try {
+        const rk = routingKey.toLowerCase()
+        const member = await TeamMember.findOne({ routingKey: new RegExp(`^${rk}$`, 'i') }).lean()
+        const { user: smtpUser, pass: smtpPass, hasAuth } = await resolveSmtpAuth()
+
+        const contact = new Contact({
+          name: clientName,
+          phone: clientPhone,
+          email: '',
+          message: `[Chatbot — team handoff] routingKey="${routingKey}" (${member?.role || 'unknown role'}). Last user message: ${String(message).slice(0, 500)}`,
+          status: 'unread'
+        })
+        await contact.save()
+        leadCollected = true
+        leadType = 'team'
+
+        const toAddr = (member && member.notifyEmail && String(member.notifyEmail).trim())
+          ? String(member.notifyEmail).trim()
+          : smtpUser
+
+        if (hasAuth && toAddr) {
+          const transport = createMailTransport(smtpUser, smtpPass)
+          const subject = `Chatbot: ${clientName} wants to speak with ${member?.role || routingKey}`
+          const html = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px;">
+              <h2 style="color: #0e3a2f;">Client requested a specific advisor</h2>
+              <p><strong>Advisor:</strong> ${member?.name || '—'} — ${member?.role || routingKey}</p>
+              ${member?.phone && String(member.phone).trim() ? `<p><strong>Advisor mobile:</strong> ${String(member.phone).trim()}</p>` : ''}
+              <p><strong>Client name:</strong> ${clientName}</p>
+              <p><strong>Client phone:</strong> ${clientPhone}</p>
+              <p><strong>Routing key:</strong> ${routingKey}</p>
+              <p><strong>Latest user message:</strong></p>
+              <p style="background:#f7f6f3;padding:12px;border-radius:6px;">${String(message).replace(/</g, '&lt;')}</p>
+              <p style="color:#666;font-size:12px;">${new Date().toLocaleString('en-AE', { timeZone: 'Asia/Dubai' })} — Website chatbot</p>
+            </div>`
+          transport.sendMail({
+            from: smtpUser,
+            to: toAddr,
+            subject,
+            html,
+          }, (error, info) => {
+            if (error) console.error('Team routing email error:', error)
+            else console.log('Team routing email sent:', info?.response)
+          })
+        }
+      } catch (err) {
+        console.error('Team lead handling error:', err)
+      }
+    } else if (hotMatch) {
       // HOT LEAD — priority client
       const leadName = hotMatch[1].trim()
       const leadPhone = hotMatch[2].trim()
@@ -275,11 +359,12 @@ router.post('/', async (req, res) => {
         await contact.save()
         leadCollected = true
 
-        // Send HOT LEAD email to agent
-        if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        const { user: smtpUser, pass: smtpPass, hasAuth } = await resolveSmtpAuth()
+        if (hasAuth) {
+          const transport = createMailTransport(smtpUser, smtpPass)
           const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER,
+            from: smtpUser,
+            to: smtpUser,
             subject: `🔥 HOT LEAD — ${leadName} wants to proceed!`,
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px;">
@@ -301,7 +386,7 @@ router.post('/', async (req, res) => {
               </div>
             `
           }
-          transporter.sendMail(mailOptions, (error, info) => {
+          transport.sendMail(mailOptions, (error, info) => {
             if (error) console.error('Hot lead email error:', error)
             else console.log('🔥 Hot lead email sent:', info.response)
           })
@@ -327,11 +412,12 @@ router.post('/', async (req, res) => {
         await contact.save()
         leadCollected = true
 
-        // Send regular lead email to agent
-        if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        const { user: smtpUser, pass: smtpPass, hasAuth } = await resolveSmtpAuth()
+        if (hasAuth) {
+          const transport = createMailTransport(smtpUser, smtpPass)
           const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER,
+            from: smtpUser,
+            to: smtpUser,
             subject: `📞 New Chatbot Lead — ${leadName} wants to talk`,
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px;">
@@ -351,7 +437,7 @@ router.post('/', async (req, res) => {
               </div>
             `
           }
-          transporter.sendMail(mailOptions, (error, info) => {
+          transport.sendMail(mailOptions, (error, info) => {
             if (error) console.error('Lead email error:', error)
             else console.log('📞 Lead email sent:', info.response)
           })
@@ -391,6 +477,7 @@ router.post('/', async (req, res) => {
     const finalReply = cleanReply
       .replace(/\[LEAD:[^\]]+\]/g, '')
       .replace(/\[HOTLEAD:[^\]]+\]/g, '')
+      .replace(/\[TEAM_LEAD:[^\]]+\]/g, '')
       .replace(/\[LEAD_COLLECTED:[^\]]+\]/g, '')
       .trim()
 

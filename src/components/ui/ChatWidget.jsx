@@ -68,7 +68,7 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
     {
-      text: "Hello! 👋 Welcome to Your Homes Dubai. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in? 🌍\nEnglish, العربية, اردو, हिंदी, or any other?",
+      text: "Hello! Welcome to Your Homes Dubai. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in?\nEnglish, العربية, اردو, हिंदी, or any other?",
       sender: 'bot',
       properties: []
     }

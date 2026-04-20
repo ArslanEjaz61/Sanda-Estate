@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { fetchTeamAdmin } from '../utils/teamApi'
 
 const API = import.meta.env.VITE_API_BASE
 const SERVER_BASE = import.meta.env.VITE_SERVER_BASE
@@ -28,6 +29,9 @@ export default function PropertyForm() {
   const [error, setError] = useState('')
   const [imagePreview, setImagePreview] = useState('')
   const [areas, setAreas] = useState([])
+  const [teamMembers, setTeamMembers] = useState([])
+  const [agentTeamSelect, setAgentTeamSelect] = useState('')
+  const agentTeamHydratedRef = useRef(false)
 
   useEffect(() => {
     if (isEditing) {
@@ -70,9 +74,73 @@ export default function PropertyForm() {
       .catch(err => console.error('Failed to load areas'))
   }, [id, isEditing])
 
+  useEffect(() => {
+    let cancelled = false
+    fetchTeamAdmin()
+      .then((data) => {
+        if (cancelled || !Array.isArray(data)) return
+        const active = data
+          .filter((m) => m.isActive)
+          .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || (a.name || '').localeCompare(b.name || ''))
+        setTeamMembers(active)
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
+
+  useEffect(() => {
+    agentTeamHydratedRef.current = false
+    setAgentTeamSelect('')
+  }, [id])
+
+  useEffect(() => {
+    if (!isEditing || !teamMembers.length || agentTeamHydratedRef.current) return
+    if (!form._id) return
+    const name = (form.agentName || '').trim()
+    const phone = String(form.agentPhone ?? '').trim()
+    const photo = normalizeMediaUrl(form.agentPhoto || '').trim()
+    const match = name
+      ? teamMembers.find(
+          (m) =>
+            (m.name || '').trim() === name &&
+            String(m.phone ?? '').trim() === phone &&
+            normalizeMediaUrl(m.image || '').trim() === photo
+        ) ||
+        teamMembers.find((m) => (m.name || '').trim() === name && String(m.phone ?? '').trim() === phone) ||
+        teamMembers.find((m) => (m.name || '').trim() === name)
+      : null
+    setAgentTeamSelect(match ? String(match._id) : '')
+    agentTeamHydratedRef.current = true
+  }, [isEditing, teamMembers, form._id, form.agentName, form.agentPhone, form.agentPhoto])
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+    if (['agentName', 'agentPhone', 'agentPhoto'].includes(name)) {
+      setAgentTeamSelect('')
+    }
     setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+  }
+
+  const handleAgentTeamPick = (e) => {
+    const v = e.target.value
+    setAgentTeamSelect(v)
+    if (!v) {
+      setForm((prev) => ({
+        ...prev,
+        agentName: '',
+        agentPhone: '',
+        agentPhoto: '',
+      }))
+      return
+    }
+    const m = teamMembers.find((x) => String(x._id) === v)
+    if (!m) return
+    setForm((prev) => ({
+      ...prev,
+      agentName: m.name || '',
+      agentPhone: m.phone || '',
+      agentPhoto: m.image || '',
+    }))
   }
 
   const handleImageUpload = async (e) => {
@@ -331,9 +399,42 @@ export default function PropertyForm() {
         <div className="p-6" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
           <h3 className="text-white text-[16px] mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Assigned Agent</h3>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="lg:col-span-3">
+              <label className={labelClass}>Select from team (optional)</label>
+              <select
+                value={agentTeamSelect}
+                onChange={handleAgentTeamPick}
+                className="w-full px-4 py-3 text-[13px] text-white outline-none"
+                style={inputStyle}
+              >
+                <option value="" style={{ color: '#ffffff', background: '#1a1a1a' }}>— None — use custom fields below</option>
+                {teamMembers.map((m) => (
+                  <option key={m._id} value={m._id} style={{ color: '#ffffff', background: '#1a1a1a' }}>
+                    {m.name || 'Unnamed'}{m.role ? ` — ${m.role}` : ''}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-2 text-[11px] text-white/30">Fills name, mobile and photo from Admin → Team. You can still edit them after.</p>
+            </div>
             <div><label className={labelClass}>Agent Name</label><input name="agentName" value={form.agentName} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. John Doe" /></div>
             <div><label className={labelClass}>Agent Phone</label><input name="agentPhone" value={form.agentPhone} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="e.g. +971 4 454 1313" /></div>
-            <div><label className={labelClass}>Agent Photo URL</label><input name="agentPhoto" value={form.agentPhoto} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="URL to profile picture" /></div>
+            <div>
+              <label className={labelClass}>Agent Photo URL</label>
+              <input name="agentPhoto" value={form.agentPhoto} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="URL to profile picture" />
+            </div>
+            {form.agentPhoto?.trim() ? (
+              <div className="lg:col-span-3 flex flex-wrap items-center gap-4 pt-1">
+                <div className="relative">
+                  <img
+                    src={normalizeMediaUrl(form.agentPhoto.trim())}
+                    alt={form.agentName ? `Preview: ${form.agentName}` : 'Agent preview'}
+                    className="w-24 h-24 rounded-full object-cover border border-white/15 shadow-md"
+                    onError={(e) => { e.target.style.display = 'none' }}
+                  />
+                </div>
+                <span className="text-[11px] text-white/35" style={{ fontFamily: 'var(--font-body)' }}>Photo preview (as on property page)</span>
+              </div>
+            ) : null}
           </div>
         </div>
 

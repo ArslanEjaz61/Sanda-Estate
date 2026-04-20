@@ -7,6 +7,8 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
     name: '', email: '', phone: '', budget: '', area: '', propertyType: '', message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [areas, setAreas] = useState([])
 
   useEffect(() => {
@@ -55,10 +57,10 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
           <h3 className="text-2xl mb-2" style={{ fontFamily: 'var(--font-heading)', color: light ? '#fff' : '#1a1a1a' }}>
-            Thank You
+            Message sent
           </h3>
-          <p className={`text-[13px] ${light ? 'text-white/50' : 'text-gray-warm'}`} style={{ fontFamily: 'var(--font-body)' }}>
-            Our advisory team will contact you within 24 hours.
+          <p className={`text-[13px] ${light ? 'text-white/60' : 'text-gray-warm'}`} style={{ fontFamily: 'var(--font-body)' }}>
+            Your message has been sent successfully. Our advisory team will contact you within 24 hours.
           </p>
         </motion.div>
       ) : (
@@ -70,6 +72,7 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
           onSubmit={handleSubmit}
           className="space-y-4"
         >
+          <fieldset disabled={sending} className="border-0 p-0 m-0 min-w-0 space-y-4">
           {/* Trust Strip */}
           <div className="flex items-center gap-4 mb-2 pb-4" style={{ borderBottom: `1px solid ${light ? 'rgba(255,255,255,0.08)' : '#f7f6f3'}` }}>
             {['Confidential', 'Tailored Guidance', 'No Obligation'].map((item, i) => (
@@ -137,10 +140,31 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
             <label className="premium-label" style={light ? { color: 'rgba(255,255,255,0.4)' } : {}}>Message</label>
             <textarea name="message" value={formData.message} onChange={handleChange} rows={3} placeholder="Tell us about your property requirements..." className={`${inputClass} resize-none`} />
           </div>
+          </fieldset>
 
-          <button type="submit" className="btn-gold w-full text-center">
-            Request Private Consultation
+          <button
+            type="submit"
+            disabled={sending}
+            className="btn-gold w-full text-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
+          >
+            {sending ? 'Sending…' : 'Request Private Consultation'}
           </button>
+
+          {sending && (
+            <p
+              className={`text-center text-[12px] pt-1 ${light ? 'text-white/45' : 'text-[#0e3a2f]/70'}`}
+              style={{ fontFamily: 'var(--font-body)' }}
+              aria-live="polite"
+            >
+              Sending your message…
+            </p>
+          )}
+
+          {submitError && !sending && (
+            <p className="text-center text-[12px] text-red-600/90 pt-1" style={{ fontFamily: 'var(--font-body)' }} role="alert">
+              {submitError}
+            </p>
+          )}
         </motion.form>
       )}
     </AnimatePresence>

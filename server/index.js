@@ -11,6 +11,7 @@ import contactRoutes from './routes/contact.js'
 import areaRoutes from './routes/areas.js'
 import settingsRoutes from './routes/settings.js'
 import chatRoutes from './routes/chat.js'
+import teamRoutes from './routes/team.js'
 import morgan from 'morgan'
 
 dotenv.config()
@@ -38,6 +39,7 @@ app.use('/api/contact', contactRoutes)
 app.use('/api/areas', areaRoutes)
 app.use('/api/settings', settingsRoutes)
 app.use('/api/chat', chatRoutes)
+app.use('/api/team', teamRoutes)
 
 // Health check
 app.get('/api/health', (req, res) => {
