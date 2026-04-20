@@ -475,7 +475,7 @@ router.post('/', async (req, res) => {
             ...(ccCombined ? { cc: ccCombined } : {}),
             subject: areaAgent
               ? `Chatbot: ${leadName} wants an advisor — ${areaLabel}`
-              : `📞 New Chatbot Lead — ${leadName} wants to talk`,
+              : ` New Chatbot Lead — ${leadName} wants to talk`,
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px;">
                 <div style="background: #0e3a2f; color: white; padding: 16px 24px; border-radius: 8px 8px 0 0;">
