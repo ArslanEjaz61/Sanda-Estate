@@ -7,6 +7,7 @@ const router = express.Router()
 function stripPublicSettings(doc) {
   const o = doc && typeof doc.toObject === 'function' ? doc.toObject() : { ...doc }
   delete o.smtpAppPassword
+  delete o.managerEmail
   return o
 }
 

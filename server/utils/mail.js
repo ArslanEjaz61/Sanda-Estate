@@ -17,6 +17,14 @@ export async function resolveSmtpAuth() {
   return { user, pass, hasAuth: Boolean(user && pass) }
 }
 
+/** Manager inbox for hot leads; Settings first, then MANAGER_EMAIL env. */
+export async function getManagerEmail() {
+  const s = await Settings.getSettings()
+  const fromSettings = (s.managerEmail && String(s.managerEmail).trim()) || ''
+  const fromEnv = (process.env.MANAGER_EMAIL && String(process.env.MANAGER_EMAIL).trim()) || ''
+  return fromSettings || fromEnv
+}
+
 export function createMailTransport(user, pass) {
   return nodemailer.createTransport({
     service: 'gmail',

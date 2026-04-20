@@ -36,6 +36,7 @@ function AboutTeamSection({ members }) {
   const cardMetricsRef = useRef({ cardWidth: 260 })
   const [pause, setPause] = useState(false)
   const [cardWidth, setCardWidth] = useState(260)
+  const [selectedMember, setSelectedMember] = useState(null)
   const list = members.map((m, i) => ({
     id: m._id || m.id || i,
     name: m.name,
@@ -100,6 +101,20 @@ function AboutTeamSection({ members }) {
     return () => clearInterval(id)
   }, [useSlider, pause, list.length, cardWidth])
 
+  useEffect(() => {
+    if (!selectedMember) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') setSelectedMember(null)
+    }
+    window.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [selectedMember])
+
   const scrollStep = (dir) => {
     const el = scrollRef.current
     if (!el) return
@@ -125,37 +140,170 @@ function AboutTeamSection({ members }) {
   const arrowBtnMobileClass =
     'inline-flex md:hidden shrink-0 items-center justify-center w-10 h-10 rounded-full border border-[#0e3a2f]/15 bg-white text-[#0e3a2f] shadow-sm active:scale-95 transition-transform'
 
-  const cardInner = (member, i) => (
-    <div className="text-center group h-full">
-      <div className="aspect-[3/4] img-zoom mb-4 overflow-hidden rounded-sm">
+  const teamCardCompact = (member) => (
+    <button
+      type="button"
+      onClick={() => setSelectedMember(member)}
+      className="group h-full w-full text-center cursor-pointer rounded-sm border border-transparent p-1 -m-1 transition-colors hover:border-[#c2a76d]/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c2a76d]/40"
+    >
+      <div className="aspect-[3/4] img-zoom mb-3 overflow-hidden rounded-sm">
         <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
       </div>
       <h4 className="text-[17px] mb-1" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}>{member.name}</h4>
       <div className="text-[10px] uppercase tracking-[0.15em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#c2a76d' }}>{member.role}</div>
-      {member.areaName && member.areaSlug && (
-        <Link
-          to={`/areas/${member.areaSlug}`}
-          className="text-[10px] uppercase tracking-[0.12em] mb-2 block hover:underline"
-          style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#0e3a2f' }}
+      {member.bio && (
+        <p
+          className="text-[12px] leading-relaxed line-clamp-3 text-left"
+          style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}
         >
-          {member.areaName}
-        </Link>
+          {member.bio}
+        </p>
       )}
-      {member.areaName && !member.areaSlug && (
-        <div className="text-[10px] uppercase tracking-[0.12em] mb-2" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#6b6b6b' }}>{member.areaName}</div>
-      )}
-      {member.publicEmail && (
-        <a href={`mailto:${member.publicEmail}`} className="text-[11px] text-[#0e3a2f] hover:underline block mb-2" style={{ fontFamily: 'var(--font-body)' }}>{member.publicEmail}</a>
-      )}
-      {member.phone && telHref(member.phone) && (
-        <a href={`tel:${telHref(member.phone)}`} className="text-[11px] text-[#0e3a2f] hover:underline block mb-2" style={{ fontFamily: 'var(--font-body)' }}>{member.phone}</a>
-      )}
-      <p className="text-[12px] leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>{member.bio}</p>
+      <span className="mt-3 inline-block text-[10px] uppercase tracking-[0.12em] text-[#0e3a2f]/50 group-hover:text-[#0e3a2f]/80" style={{ fontFamily: 'var(--font-body)' }}>
+        View full profile
+      </span>
+    </button>
+  )
+
+  const teamDetailModal = selectedMember && (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      style={{ background: 'rgba(14,58,47,0.55)' }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="team-modal-title"
+      onClick={() => setSelectedMember(null)}
+    >
+      <div
+        className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-sm bg-[#faf9f7] shadow-2xl border border-[#e8e4dc]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          aria-label="Close"
+          onClick={() => setSelectedMember(null)}
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1a1a1a] shadow-md ring-1 ring-black/5 hover:bg-[#f7f6f3] text-xl leading-none"
+        >
+          ×
+        </button>
+
+        <div className="p-6 sm:p-8 lg:p-10 pr-14">
+          <div className="flex flex-col sm:flex-row gap-8 sm:gap-10 sm:items-start">
+            {/* Passport-style photo (35×45mm proportion) */}
+            <div className="flex justify-center sm:justify-start shrink-0">
+              <div
+                className="w-[148px] sm:w-[168px] aspect-[35/45] overflow-hidden rounded-[2px] bg-white shadow-[0_2px_12px_rgba(14,58,47,0.12)] ring-1 ring-[#e5e0d9]"
+              >
+                <img
+                  src={selectedMember.image}
+                  alt={selectedMember.name}
+                  className="h-full w-full object-cover object-[center_15%]"
+                />
+              </div>
+            </div>
+
+            <div className="min-w-0 flex-1 flex flex-col text-center sm:text-left">
+              <h3
+                id="team-modal-title"
+                className="text-[clamp(1.35rem,3vw,1.75rem)] mb-2 leading-tight"
+                style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, color: '#1a1a1a' }}
+              >
+                {selectedMember.name}
+              </h3>
+              <p
+                className="text-[11px] uppercase tracking-[0.2em] mb-6"
+                style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#c2a76d' }}
+              >
+                {selectedMember.role}
+              </p>
+
+              <div className="space-y-4 mb-6">
+                {selectedMember.phone && telHref(selectedMember.phone) ? (
+                  <div>
+                    <span
+                      className="block text-[9px] uppercase tracking-[0.2em] text-[#9a9a9a] mb-1"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      Phone
+                    </span>
+                    <a
+                      href={`tel:${telHref(selectedMember.phone)}`}
+                      className="text-[15px] text-[#0e3a2f] hover:underline font-medium"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {selectedMember.phone}
+                    </a>
+                  </div>
+                ) : null}
+                {selectedMember.publicEmail ? (
+                  <div>
+                    <span
+                      className="block text-[9px] uppercase tracking-[0.2em] text-[#9a9a9a] mb-1"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      Email
+                    </span>
+                    <a
+                      href={`mailto:${selectedMember.publicEmail}`}
+                      className="text-[15px] text-[#0e3a2f] hover:underline font-medium break-all"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {selectedMember.publicEmail}
+                    </a>
+                  </div>
+                ) : null}
+                {!selectedMember.phone && !selectedMember.publicEmail && (
+                  <p className="text-[13px] text-[#9a9a9a] leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                    For direct contact, please reach us through the main office or concierge.
+                  </p>
+                )}
+              </div>
+
+              {(selectedMember.areaName && selectedMember.areaSlug) && (
+                <p className="text-[12px] text-[#6b6b6b] mb-2" style={{ fontFamily: 'var(--font-body)' }}>
+                  <span className="text-[9px] uppercase tracking-[0.18em] text-[#9a9a9a] block mb-1">Area focus</span>
+                  <Link
+                    to={`/areas/${selectedMember.areaSlug}`}
+                    className="text-[#0e3a2f] font-medium hover:underline"
+                    onClick={() => setSelectedMember(null)}
+                  >
+                    {selectedMember.areaName}
+                  </Link>
+                </p>
+              )}
+              {selectedMember.areaName && !selectedMember.areaSlug && (
+                <p className="text-[12px] text-[#6b6b6b] mb-2" style={{ fontFamily: 'var(--font-body)' }}>
+                  <span className="text-[9px] uppercase tracking-[0.18em] text-[#9a9a9a] block mb-1">Area focus</span>
+                  {selectedMember.areaName}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {selectedMember.bio ? (
+            <div className="mt-8 sm:mt-10 pt-8 border-t border-[#e5e0d9]">
+              <p
+                className="text-[10px] uppercase tracking-[0.22em] mb-4"
+                style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#c2a76d' }}
+              >
+                About
+              </p>
+              <p
+                className="text-[14px] sm:text-[15px] leading-[1.85] text-[#4a4a4a] max-w-none"
+                style={{ fontFamily: 'var(--font-body)' }}
+              >
+                {selectedMember.bio}
+              </p>
+            </div>
+          ) : null}
+        </div>
+      </div>
     </div>
   )
 
   if (useSlider) {
     return (
+      <>
       <div className="w-full">
         <div className="flex items-stretch gap-4 md:gap-6">
           <button
@@ -183,7 +331,7 @@ function AboutTeamSection({ members }) {
                 className="flex-none shrink-0 snap-center"
                 style={{ width: cardWidth, minWidth: cardWidth, maxWidth: cardWidth }}
               >
-                {cardInner(member, i)}
+                {teamCardCompact(member)}
               </div>
             ))}
           </div>
@@ -220,19 +368,24 @@ function AboutTeamSection({ members }) {
             </svg>
           </button>
         </div>
-        <p className="text-center text-[10px] text-[#9a9a9a] mt-2" style={{ fontFamily: 'var(--font-body)' }}>Swipe or use arrows to see the full team</p>
+        <p className="text-center text-[10px] text-[#9a9a9a] mt-2" style={{ fontFamily: 'var(--font-body)' }}>Swipe or use arrows to see the full team. Tap a card for details.</p>
       </div>
+      {teamDetailModal}
+      </>
     )
   }
 
   return (
+    <>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       {list.map((member, i) => (
         <AnimatedReveal key={member.id} delay={i * 0.1}>
-          {cardInner(member, i)}
+          {teamCardCompact(member)}
         </AnimatedReveal>
       ))}
     </div>
+    {teamDetailModal}
+    </>
   )
 }
 

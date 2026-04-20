@@ -23,6 +23,11 @@ const settingsSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  /** Receives priority hot-lead alerts from the chatbot (not exposed on public GET). */
+  managerEmail: {
+    type: String,
+    default: '',
+  },
   whatsapp: { 
     type: String, 
     default: '' 

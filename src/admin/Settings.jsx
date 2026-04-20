@@ -8,6 +8,7 @@ export default function Settings() {
     email: '',
     smtpUser: '',
     smtpAppPassword: '',
+    managerEmail: '',
     whatsapp: '',
     socials: {
       instagram: '',
@@ -28,6 +29,7 @@ export default function Settings() {
             ...data,
             smtpUser: data.smtpUser || '',
             smtpAppPassword: data.smtpAppPassword || '',
+            managerEmail: data.managerEmail || '',
             socials: { ...prev.socials, ...(data.socials || {}) },
           }))
         }
@@ -165,6 +167,19 @@ export default function Settings() {
                 className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
               />
               <p className="mt-2 text-[11px] text-white/30">Saving with this field empty does not erase an existing app password.</p>
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-[11px] uppercase tracking-[0.12em] text-white/50 mb-2 font-semibold">Manager email (hot leads &amp; fallbacks)</label>
+              <input
+                type="email"
+                name="managerEmail"
+                value={settings.managerEmail}
+                onChange={handleChange}
+                placeholder="Receives priority hot-lead alerts; also used if no area agent is found"
+                autoComplete="off"
+                className="w-full px-4 py-3 bg-white/[0.03] border border-white/10 rounded text-white text-[13px] outline-none focus:border-[#c2a76d]/50 transition-colors"
+              />
+              <p className="mt-2 text-[11px] text-white/30">Optional. If set, hot leads go here (SMTP inbox is CC’d). You can also set <code className="text-white/50">MANAGER_EMAIL</code> in <code className="text-white/50">.env</code> instead.</p>
             </div>
           </div>
         </section>
