@@ -191,7 +191,7 @@ export default function AreaDetailPage() {
                         <img
                           src={img}
                           alt={`${area.name} location ${idx + 1}`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain bg-[#111111]"
                         />
                         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%)' }} />
                       </div>
