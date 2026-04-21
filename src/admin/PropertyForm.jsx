@@ -25,7 +25,8 @@ export default function PropertyForm() {
   const navigate = useNavigate()
   const isEditing = Boolean(id)
   const [form, setForm] = useState(emptyForm)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false) // saving
+  const [uploading, setUploading] = useState({ mainImage: false, gallery: false, video: false })
   const [error, setError] = useState('')
   const [imagePreview, setImagePreview] = useState('')
   const [areas, setAreas] = useState([])
@@ -150,14 +151,17 @@ export default function PropertyForm() {
     const formData = new FormData()
     formData.append('image', file)
     try {
-      setLoading(true)
+      setUploading((u) => ({ ...u, mainImage: true }))
       const res = await fetch(`${API}/upload`, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData })
       const data = await res.json()
       if (data.url) {
         setForm(prev => ({ ...prev, image: data.url }))
         setImagePreview(data.url)
       }
-    } catch (err) { setError('Image upload failed') } finally { setLoading(false) }
+    } catch (err) { setError('Image upload failed') } finally {
+      setUploading((u) => ({ ...u, mainImage: false }))
+      e.target.value = ''
+    }
   }
 
   const handleMultipleUpload = async (e) => {
@@ -167,7 +171,7 @@ export default function PropertyForm() {
     const formData = new FormData()
     files.forEach(f => formData.append('images', f))
     try {
-      setLoading(true)
+      setUploading((u) => ({ ...u, gallery: true }))
       const res = await fetch(`${API}/upload/multiple`, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData })
       const data = await res.json()
       if (data.urls) {
@@ -176,7 +180,10 @@ export default function PropertyForm() {
           return { ...prev, gallery: [...exist, ...data.urls].join('\n') }
         })
       }
-    } catch (err) { setError('Gallery upload failed') } finally { setLoading(false) }
+    } catch (err) { setError('Gallery upload failed') } finally {
+      setUploading((u) => ({ ...u, gallery: false }))
+      e.target.value = ''
+    }
   }
 
   const handleVideoUpload = async (e) => {
@@ -186,13 +193,16 @@ export default function PropertyForm() {
     const formData = new FormData()
     formData.append('video', file)
     try {
-      setLoading(true)
+      setUploading((u) => ({ ...u, video: true }))
       const res = await fetch(`${API}/upload/video`, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData })
       const data = await res.json()
       if (data.url) {
         setForm(prev => ({ ...prev, video: data.url }))
       }
-    } catch (err) { setError('Video upload failed') } finally { setLoading(false) }
+    } catch (err) { setError('Video upload failed') } finally {
+      setUploading((u) => ({ ...u, video: false }))
+      e.target.value = ''
+    }
   }
 
   const removeMainImage = () => {
@@ -211,6 +221,10 @@ export default function PropertyForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    if (uploading.mainImage || uploading.gallery || uploading.video) {
+      setError('Please wait for uploads to finish before saving.')
+      return
+    }
     setLoading(true)
     const token = localStorage.getItem('admin_token')
     const body = {
@@ -249,6 +263,7 @@ export default function PropertyForm() {
 
   const inputStyle = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'var(--font-body)' }
   const labelClass = "block text-[9px] uppercase tracking-[0.15em] text-white/35 font-semibold mb-2"
+  const isUploadingAny = Boolean(uploading.mainImage || uploading.gallery || uploading.video)
 
   return (
     <div>
@@ -447,8 +462,8 @@ export default function PropertyForm() {
               <div className="flex items-center gap-4">
                 <input name="image" value={form.image} onChange={(e) => { handleChange(e); setImagePreview(e.target.value) }} className="flex-1 px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="Image URL or upload below" />
                 <label className="cursor-pointer px-4 py-3 text-[10px] uppercase tracking-[0.12em] font-semibold text-white/50 hover:text-white transition-colors flex-shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  Upload
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                  {uploading.mainImage ? 'Uploading…' : 'Upload'}
+                  <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading.mainImage || loading} className="hidden" />
                 </label>
               </div>
               {imagePreview && (
@@ -470,8 +485,8 @@ export default function PropertyForm() {
               <div className="flex items-start gap-4 mb-2">
                 <textarea name="gallery" value={form.gallery} onChange={handleChange} rows={4} className="flex-1 px-4 py-3 text-[13px] text-white outline-none resize-y" style={inputStyle} placeholder="https://...&#10;https://..." />
                 <label className="cursor-pointer px-4 py-3 text-[10px] uppercase tracking-[0.12em] font-semibold text-white/50 hover:text-white transition-colors flex-shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                  Upload Multiple
-                  <input type="file" accept="image/*" multiple onChange={handleMultipleUpload} className="hidden" />
+                  {uploading.gallery ? 'Uploading…' : 'Upload Multiple'}
+                  <input type="file" accept="image/*" multiple onChange={handleMultipleUpload} disabled={uploading.gallery || loading} className="hidden" />
                 </label>
               </div>
               {form.gallery && form.gallery.split('\n').filter(Boolean).length > 0 && (
@@ -501,8 +516,8 @@ export default function PropertyForm() {
                 <div className="flex items-center gap-2">
                   <input name="video" value={form.video} onChange={handleChange} className="flex-1 px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="Video URL or upload" />
                   <label className="cursor-pointer px-4 py-3 text-[10px] uppercase tracking-[0.12em] font-semibold text-white/50 hover:text-white transition-colors shrink-0" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    Video
-                    <input type="file" accept="video/*" onChange={handleVideoUpload} className="hidden" />
+                    {uploading.video ? 'Uploading…' : 'Video'}
+                    <input type="file" accept="video/*" onChange={handleVideoUpload} disabled={uploading.video || loading} className="hidden" />
                   </label>
                 </div>
               </div>
@@ -531,8 +546,8 @@ export default function PropertyForm() {
 
         {/* Submit */}
         <div className="flex items-center gap-4">
-          <button type="submit" disabled={loading} className="px-8 py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all disabled:opacity-50" style={{ background: '#c2a76d', color: '#1a1a1a' }}>
-            {loading ? 'Saving...' : isEditing ? 'Update Property' : 'Create Property'}
+          <button type="submit" disabled={loading || isUploadingAny} className="px-8 py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold transition-all disabled:opacity-50" style={{ background: '#c2a76d', color: '#1a1a1a' }}>
+            {loading ? 'Saving...' : isUploadingAny ? 'Uploading...' : isEditing ? 'Update Property' : 'Create Property'}
           </button>
           <button type="button" onClick={() => navigate('/admin/properties')} className="px-8 py-3.5 text-[11px] uppercase tracking-[0.18em] font-bold text-white/40 hover:text-white/60 transition-colors" style={{ border: '1px solid rgba(255,255,255,0.1)' }}>Cancel</button>
         </div>

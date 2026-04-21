@@ -32,7 +32,8 @@ export default function TeamForm() {
   const navigate = useNavigate()
   const isEditing = Boolean(id)
   const [form, setForm] = useState(emptyForm)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false) // saving
+  const [uploadingImage, setUploadingImage] = useState(false)
   const [error, setError] = useState('')
   const [areas, setAreas] = useState([])
 
@@ -68,7 +69,7 @@ export default function TeamForm() {
     const formData = new FormData()
     formData.append('image', file)
     try {
-      setLoading(true)
+      setUploadingImage(true)
       const res = await fetch(`${API}/upload`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
@@ -80,7 +81,7 @@ export default function TeamForm() {
     } catch (err) {
       setError(err.message || 'Upload failed')
     } finally {
-      setLoading(false)
+      setUploadingImage(false)
       e.target.value = ''
     }
   }
@@ -88,6 +89,10 @@ export default function TeamForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+    if (uploadingImage) {
+      setError('Please wait for the image upload to finish before saving.')
+      return
+    }
     setLoading(true)
     try {
       if (isEditing) await updateTeamMember(id, form)
@@ -164,8 +169,8 @@ export default function TeamForm() {
           <div className="space-y-4">
             <input name="image" value={form.image} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} placeholder="Image URL" />
             <label className="cursor-pointer block text-center py-3 text-[10px] uppercase tracking-widest font-bold bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all">
-              Upload Image
-              <input type="file" className="hidden" accept="image/*" onChange={handleUpload} />
+              {uploadingImage ? 'Uploading…' : 'Upload Image'}
+              <input type="file" className="hidden" accept="image/*" disabled={uploadingImage || loading} onChange={handleUpload} />
             </label>
             {form.image && (
               <img src={normalizeMediaUrl(form.image)} alt="" className="w-40 h-40 object-cover rounded-sm border border-white/10" />
@@ -207,8 +212,8 @@ export default function TeamForm() {
 
         <div className="flex justify-end gap-4">
           <button type="button" onClick={() => navigate('/admin/team')} className="px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold text-white/40 hover:text-white transition-colors">Cancel</button>
-          <button type="submit" disabled={loading} className="btn-gold !px-12">
-            {loading ? 'Saving...' : isEditing ? 'Update Member' : 'Publish Member'}
+          <button type="submit" disabled={loading || uploadingImage} className="btn-gold !px-12">
+            {loading ? 'Saving...' : uploadingImage ? 'Uploading...' : isEditing ? 'Update Member' : 'Publish Member'}
           </button>
         </div>
       </form>

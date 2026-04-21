@@ -36,7 +36,8 @@ export default function AreaForm() {
   const navigate = useNavigate()
   const isEditing = Boolean(id)
   const [form, setForm] = useState(emptyForm)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false) // saving
+  const [uploading, setUploading] = useState({ image: false, heroImage: false, locationImages: false })
   const [error, setError] = useState('')
   const [pendingLocationPreviews, setPendingLocationPreviews] = useState([])
 
@@ -86,7 +87,7 @@ export default function AreaForm() {
     const formData = new FormData()
     formData.append('image', file)
     try {
-      setLoading(true)
+      setUploading((u) => ({ ...u, [field]: true }))
       const res = await fetch(`${API}/upload`, { 
         method: 'POST', 
         headers: { Authorization: `Bearer ${token}` }, 
@@ -100,7 +101,8 @@ export default function AreaForm() {
     } catch (err) { 
       setError(err.message || 'Upload failed')
     } finally { 
-      setLoading(false) 
+      setUploading((u) => ({ ...u, [field]: false }))
+      e.target.value = ''
     }
   }
 
@@ -114,7 +116,7 @@ export default function AreaForm() {
     }))
     setPendingLocationPreviews(prev => [...prev, ...previewUrls])
     try {
-      setLoading(true)
+      setUploading((u) => ({ ...u, [field]: true }))
       const formData = new FormData()
       for (const file of files) formData.append('images', file)
       const res = await fetch(`${API}/upload/multiple`, {
@@ -134,7 +136,7 @@ export default function AreaForm() {
     } catch (err) {
       setError(err.message || 'Upload failed')
     } finally {
-      setLoading(false)
+      setUploading((u) => ({ ...u, [field]: false }))
       for (const p of previewUrls) URL.revokeObjectURL(p.url)
       setPendingLocationPreviews(prev => prev.filter(p => !previewUrls.some(x => x.url === p.url)))
       e.target.value = ''
@@ -143,8 +145,12 @@ export default function AreaForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
+    if (uploading.image || uploading.heroImage || uploading.locationImages) {
+      setError('Please wait for uploads to finish before saving.')
+      return
+    }
+    setLoading(true)
     const token = localStorage.getItem('admin_token')
     try {
       const url = isEditing ? `${API}/areas/${id}` : `${API}/areas`
@@ -182,6 +188,7 @@ export default function AreaForm() {
 
   const inputStyle = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'var(--font-body)' }
   const labelClass = "block text-[9px] uppercase tracking-[0.15em] text-white/35 font-semibold mb-2"
+  const isUploadingAny = Boolean(uploading.image || uploading.heroImage || uploading.locationImages)
 
   return (
     <div className="max-w-4xl">
@@ -271,8 +278,8 @@ export default function AreaForm() {
               <div className="space-y-4">
                 <input name="image" value={form.image} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} />
                 <label className="cursor-pointer block text-center py-3 text-[10px] uppercase tracking-widest font-bold bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all">
-                  Upload Image
-                  <input type="file" className="hidden" onChange={(e) => handleUpload(e, 'image')} />
+                  {uploading.image ? 'Uploading…' : 'Upload Image'}
+                  <input type="file" className="hidden" disabled={uploading.image || loading} onChange={(e) => handleUpload(e, 'image')} />
                 </label>
                 {form.image && (
                   <div className="relative inline-block mt-2">
@@ -293,8 +300,8 @@ export default function AreaForm() {
               <div className="space-y-4">
                 <input name="heroImage" value={form.heroImage} onChange={handleChange} className="w-full px-4 py-3 text-[13px] text-white outline-none" style={inputStyle} />
                 <label className="cursor-pointer block text-center py-3 text-[10px] uppercase tracking-widest font-bold bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all">
-                  Upload Hero
-                  <input type="file" className="hidden" onChange={(e) => handleUpload(e, 'heroImage')} />
+                  {uploading.heroImage ? 'Uploading…' : 'Upload Hero'}
+                  <input type="file" className="hidden" disabled={uploading.heroImage || loading} onChange={(e) => handleUpload(e, 'heroImage')} />
                 </label>
                 {form.heroImage && (
                   <div className="relative inline-block mt-2">
@@ -316,8 +323,8 @@ export default function AreaForm() {
             <label className={labelClass}>Location Images (Featured Section)</label>
             <div className="space-y-4">
               <label className="cursor-pointer block text-center py-3 text-[10px] uppercase tracking-widest font-bold bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all">
-                Upload Location Images
-                <input type="file" className="hidden" multiple accept="image/*" onChange={(e) => handleMultiUpload(e, 'locationImages')} />
+                {uploading.locationImages ? 'Uploading…' : 'Upload Location Images'}
+                <input type="file" className="hidden" multiple accept="image/*" disabled={uploading.locationImages || loading} onChange={(e) => handleMultiUpload(e, 'locationImages')} />
               </label>
 
               {Array.isArray(pendingLocationPreviews) && pendingLocationPreviews.length > 0 && (
@@ -360,8 +367,8 @@ export default function AreaForm() {
 
         <div className="flex justify-end gap-4">
           <button type="button" onClick={() => navigate('/admin/areas')} className="px-8 py-4 text-[11px] uppercase tracking-[0.2em] font-bold text-white/40 hover:text-white transition-colors">Cancel</button>
-          <button type="submit" disabled={loading} className="btn-gold !px-12">
-            {loading ? 'Saving...' : isEditing ? 'Update Area' : 'Publish Area'}
+          <button type="submit" disabled={loading || isUploadingAny} className="btn-gold !px-12">
+            {loading ? 'Saving...' : isUploadingAny ? 'Uploading...' : isEditing ? 'Update Area' : 'Publish Area'}
           </button>
         </div>
       </form>
