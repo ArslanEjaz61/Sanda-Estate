@@ -8,6 +8,12 @@ function stripPublicSettings(doc) {
   const o = doc && typeof doc.toObject === 'function' ? doc.toObject() : { ...doc }
   delete o.smtpAppPassword
   delete o.managerEmail
+  delete o.propertyConsultantEmail
+  if (o.chatbotAi) {
+    if (o.chatbotAi.openai) delete o.chatbotAi.openai.apiKey
+    if (o.chatbotAi.gemini) delete o.chatbotAi.gemini.apiKey
+    if (o.chatbotAi.longcat) delete o.chatbotAi.longcat.apiKey
+  }
   return o
 }
 
@@ -44,6 +50,23 @@ router.put('/', auth, async (req, res) => {
     }
 
     const settings = await Settings.findOne()
+    // Merge chatbot AI keys: empty apiKey in payload keeps the previously saved key (like SMTP app password).
+    if (body.chatbotAi && settings?.chatbotAi) {
+      const prev = settings.chatbotAi.toObject ? settings.chatbotAi.toObject() : settings.chatbotAi
+      for (const p of ['openai', 'gemini', 'longcat']) {
+        const incoming = body.chatbotAi[p]
+        if (!incoming || typeof incoming !== 'object') continue
+        const prevKey = prev?.[p]?.apiKey
+        if (incoming.apiKey === '' || incoming.apiKey == null) {
+          if (prevKey) {
+            body.chatbotAi[p] = { ...incoming, apiKey: prevKey }
+          } else {
+            const { apiKey: _drop, ...rest } = incoming
+            body.chatbotAi[p] = rest
+          }
+        }
+      }
+    }
     if (!settings) {
       const newSettings = new Settings(body)
       await newSettings.save()

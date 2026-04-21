@@ -25,6 +25,14 @@ export async function getManagerEmail() {
   return fromSettings || fromEnv
 }
 
+/** Property consultant inbox; Settings first, then CONSULTANT_EMAIL env. */
+export async function getPropertyConsultantEmail() {
+  const s = await Settings.getSettings()
+  const fromSettings = (s.propertyConsultantEmail && String(s.propertyConsultantEmail).trim()) || ''
+  const fromEnv = (process.env.CONSULTANT_EMAIL && String(process.env.CONSULTANT_EMAIL).trim()) || ''
+  return fromSettings || fromEnv
+}
+
 export function createMailTransport(user, pass) {
   return nodemailer.createTransport({
     service: 'gmail',

@@ -5,7 +5,8 @@ import Settings from '../models/Settings.js'
 import Contact from '../models/Contact.js'
 import TeamMember from '../models/TeamMember.js'
 import dotenv from 'dotenv'
-import { resolveSmtpAuth, createMailTransport, getManagerEmail } from '../utils/mail.js'
+import { resolveSmtpAuth, createMailTransport, getManagerEmail, getPropertyConsultantEmail } from '../utils/mail.js'
+import axios from 'axios'
 
 dotenv.config()
 
@@ -15,8 +16,139 @@ function escapeRegex(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-const LONGCAT_API_URL = 'https://api.longcat.chat/openai/v1/chat/completions'
-const LONGCAT_API_KEY = process.env.LONGCAT_API_KEY
+const DEFAULT_LONGCAT_URL = 'https://api.longcat.chat/openai/v1/chat/completions'
+
+function normalizePriority(priority) {
+  const allowed = new Set(['openai', 'gemini', 'longcat'])
+  const list = Array.isArray(priority) ? priority : ['openai', 'gemini', 'longcat']
+  const cleaned = list.map((p) => String(p || '').trim().toLowerCase()).filter((p) => allowed.has(p))
+  return cleaned.length ? cleaned : ['openai', 'gemini', 'longcat']
+}
+
+function getProviderConfig(settings) {
+  const ai = settings?.chatbotAi || {}
+  const priority = normalizePriority(ai.priority)
+  return {
+    priority,
+    openai: {
+      isActive: Boolean(ai.openai?.isActive),
+      apiKey: String(ai.openai?.apiKey || process.env.OPENAI_API_KEY || '').trim(),
+      model: String(ai.openai?.model || 'gpt-4o-mini').trim(),
+    },
+    gemini: {
+      isActive: Boolean(ai.gemini?.isActive),
+      apiKey: String(ai.gemini?.apiKey || process.env.GEMINI_API_KEY || '').trim(),
+      model: String(ai.gemini?.model || 'gemini-2.0-flash').trim(),
+    },
+    longcat: {
+      isActive: Boolean(ai.longcat?.isActive),
+      apiKey: String(ai.longcat?.apiKey || process.env.LONGCAT_API_KEY || '').trim(),
+      model: String(ai.longcat?.model || 'LongCat-Flash-Chat').trim(),
+      baseUrl: String(ai.longcat?.baseUrl || DEFAULT_LONGCAT_URL).trim() || DEFAULT_LONGCAT_URL,
+    },
+  }
+}
+
+async function callOpenAI({ apiKey, model, messages }) {
+  const response = await axios.post(
+    'https://api.openai.com/v1/chat/completions',
+    {
+      model,
+      messages,
+      max_tokens: 1500,
+      temperature: 0.7,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      timeout: 60_000,
+      validateStatus: () => true,
+    }
+  )
+
+  const data = response?.data
+  const text = data?.choices?.[0]?.message?.content
+  if (response.status >= 200 && response.status < 300 && typeof text === 'string' && text.trim()) {
+    return { text: text.trim(), raw: data }
+  }
+  const msg = data?.error?.message || `OpenAI error (status ${response.status})`
+  throw new Error(msg)
+}
+
+async function callGemini({ apiKey, model, systemPrompt, history, userMessage }) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`
+  const contents = []
+
+  // history is the UI history (user/assistant). Convert to Gemini roles.
+  if (Array.isArray(history)) {
+    for (const msg of history) {
+      const role = msg.sender === 'user' ? 'user' : 'model'
+      const text = String(msg.text || '')
+      if (text.trim()) {
+        contents.push({ role, parts: [{ text }] })
+      }
+    }
+  }
+  contents.push({ role: 'user', parts: [{ text: String(userMessage || '') }] })
+
+  const response = await axios.post(
+    url,
+    {
+      systemInstruction: { parts: [{ text: systemPrompt }] },
+      contents,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 1500,
+      },
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey,
+      },
+      timeout: 60_000,
+      validateStatus: () => true,
+    }
+  )
+
+  const data = response?.data
+  const text = data?.candidates?.[0]?.content?.parts?.map((p) => p?.text).filter(Boolean).join('') || ''
+  if (response.status >= 200 && response.status < 300 && typeof text === 'string' && text.trim()) {
+    return { text: text.trim(), raw: data }
+  }
+  const msg = data?.error?.message || `Gemini error (status ${response.status})`
+  throw new Error(msg)
+}
+
+async function callLongcat({ apiKey, baseUrl, model, messages }) {
+  const response = await axios.post(
+    baseUrl,
+    {
+      model,
+      messages,
+      max_tokens: 1500,
+      temperature: 0.7,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      timeout: 60_000,
+      validateStatus: () => true,
+    }
+  )
+
+  const data = response?.data
+  const text = data?.choices?.[0]?.message?.content
+  if (response.status >= 200 && response.status < 300 && typeof text === 'string' && text.trim()) {
+    return { text: text.trim(), raw: data }
+  }
+  const msg = data?.error?.message || `Longcat error (status ${response.status})`
+  throw new Error(msg)
+}
 
 // Cache system prompt to avoid rebuilding on every request
 let cachedPrompt = null
@@ -177,6 +309,16 @@ ${areaList || 'No areas currently loaded.'}
 ABOUT YOUR HOMES DUBAI:
 Your Homes is a premium real estate advisory firm based in Dubai with 22+ years of expertise. We have transacted over AED 2.8 Billion in portfolio value, sold 1200+ properties, and serve clients from 40+ countries. We specialize in luxury property sales, Golden Visa advisory, and investment consultancy across Dubai's most prestigious communities.
 
+CLICKABLE OPTIONS (IMPORTANT):
+When you present a short list of options the user can pick from (examples: language choice, buy/sell/rent, property types, area suggestions), you MUST include hidden suggestion tags so the UI can render clickable buttons.
+- Use this exact format, one tag per option: [SUGGEST:Label|Payload]
+- Label: the text the user should see on the button (short and clear)
+- Payload: what the user would type/click (keep it short; e.g. "Buy", "Villa", "Dubai Marina")
+- Put the tags at the end of your message (after the normal text). Do not mention the tags.
+Example:
+Which option fits you best: buy, sell, or rent?
+[SUGGEST:Buy|Buy][SUGGEST:Sell|Sell][SUGGEST:Rent|Rent]
+
 RESPONSE FORMAT:
 Always respond in plain text — natural, conversational, human-like. When suggesting properties, include [VIEW_PROPERTY:id] tags. For regular agent handoffs include [LEAD:name|phone|regular|areaSlug] (slug from areas or general). For hot leads include [HOTLEAD:name|phone|email|interest]. For a specific named advisor include [TEAM_LEAD:name|phone|routingKey]. These tags will be parsed by the system and are NOT shown to the user.`
 }
@@ -191,9 +333,8 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ message: 'Message is required' })
     }
 
-    if (!LONGCAT_API_KEY) {
-      return res.status(500).json({ message: 'Chat API key not configured' })
-    }
+    const settings = await Settings.getSettings()
+    const providerCfg = getProviderConfig(settings)
 
     // Build system prompt (cached for 5 min)
     const systemPrompt = await getCachedSystemPrompt()
@@ -216,58 +357,56 @@ router.post('/', async (req, res) => {
     // Add the current message
     messages.push({ role: 'user', content: message })
 
-    // Call Longcat API with timeout and retry
-    const MAX_RETRIES = 2
+    // Call providers in priority order (first active + configured wins)
+    const MAX_RETRIES = 1
+    let aiReply = ''
     let lastError = null
-    let data = null
 
-    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-      try {
-        const controller = new AbortController()
-        const timeout = setTimeout(() => controller.abort(), 60000) // 60s timeout
+    for (const provider of providerCfg.priority) {
+      const cfg = providerCfg[provider]
+      if (!cfg?.isActive || !cfg?.apiKey) continue
 
-        const response = await fetch(LONGCAT_API_URL, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${LONGCAT_API_KEY}`,
-            'Content-Type': 'application/json',
-            'Connection': 'keep-alive'
-          },
-          body: JSON.stringify({
-            model: 'LongCat-Flash-Chat',
-            messages: messages,
-            max_tokens: 1500,
-            temperature: 0.7,
-          }),
-          signal: controller.signal
-        })
+      for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          if (provider === 'openai') {
+            const out = await callOpenAI({ apiKey: cfg.apiKey, model: cfg.model, messages })
+            aiReply = out.text
+          } else if (provider === 'gemini') {
+            const out = await callGemini({
+              apiKey: cfg.apiKey,
+              model: cfg.model,
+              systemPrompt,
+              history,
+              userMessage: message,
+            })
+            aiReply = out.text
+          } else if (provider === 'longcat') {
+            const out = await callLongcat({
+              apiKey: cfg.apiKey,
+              baseUrl: cfg.baseUrl,
+              model: cfg.model,
+              messages,
+            })
+            aiReply = out.text
+          }
 
-        clearTimeout(timeout)
-
-        if (!response.ok) {
-          const errorBody = await response.text()
-          console.error(`Longcat API error (attempt ${attempt + 1}):`, response.status, errorBody)
-          lastError = new Error(`API returned ${response.status}`)
-          continue
-        }
-
-        data = await response.json()
-        break // success, stop retrying
-      } catch (err) {
-        console.error(`Longcat API fetch error (attempt ${attempt + 1}):`, err.message)
-        lastError = err
-        if (attempt < MAX_RETRIES) {
-          await new Promise(r => setTimeout(r, 1000)) // wait 1s before retry
+          if (aiReply && String(aiReply).trim()) break
+          throw new Error(`${provider} returned empty reply`)
+        } catch (err) {
+          lastError = err
+          if (attempt < MAX_RETRIES) {
+            await new Promise((r) => setTimeout(r, 700))
+          }
         }
       }
+
+      if (aiReply && String(aiReply).trim()) break
     }
 
-    if (!data) {
-      console.error('All Longcat API attempts failed:', lastError?.message)
+    if (!aiReply) {
+      console.error('All AI providers failed:', lastError?.message)
       return res.status(500).json({ message: 'AI service temporarily unavailable. Please try again.' })
     }
-
-    let aiReply = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't process that. Could you try again?"
 
     // Parse property references [VIEW_PROPERTY:id]
     const propertyIds = []
@@ -276,8 +415,21 @@ router.post('/', async (req, res) => {
     while ((match = propertyRegex.exec(aiReply)) !== null) {
       propertyIds.push(match[1].trim())
     }
+
+    // Parse clickable suggestions: [SUGGEST:Label|Payload]
+    const suggestions = []
+    const suggestRegex = /\[SUGGEST:([^|]+)\|([^\]]+)\]/g
+    while ((match = suggestRegex.exec(aiReply)) !== null) {
+      const label = String(match[1] || '').trim()
+      const value = String(match[2] || '').trim()
+      if (label && value) suggestions.push({ label, value })
+    }
+
     // Remove tags from the visible reply
-    const cleanReply = aiReply.replace(/\[VIEW_PROPERTY:[^\]]+\]/g, '').trim()
+    const cleanReply = aiReply
+      .replace(/\[VIEW_PROPERTY:[^\]]+\]/g, '')
+      .replace(/\[SUGGEST:[^\]]+\]/g, '')
+      .trim()
 
     // Parse lead collection — TWO SCENARIOS
     let leadCollected = false
@@ -453,11 +605,12 @@ router.post('/', async (req, res) => {
         leadCollected = true
 
         const { user: smtpUser, pass: smtpPass, hasAuth } = await resolveSmtpAuth()
+        const consultantEmail = await getPropertyConsultantEmail()
         const managerEmail = await getManagerEmail()
 
         const agentTo = areaAgent?.notifyEmail && String(areaAgent.notifyEmail).trim()
           ? String(areaAgent.notifyEmail).trim()
-          : (managerEmail || smtpUser)
+          : (consultantEmail || managerEmail || smtpUser)
         const ccManager = managerEmail && agentTo && managerEmail.toLowerCase() !== String(agentTo).toLowerCase()
           ? managerEmail
           : undefined
@@ -545,6 +698,7 @@ router.post('/', async (req, res) => {
     res.json({
       reply: finalReply,
       properties: suggestedProperties,
+      suggestions,
       leadCollected,
       leadType
     })

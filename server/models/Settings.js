@@ -28,6 +28,11 @@ const settingsSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  /** Receives "talk to an agent" leads when no area agent matches (not exposed on public GET). */
+  propertyConsultantEmail: {
+    type: String,
+    default: '',
+  },
   whatsapp: { 
     type: String, 
     default: '' 
@@ -36,6 +41,26 @@ const settingsSchema = new mongoose.Schema({
     instagram: { type: String, default: '' },
     facebook: { type: String, default: '' },
     linkedin: { type: String, default: '' }
+  },
+  /** Chatbot AI provider configuration (admin only fields). */
+  chatbotAi: {
+    priority: { type: [String], default: ['openai', 'gemini', 'longcat'] },
+    openai: {
+      isActive: { type: Boolean, default: true },
+      apiKey: { type: String, default: '' },
+      model: { type: String, default: 'gpt-4o-mini' },
+    },
+    gemini: {
+      isActive: { type: Boolean, default: false },
+      apiKey: { type: String, default: '' },
+      model: { type: String, default: 'gemini-2.0-flash' },
+    },
+    longcat: {
+      isActive: { type: Boolean, default: true },
+      apiKey: { type: String, default: '' },
+      model: { type: String, default: 'LongCat-Flash-Chat' },
+      baseUrl: { type: String, default: 'https://api.longcat.chat/openai/v1/chat/completions' },
+    },
   },
 }, {
   timestamps: true

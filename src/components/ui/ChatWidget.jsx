@@ -70,13 +70,47 @@ export default function ChatWidget() {
     {
       text: "Hello! Welcome to Your Homes Dubai. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in?\nEnglish, العربية, اردو, हिंदी, or any other?",
       sender: 'bot',
-      properties: []
+      properties: [],
+      suggestions: []
     }
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+
+  const sendUserMessage = async (userMessage) => {
+    const text = String(userMessage || '').trim()
+    if (!text || isLoading) return
+
+    const newMessages = [...messages, { text, sender: 'user', properties: [], suggestions: [] }]
+    setMessages(newMessages)
+    setInput('')
+    setIsLoading(true)
+
+    try {
+      const history = newMessages.map(m => ({ text: m.text, sender: m.sender }))
+      const response = await sendChatMessage(text, history)
+
+      const botMessage = {
+        text: response.reply,
+        sender: 'bot',
+        properties: response.properties || [],
+        suggestions: Array.isArray(response.suggestions) ? response.suggestions : [],
+      }
+
+      setMessages(prev => [...prev, botMessage])
+    } catch (err) {
+      setMessages(prev => [...prev, {
+        text: "I'm sorry, something went wrong. Please try again.",
+        sender: 'bot',
+        properties: [],
+        suggestions: [],
+      }])
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   // Auto-scroll to latest message
   useEffect(() => {
@@ -94,37 +128,7 @@ export default function ChatWidget() {
 
   const handleSend = async (e) => {
     e.preventDefault()
-    const userMessage = input.trim()
-    if (!userMessage || isLoading) return
-
-    // Add user message
-    const newMessages = [...messages, { text: userMessage, sender: 'user', properties: [] }]
-    setMessages(newMessages)
-    setInput('')
-    setIsLoading(true)
-
-    try {
-      // Build history (exclude the initial greeting for cleaner context)
-      const history = newMessages.map(m => ({ text: m.text, sender: m.sender }))
-
-      const response = await sendChatMessage(userMessage, history)
-
-      const botMessage = {
-        text: response.reply,
-        sender: 'bot',
-        properties: response.properties || []
-      }
-
-      setMessages(prev => [...prev, botMessage])
-    } catch (err) {
-      setMessages(prev => [...prev, {
-        text: "I'm sorry, something went wrong. Please try again.",
-        sender: 'bot',
-        properties: []
-      }])
-    } finally {
-      setIsLoading(false)
-    }
+    await sendUserMessage(input)
   }
 
   // Render message text with line breaks
@@ -182,6 +186,25 @@ export default function ChatWidget() {
                     >
                       {renderText(m.text)}
                     </div>
+
+                    {/* Clickable suggestions (if any) */}
+                    {m.sender === 'bot' && Array.isArray(m.suggestions) && m.suggestions.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {m.suggestions.slice(0, 10).map((s, idx) => (
+                          <button
+                            key={`${s.label}-${idx}`}
+                            type="button"
+                            disabled={isLoading}
+                            onClick={() => sendUserMessage(s.value)}
+                            className="px-3 py-1.5 rounded-full text-[12px] border border-gray-200 bg-white hover:bg-gray-50 text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            style={{ fontFamily: 'var(--font-body)' }}
+                            title={s.value}
+                          >
+                            {s.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Property cards (if any) */}
                     {m.properties && m.properties.length > 0 && (
