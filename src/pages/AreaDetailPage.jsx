@@ -157,85 +157,76 @@ export default function AreaDetailPage() {
         </div>
       </section>
 
-      {/* Featured Properties in Area */}
-      {areaProperties.length > 0 && (
+      {/* Location images (show even if there are no properties yet) */}
+      {(Array.isArray(area.locationImages) && area.locationImages.length > 0) && (
         <section className="section-padding" style={{ backgroundColor: '#ffffff' }}>
           <div className="container-wide px-6 lg:px-10">
-            {(Array.isArray(area.locationImages) && area.locationImages.length > 0) && (
-              <AnimatedReveal>
-                <div className="mb-12">
-                  {/* Location — same heading hierarchy as "Available Properties" */}
-                  <div className="text-center mb-10">
-                    <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
-                      Around {area.name}
-                    </div>
-                    <div className="gold-line-center mb-6" />
-                    <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Location</h2>
-                    {area.distanceFromDubaiMall && (
-                      <div className="mt-6 max-w-2xl mx-auto text-left px-2">
-                        <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-2 text-center" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
-                          Distance
-                        </div>
-                        <p className="text-[13px] text-[#1a1a1a] leading-relaxed break-words whitespace-pre-wrap text-center" style={{ fontFamily: 'var(--font-body)' }}>
-                          {area.distanceFromDubaiMall}
-                        </p>
-                      </div>
-                    )}
+            <AnimatedReveal>
+              <div className="mb-12">
+                <div className="text-center mb-10">
+                  <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
+                    Around {area.name}
                   </div>
-
-                  {/* All location images — full width, stacked vertically */}
-                  <div className="flex flex-col gap-5">
-                    {area.locationImages.map((img, idx) => (
-                      <div
-                        key={`${img}-${idx}`}
-                        className="relative overflow-hidden rounded-xl border border-gray-100 bg-[#f7f6f3] shadow-sm"
-                      >
-                        <div className="relative w-full" style={{ height: 'clamp(240px, 32vw, 420px)' }}>
-                          <img
-                            src={img}
-                            alt={`${area.name} location ${idx + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%)' }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Featured / Available — after all location images */}
-                  <div className="mt-10">
-                    <div className="text-center mb-6">
-                      <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
-                        Featured in {area.name}
-                      </div>
-                      <div className="gold-line-center mb-6" />
-                      <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Available Properties</h2>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedReveal>
-            )}
-
-            {/* If no location image provided, fallback to the old heading */}
-            {(!Array.isArray(area.locationImages) || area.locationImages.length === 0) && (
-              <AnimatedReveal>
-                <div className="text-center mb-12">
-                  <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>Featured in {area.name}</div>
                   <div className="gold-line-center mb-6" />
-                  <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Available Properties</h2>
+                  <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Location</h2>
                   {area.distanceFromDubaiMall && (
-                    <div className="mt-4 max-w-2xl mx-auto text-left px-2">
+                    <div className="mt-6 max-w-2xl mx-auto text-left px-2">
                       <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-2 text-center" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
                         Distance
                       </div>
-                      <p className="text-[12px] text-gray-700 leading-relaxed break-words whitespace-pre-wrap text-center" style={{ fontFamily: 'var(--font-body)' }}>
+                      <p className="text-[13px] text-[#1a1a1a] leading-relaxed break-words whitespace-pre-wrap text-center" style={{ fontFamily: 'var(--font-body)' }}>
                         {area.distanceFromDubaiMall}
                       </p>
                     </div>
                   )}
                 </div>
-              </AnimatedReveal>
-            )}
+
+                <div className="flex flex-col gap-5">
+                  {area.locationImages.map((img, idx) => (
+                    <div
+                      key={`${img}-${idx}`}
+                      className="relative overflow-hidden rounded-xl border border-gray-100 bg-[#f7f6f3] shadow-sm"
+                    >
+                      <div className="relative w-full" style={{ height: 'clamp(240px, 32vw, 420px)' }}>
+                        <img
+                          src={img}
+                          alt={`${area.name} location ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%)' }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </AnimatedReveal>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Properties in Area */}
+      {areaProperties.length > 0 && (
+        <section className="section-padding" style={{ backgroundColor: '#ffffff' }}>
+          <div className="container-wide px-6 lg:px-10">
+            <AnimatedReveal>
+              <div className="text-center mb-12">
+                <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-4" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
+                  Featured in {area.name}
+                </div>
+                <div className="gold-line-center mb-6" />
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 400 }}>Available Properties</h2>
+                {(!Array.isArray(area.locationImages) || area.locationImages.length === 0) && area.distanceFromDubaiMall && (
+                  <div className="mt-4 max-w-2xl mx-auto text-left px-2">
+                    <div className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-2 text-center" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
+                      Distance
+                    </div>
+                    <p className="text-[12px] text-gray-700 leading-relaxed break-words whitespace-pre-wrap text-center" style={{ fontFamily: 'var(--font-body)' }}>
+                      {area.distanceFromDubaiMall}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </AnimatedReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {areaProperties.map((p, i) => (
