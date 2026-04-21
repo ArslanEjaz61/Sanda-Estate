@@ -23,6 +23,9 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (sending) return
+    setSubmitError('')
+    setSending(true)
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE}/contact`, {
         method: 'POST',
@@ -34,10 +37,19 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
         setTimeout(() => setSubmitted(false), 5000)
         setFormData({ name: '', email: '', phone: '', budget: '', area: '', propertyType: '', message: '' })
       } else {
-        alert('Failed to send message. Please try again.')
+        let serverMsg = ''
+        try {
+          const data = await res.json()
+          serverMsg = data?.message ? String(data.message) : ''
+        } catch {
+          // ignore
+        }
+        setSubmitError(serverMsg || 'Failed to send message. Please try again.')
       }
     } catch (err) {
-      alert('Network error. Please try again.')
+      setSubmitError('Network error. Please try again.')
+    } finally {
+      setSending(false)
     }
   }
 
@@ -45,34 +57,15 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
 
   return (
     <AnimatePresence mode="wait">
-      {submitted ? (
-        <motion.div
-          key="success"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          className="text-center py-14"
-        >
-          <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: '#c2a76d' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <h3 className="text-2xl mb-2" style={{ fontFamily: 'var(--font-heading)', color: light ? '#fff' : '#1a1a1a' }}>
-            Message sent
-          </h3>
-          <p className={`text-[13px] ${light ? 'text-white/60' : 'text-gray-warm'}`} style={{ fontFamily: 'var(--font-body)' }}>
-            Your message has been sent successfully. Our advisory team will contact you within 24 hours.
-          </p>
-        </motion.div>
-      ) : (
-        <motion.form
-          key="form"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-          <fieldset disabled={sending} className="border-0 p-0 m-0 min-w-0 space-y-4">
+      <motion.form
+        key="form"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onSubmit={handleSubmit}
+        className="space-y-4"
+      >
+        <fieldset disabled={sending} className="border-0 p-0 m-0 min-w-0 space-y-4">
           {/* Trust Strip */}
           <div className="flex items-center gap-4 mb-2 pb-4" style={{ borderBottom: `1px solid ${light ? 'rgba(255,255,255,0.08)' : '#f7f6f3'}` }}>
             {['Confidential', 'Tailored Guidance', 'No Obligation'].map((item, i) => (
@@ -140,33 +133,46 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
             <label className="premium-label" style={light ? { color: 'rgba(255,255,255,0.4)' } : {}}>Message</label>
             <textarea name="message" value={formData.message} onChange={handleChange} rows={3} placeholder="Tell us about your property requirements..." className={`${inputClass} resize-none`} />
           </div>
-          </fieldset>
+        </fieldset>
 
-          <button
-            type="submit"
-            disabled={sending}
-            className="btn-gold w-full text-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
+        <button
+          type="submit"
+          disabled={sending}
+          className="btn-gold w-full text-center disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
+        >
+          {sending ? 'Sending…' : 'Request Private Consultation'}
+        </button>
+
+        {sending && (
+          <p
+            className={`text-center text-[12px] pt-1 ${light ? 'text-white/45' : 'text-[#0e3a2f]/70'}`}
+            style={{ fontFamily: 'var(--font-body)' }}
+            aria-live="polite"
           >
-            {sending ? 'Sending…' : 'Request Private Consultation'}
-          </button>
+            Sending your message…
+          </p>
+        )}
 
-          {sending && (
-            <p
-              className={`text-center text-[12px] pt-1 ${light ? 'text-white/45' : 'text-[#0e3a2f]/70'}`}
-              style={{ fontFamily: 'var(--font-body)' }}
-              aria-live="polite"
-            >
-              Sending your message…
-            </p>
-          )}
+        {submitted && !sending && !submitError && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            className={`mt-3 rounded px-4 py-3 text-[12px] ${light ? 'bg-emerald-400/10 text-emerald-200 border border-emerald-400/20' : 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/20'}`}
+            style={{ fontFamily: 'var(--font-body)' }}
+            role="status"
+            aria-live="polite"
+          >
+            Message sent successfully. Our advisory team will contact you soon.
+          </motion.div>
+        )}
 
-          {submitError && !sending && (
-            <p className="text-center text-[12px] text-red-600/90 pt-1" style={{ fontFamily: 'var(--font-body)' }} role="alert">
-              {submitError}
-            </p>
-          )}
-        </motion.form>
-      )}
+        {submitError && !sending && (
+          <p className="text-center text-[12px] text-red-600/90 pt-1" style={{ fontFamily: 'var(--font-body)' }} role="alert">
+            {submitError}
+          </p>
+        )}
+      </motion.form>
     </AnimatePresence>
   )
 }

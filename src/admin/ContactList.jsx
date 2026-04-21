@@ -8,12 +8,20 @@ export default function ContactList() {
   const [loading, setLoading] = useState(true)
   const [selectedMessage, setSelectedMessage] = useState(null)
 
-  const fetchContacts = async () => {
+  const fetchContacts = async ({ silent = false } = {}) => {
     try {
+      if (!silent) setLoading(true)
       const token = localStorage.getItem('admin_token')
       const res = await fetch(`${API}/contact`, { headers: { Authorization: `Bearer ${token}` } })
       const data = await res.json()
-      if (Array.isArray(data)) setContacts(data)
+      if (Array.isArray(data)) {
+        setContacts(data)
+        setSelectedMessage((prev) => {
+          if (!prev?._id) return prev
+          const fresh = data.find((c) => c._id === prev._id)
+          return fresh || prev
+        })
+      }
     } catch (err) {
       console.error(err)
     } finally {
@@ -21,7 +29,18 @@ export default function ContactList() {
     }
   }
 
-  useEffect(() => { fetchContacts() }, [])
+  useEffect(() => {
+    let alive = true
+    fetchContacts()
+    const id = setInterval(() => {
+      if (!alive) return
+      fetchContacts({ silent: true })
+    }, 12000)
+    return () => {
+      alive = false
+      clearInterval(id)
+    }
+  }, [])
 
   const handleMarkRead = async (id, currentStatus) => {
     if (currentStatus === 'read') return

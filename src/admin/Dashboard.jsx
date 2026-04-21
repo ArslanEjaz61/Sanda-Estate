@@ -9,32 +9,50 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token')
-    // Fetch Properties
-    fetch(`${API}/properties`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setStats(prev => ({
-            ...prev,
-            total: data.length,
-            featured: data.filter(p => p.featured).length,
-            ready: data.filter(p => p.status === 'Ready').length,
-            offPlan: data.filter(p => p.status === 'Off-Plan').length,
-          }))
-          setRecent(data.slice(0, 5))
-        }
-      })
-      .catch(() => {})
+    let alive = true
 
-    // Fetch Leads Count
-    fetch(`${API}/contact`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setStats(prev => ({ ...prev, leads: data.length }))
-        }
-      })
-      .catch(() => {})
+    const fetchProperties = () => {
+      fetch(`${API}/properties`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.json())
+        .then(data => {
+          if (!alive) return
+          if (Array.isArray(data)) {
+            setStats(prev => ({
+              ...prev,
+              total: data.length,
+              featured: data.filter(p => p.featured).length,
+              ready: data.filter(p => p.status === 'Ready').length,
+              offPlan: data.filter(p => p.status === 'Off-Plan').length,
+            }))
+            setRecent(data.slice(0, 5))
+          }
+        })
+        .catch(() => {})
+    }
+
+    const fetchLeadsCount = () => {
+      fetch(`${API}/contact`, { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => r.json())
+        .then(data => {
+          if (!alive) return
+          if (Array.isArray(data)) {
+            setStats(prev => ({ ...prev, leads: data.length }))
+          }
+        })
+        .catch(() => {})
+    }
+
+    // initial
+    fetchProperties()
+    fetchLeadsCount()
+
+    // refresh counts periodically so dashboard doesn't need reload
+    const leadsId = setInterval(fetchLeadsCount, 12000)
+
+    return () => {
+      alive = false
+      clearInterval(leadsId)
+    }
   }, [])
 
   const statCards = [
