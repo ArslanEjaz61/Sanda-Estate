@@ -26,6 +26,9 @@ function normalizeArea(a) {
   const area = { ...a, id: a._id || a.id }
   if (area.image) area.image = normalizeMediaUrl(area.image)
   if (area.heroImage) area.heroImage = normalizeMediaUrl(area.heroImage)
+  if (Array.isArray(area.locationImages)) {
+    area.locationImages = area.locationImages.map(normalizeMediaUrl).filter(Boolean)
+  }
   return area
 }
 export async function fetchProperties(params = {}) {
