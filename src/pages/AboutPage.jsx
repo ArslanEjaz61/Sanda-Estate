@@ -691,7 +691,7 @@ export default function AboutPage() {
           ) : Array.isArray(displayTeam) && displayTeam.length === 0 ? (
             <div className="py-16 text-center text-[13px] text-[#9a9a9a]" style={{ fontFamily: 'var(--font-body)' }}>
               No team members yet.
-            </div>
+                  </div>
           ) : (
             <AboutTeamSection members={displayTeam} />
           )}

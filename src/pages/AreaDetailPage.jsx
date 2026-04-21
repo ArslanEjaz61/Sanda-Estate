@@ -1,9 +1,16 @@
 import { useParams, Link } from 'react-router-dom'
 import AnimatedReveal from '../components/ui/AnimatedReveal'
 import PropertyCard from '../components/ui/PropertyCard'
-import AnimatedCounter from '../components/ui/AnimatedCounter'
 import { fetchProperties, fetchAreaBySlug } from '../utils/api'
 import { useState, useEffect } from 'react'
+
+/** Same field order as admin Area form — values are free text from CMS. */
+const MARKET_STAT_FIELDS = [
+  { key: 'avgPrice', label: 'Avg Price' },
+  { key: 'rentalYield', label: 'Rental Yield' },
+  { key: 'priceGrowth', label: 'Price Growth' },
+  { key: 'totalUnits', label: 'Total Units' },
+]
 
 export default function AreaDetailPage() {
   const { slug } = useParams()
@@ -56,6 +63,12 @@ export default function AreaDetailPage() {
       </div>
     )
   }
+
+  const marketStatEntries = MARKET_STAT_FIELDS.map(({ key, label }) => ({
+    key,
+    label,
+    value: area.stats?.[key],
+  })).filter(({ value }) => value != null && String(value).trim() !== '')
 
   return (
     <>
@@ -135,7 +148,7 @@ export default function AreaDetailPage() {
               Investment Profile
             </div>
             <div className="gold-line mb-8" />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+            <div className={`grid grid-cols-1 gap-12 lg:gap-20 ${marketStatEntries.length > 0 ? 'lg:grid-cols-2' : ''}`}>
               <div>
                 <h3 className="text-xl mb-4" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500 }}>
                   Why Invest in {area.name}
@@ -144,24 +157,33 @@ export default function AreaDetailPage() {
                   {area.investmentAppeal}
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-6">
-                {area.stats && Object.entries(area.stats).map(([key, value], i) => (
-                  <AnimatedReveal key={key} delay={i * 0.15} direction="up">
-                    <div className="p-8 text-center" style={{ backgroundColor: '#ffffff', border: '1px solid #e5e0d9' }}>
-                      <div className="text-2xl lg:text-3xl mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#0e3a2f' }}>
-                        <AnimatedCounter
-                          target={String(value || '').replace(/[^0-9.]/g, '')}
-                          prefix={String(value || '').startsWith('AED') ? 'AED ' : ''}
-                          suffix={String(value || '').includes('%') ? '%' : String(value || '').includes('+') ? '+' : String(value || '').includes('/sq ft') ? '/sq ft' : ''}
-                        />
-                      </div>
-                      <div className="text-[10px] uppercase tracking-[0.15em] text-gray-soft" style={{ fontFamily: 'var(--font-body)', fontWeight: 600 }}>
-                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                      </div>
-                    </div>
-                  </AnimatedReveal>
-                ))}
-              </div>
+              {marketStatEntries.length > 0 && (
+                <div>
+                  <h3 className="text-[11px] uppercase tracking-[0.25em] font-semibold mb-6 text-center lg:text-left" style={{ color: '#c2a76d', fontFamily: 'var(--font-body)' }}>
+                    Market Stats
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {marketStatEntries.map(({ key, label, value }, i) => (
+                      <AnimatedReveal key={key} delay={i * 0.12} direction="up">
+                        <div
+                          className="p-8 text-center sm:text-left h-full"
+                          style={{ backgroundColor: '#ffffff', border: '1px solid #e5e0d9' }}
+                        >
+                          <div className="text-[10px] uppercase tracking-[0.15em] text-gray-soft mb-3" style={{ fontFamily: 'var(--font-body)', fontWeight: 600 }}>
+                            {label}
+                          </div>
+                          <div
+                            className="text-xl lg:text-2xl leading-snug break-words"
+                            style={{ fontFamily: 'var(--font-heading)', color: '#0e3a2f', fontWeight: 500 }}
+                          >
+                            {String(value).trim()}
+                          </div>
+                        </div>
+                      </AnimatedReveal>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </AnimatedReveal>
         </div>
@@ -292,7 +314,11 @@ export default function AreaDetailPage() {
             </div>
             <AnimatedReveal>
               <div className="text-center mt-12">
-                <Link to="/properties" className="inline-block px-8 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold border transition-all duration-300 hover:bg-charcoal hover:text-white" style={{ fontFamily: 'var(--font-body)', borderColor: '#1a1a1a', color: '#1a1a1a' }}>
+                <Link
+                  to="/properties"
+                  className="inline-block px-8 py-4 text-[12px] uppercase tracking-[0.15em] font-semibold border border-[#1a1a1a] text-[#1a1a1a] transition-all duration-300 hover:bg-[#1a1a1a] hover:text-white"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
                   View All Properties
                 </Link>
               </div>
