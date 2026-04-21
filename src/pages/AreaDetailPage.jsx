@@ -10,6 +10,16 @@ export default function AreaDetailPage() {
   const [area, setArea] = useState(null)
   const [loading, setLoading] = useState(true)
   const [areaProperties, setAreaProperties] = useState([])
+  const [activeLocationImage, setActiveLocationImage] = useState(null)
+
+  useEffect(() => {
+    if (!activeLocationImage) return
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setActiveLocationImage(null)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [activeLocationImage])
 
   useEffect(() => {
     fetchAreaBySlug(slug).then(data => {
@@ -191,7 +201,8 @@ export default function AreaDetailPage() {
                         <img
                           src={img}
                           alt={`${area.name} location ${idx + 1}`}
-                          className="w-full h-full object-contain bg-[#111111]"
+                          className="w-full h-full object-cover cursor-zoom-in"
+                          onClick={() => setActiveLocationImage({ src: img, alt: `${area.name} location ${idx + 1}` })}
                         />
                         <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 45%)' }} />
                       </div>
@@ -202,6 +213,52 @@ export default function AreaDetailPage() {
             </AnimatedReveal>
           </div>
         </section>
+      )}
+
+      {/* Location image lightbox */}
+      {activeLocationImage?.src && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(10px)' }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Location image preview"
+          onClick={() => setActiveLocationImage(null)}
+        >
+          <div
+            className="relative w-full max-w-6xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              className="w-full overflow-hidden rounded-xl"
+              style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.35)' }}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveLocationImage(null)}
+                className="absolute top-4 right-4 z-20 w-12 h-12 rounded-full flex items-center justify-center text-white hover:text-white cursor-pointer pointer-events-auto"
+                style={{
+                  background: 'rgba(0,0,0,0.6)',
+                  border: '1px solid rgba(255,255,255,0.22)',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.35)',
+                }}
+                aria-label="Close"
+              >
+                <span className="text-[18px] leading-none">✕</span>
+              </button>
+              <div className="relative w-full" style={{ height: 'min(82vh, 860px)' }}>
+                <img
+                  src={activeLocationImage.src}
+                  alt={activeLocationImage.alt || 'Location image'}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+            <div className="mt-3 text-center text-[11px] text-white/70" style={{ fontFamily: 'var(--font-body)' }}>
+              Click outside the image or press Esc to close.
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Featured Properties in Area */}
