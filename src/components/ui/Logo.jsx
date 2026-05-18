@@ -1,15 +1,22 @@
 import React from 'react'
 
-export default function Logo({ isSolid = true, variant = '', className = 'h-11 w-auto' }) {
+export default function Logo({ isSolid = true, variant = '', className = '' }) {
+  // Determine if it is in the footer based on variant
+  const isFooter = variant === 'light'
+  
+  // Set beautiful larger dimensions
+  const logoHeightClass = isFooter ? 'h-20 md:h-24' : 'h-14 md:h-16'
+
   return (
-    <div className={`flex items-center select-none ${className}`}>
+    <div className="flex items-center select-none">
       <img 
-        src="/Sanda-Estate.jpeg" 
+        src="/sanda-logo.png" 
         alt="Sanda Estate" 
-        className="h-full w-auto object-contain max-h-full transition-transform duration-300 hover:scale-105"
+        className={`${logoHeightClass} w-auto object-contain transition-transform duration-300 hover:scale-105`}
         style={{ display: 'block' }}
       />
     </div>
   )
 }
+
 
