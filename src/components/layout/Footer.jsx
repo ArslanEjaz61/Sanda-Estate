@@ -77,7 +77,7 @@ export default function Footer() {
           {/* Brand — 4 cols */}
           <div className="lg:col-span-4">
             <Link to="/" className="inline-block mb-5">
-              <Logo variant="light" className="h-12 w-auto" />
+              <Logo variant="light" className="h-20 md:h-24 w-auto" />
             </Link>
             <p className="text-[13px] text-white/40 leading-[1.8] max-w-[280px] mb-6" style={{ fontFamily: 'var(--font-body)' }}>
               Curated real estate intelligence for investors, families, and global buyers seeking premium Dubai properties.
