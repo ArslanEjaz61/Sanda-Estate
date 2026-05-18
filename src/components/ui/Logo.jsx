@@ -17,11 +17,11 @@ export default function Logo({ isSolid = true, variant = '', className = '', siz
   }
 
   return (
-    <div className={`flex items-center select-none ${logoHeightClass} ${className}`}>
+    <div className={`flex items-center justify-center select-none overflow-hidden aspect-square ${logoHeightClass} ${className}`}>
       <img 
         src="/sanda-logo.png" 
         alt="Sanda Estate" 
-        className="h-full w-auto object-contain transition-transform duration-300 hover:scale-105"
+        className="h-full w-full object-contain transition-transform duration-300 scale-[2.1] hover:scale-[2.2]"
         style={{ display: 'block' }}
       />
     </div>

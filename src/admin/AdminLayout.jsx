@@ -61,7 +61,7 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ background: '#2f1e16', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         {/* Logo */}
-        <div className="py-8 flex items-center justify-center" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="py-4 flex items-center justify-center" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <Logo variant="light" className="h-20 w-auto" />
         </div>
 
