@@ -1,4 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="8" fill="#064e3b"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="serif" font-size="32" font-weight="700" fill="#c9a84c">YH</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Smooth circular dark background for maximum contrast on light and dark tabs -->
+  <circle cx="256" cy="256" r="240" fill="#111111" stroke="#c5a880" stroke-width="12" />
+  
+  <!-- Stylized Skyscrapers inspired by the Sanda Estate logo in luxury gold gradient -->
+  <defs>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5e6c4" />
+      <stop offset="50%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#aa7c11" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Left Pillar -->
+  <rect x="160" y="240" width="48" height="160" rx="8" fill="url(#gold-grad)" />
+  
+  <!-- Middle Pillar (Taller) -->
+  <rect x="232" y="140" width="48" height="260" rx="8" fill="url(#gold-grad)" />
+  
+  <!-- Right Pillar (Medium) -->
+  <rect x="304" y="200" width="48" height="200" rx="8" fill="url(#gold-grad)" />
 </svg>
