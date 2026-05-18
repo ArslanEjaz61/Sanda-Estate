@@ -61,8 +61,8 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ background: '#2f1e16', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         {/* Logo */}
-        <div className="px-5 py-6 flex items-center justify-start" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <Logo variant="light" size="sm" />
+        <div className="px-5 py-5 flex items-center justify-start" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <Logo variant="light" className="h-16 md:h-20 w-auto" />
         </div>
 
         {/* Nav */}
