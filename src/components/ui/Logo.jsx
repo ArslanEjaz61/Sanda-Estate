@@ -1,14 +1,19 @@
 import React from 'react'
 
-export default function Logo({ isSolid = true, variant = '', className = '' }) {
-  // Determine if it is in the footer based on variant
-  const isFooter = variant === 'light'
+export default function Logo({ isSolid = true, variant = '', className = '', size = '' }) {
+  // Determine size class
+  let logoHeightClass = 'h-20 md:h-24' // Default header size
   
-  // Set beautiful larger dimensions
-  const logoHeightClass = isFooter ? 'h-32 md:h-40' : 'h-20 md:h-24'
+  if (variant === 'light') {
+    logoHeightClass = 'h-32 md:h-40' // Large footer size
+  }
+  
+  if (size === 'sm') {
+    logoHeightClass = 'h-10 md:h-12' // Small sidebar / admin size
+  }
 
   return (
-    <div className="flex items-center select-none">
+    <div className={`flex items-center select-none ${className}`}>
       <img 
         src="/sanda-logo.png" 
         alt="Sanda Estate" 

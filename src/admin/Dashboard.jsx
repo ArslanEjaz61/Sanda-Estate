@@ -73,7 +73,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {statCards.map((s, i) => (
           <div key={i} className="p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <div className="text-[32px] mb-1" style={{ fontFamily: 'var(--font-heading)', color: s.color, fontWeight: 400 }}>{s.value}</div>
+            <div className="text-[32px] mb-1" style={{ fontFamily: 'var(--font-heading)', color: '#c2a76d', fontWeight: 400 }}>{s.value}</div>
             <div className="text-[9px] uppercase tracking-[0.15em] text-white/35 font-semibold" style={{ fontFamily: 'var(--font-body)' }}>{s.label}</div>
           </div>
         ))}
