@@ -145,7 +145,7 @@ export default function LeadCaptureForm({ variant = 'full', light = false }) {
 
         {sending && (
           <p
-            className={`text-center text-[12px] pt-1 ${light ? 'text-white/45' : 'text-[#0e3a2f]/70'}`}
+            className={`text-center text-[12px] pt-1 ${light ? 'text-white/45' : 'text-[#2f1e16]/70'}`}
             style={{ fontFamily: 'var(--font-body)' }}
             aria-live="polite"
           >

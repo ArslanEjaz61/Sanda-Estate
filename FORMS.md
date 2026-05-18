@@ -1,6 +1,6 @@
 # Forms & Field Guide (with examples)
 
-This document covers the major forms in **Your-Homes-Dubai**. For each form field we provide:
+This document covers the major forms in **Sanda-Estate-Dubai**. For each form field we provide:
 - **Field**: what the field is for
 - **What to enter**: expected input/format
 - **Example**: sample value
@@ -77,7 +77,7 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Email** *(required)*  
   - **Why we ask**: Identifies the admin account for authentication.  
   - **What to enter**: the admin email address.  
-  - **Example**: `admin@yourhomes.ae`
+  - **Example**: `admin@sandaestate.com`
 - **Password** *(required)*  
   - **Why we ask**: Confirms identity and protects access to the admin dashboard.  
   - **What to enter**: the admin password.  
@@ -100,7 +100,7 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Contact Email** *(required)*  
   - **Why we ask**: Shown publicly and used for mailto links.  
   - **What to enter**: the public contact email address.  
-  - **Example**: `info@yourhomes.ae`
+  - **Example**: `info@sandaestate.com`
 - **WhatsApp Number** *(optional, used for links)*  
   - **Why we ask**: Enables one-click WhatsApp inquiries from the website.  
   - **What to enter**: WhatsApp number in international format, digits only recommended (no `+`, no spaces).  
@@ -110,7 +110,7 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **SMTP sign-in email** *(optional)*  
   - **Why we ask**: Used to send outbound notifications (contact form + chatbot lead emails).  
   - **What to enter**: a Gmail/Google Workspace address to send emails from.  
-  - **Example**: `notifications@yourhomes.ae`
+  - **Example**: `notifications@sandaestate.com`
 - **App password** *(optional)*  
   - **Why we ask**: Required by Gmail SMTP when using app passwords (more secure than account password).  
   - **What to enter**: the Gmail/Workspace app password for the SMTP account.  
@@ -118,21 +118,21 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Manager email (hot leads & fallbacks)** *(optional)*  
   - **Why we ask**: Hot leads are urgent; this ensures a manager is notified immediately (also used as fallback routing).  
   - **What to enter**: the manager’s email address.  
-  - **Example**: `manager@yourhomes.ae`
+  - **Example**: `manager@sandaestate.com`
 
 **Social Presence**
 - **Instagram URL** *(optional)*  
   - **Why we ask**: Used for the Instagram icon/link in the footer and other social sections.  
   - **What to enter**: the full Instagram profile URL.  
-  - **Example**: `https://www.instagram.com/yourhomesdubai/`
+  - **Example**: `https://www.instagram.com/sandaestatedubai/`
 - **Facebook URL** *(optional)*  
   - **Why we ask**: Used for the Facebook icon/link in the footer and other social sections.  
   - **What to enter**: the full Facebook page URL.  
-  - **Example**: `https://www.facebook.com/yourhomesdubai/`
+  - **Example**: `https://www.facebook.com/sandaestatedubai/`
 - **LinkedIn URL** *(optional)*  
   - **Why we ask**: Used for the LinkedIn icon/link in the footer and other social sections.  
   - **What to enter**: the full LinkedIn company page URL.  
-  - **Example**: `https://www.linkedin.com/company/yourhomesdubai/`
+  - **Example**: `https://www.linkedin.com/company/sandaestatedubai/`
 
 ---
 
@@ -163,13 +163,13 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Public email** *(optional)*  
   - **Why we ask**: Optional public email shown on About (only if you want direct contact).  
   - **What to enter**: an email safe to publish.  
-  - **Example**: `sarah@yourhomes.ae`
+  - **Example**: `sarah@sandaestate.com`
 
 **Photo**
 - **Image URL** *(optional)*  
   - **Why we ask**: Shows the advisor photo on About; improves credibility.  
   - **What to enter**: a direct image URL (https).  
-  - **Example**: `https://cdn.yourhomes.ae/team/sarah.jpg`
+  - **Example**: `https://cdn.sandaestate.com/team/sarah.jpg`
 - **Upload Image** *(optional)*  
   - **Why we ask**: Allows uploading without managing external hosting.  
   - **What to select**: a local image file (jpg/png/webp)
@@ -182,7 +182,7 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Notify email** *(recommended)*  
   - **Why we ask**: This is where chatbot lead alerts and notifications will be sent.  
   - **What to enter**: the advisor/team notification email address.  
-  - **Example**: `sarah.alerts@yourhomes.ae`
+  - **Example**: `sarah.alerts@sandaestate.com`
 - **Keywords** *(optional)*  
   - **Why we ask**: Helps match user wording to the correct routing key.  
   - **What to enter**: comma-separated keywords/phrases.  
@@ -327,27 +327,27 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Agent Photo URL** *(optional)*  
   - **Why we ask**: Displays the agent photo on the listing.  
   - **What to enter**: a direct image URL (https).  
-  - **Example**: `https://cdn.yourhomes.ae/team/sarah.jpg`
+  - **Example**: `https://cdn.sandaestate.com/team/sarah.jpg`
 
 **Images**
 - **Main Image** *(optional URL or upload)*  
   - **Why we ask**: Main thumbnail/hero image for the listing.  
   - **What to enter**: a direct image URL or upload an image.  
-  - **Example**: `https://cdn.yourhomes.ae/properties/123/main.jpg`
+  - **Example**: `https://cdn.sandaestate.com/properties/123/main.jpg`  
 - **Gallery URLs (one per line)** *(optional)*  
   - **Why we ask**: Adds multiple photos to improve buyer confidence and conversions.  
   - **What to enter**: one image URL per line (or upload multiple).  
   - **Example**:  
-    - `https://cdn.yourhomes.ae/properties/123/1.jpg`  
-    - `https://cdn.yourhomes.ae/properties/123/2.jpg`
-- **Video Tour** *(optional URL or upload)*  
+    - `https://cdn.sandaestate.com/properties/123/1.jpg`  
+    - `https://cdn.sandaestate.com/properties/123/2.jpg`
+- **Video Tour** *(optional)*  
   - **Why we ask**: Video increases engagement and reduces low-quality inquiries.  
   - **What to enter**: a video URL or upload a video file.  
-  - **Example**: `https://cdn.yourhomes.ae/properties/123/tour.mp4`
+  - **Example**: `https://cdn.sandaestate.com/properties/123/tour.mp4`
 - **Floor Plan** *(optional)*  
   - **Why we ask**: Helps clients understand layout and room flow.  
   - **What to enter**: a floor plan image URL.  
-  - **Example**: `https://cdn.yourhomes.ae/properties/123/floorplan.jpg`
+  - **Example**: `https://cdn.sandaestate.com/properties/123/floorplan.jpg`
 
 **Additional Options**
 - **Featured Property** *(checkbox)*  
@@ -422,13 +422,13 @@ This document covers the major forms in **Your-Homes-Dubai**. For each form fiel
 - **Preview Image (800w)** *(optional URL or upload)*  
   - **Why we ask**: Used as the area thumbnail/card image.  
   - **What to enter**: a direct image URL or upload.  
-  - **Example**: `https://cdn.yourhomes.ae/areas/palm/card.jpg`
+  - **Example**: `https://cdn.sandaestate.com/areas/palm/card.jpg`
 - **Hero Background (1920w)** *(optional URL or upload)*  
   - **Why we ask**: Large header image for the area detail page.  
   - **What to enter**: a high-resolution image URL or upload.  
-  - **Example**: `https://cdn.yourhomes.ae/areas/palm/hero.jpg`
+  - **Example**: `https://cdn.sandaestate.com/areas/palm/hero.jpg`
 - **Location Images (Featured Section)** *(optional multiple upload)*  
   - **Why we ask**: Supports featured galleries/sections to visually represent the area.  
   - **What to enter**: multiple images (upload) or multiple URLs depending on workflow.  
-  - **Example**: multiple images like `https://cdn.yourhomes.ae/areas/palm/loc-1.jpg`, `https://cdn.yourhomes.ae/areas/palm/loc-2.jpg`
+  - **Example**: multiple images like `https://cdn.sandaestate.com/areas/palm/loc-1.jpg`, `https://cdn.sandaestate.com/areas/palm/loc-2.jpg`
 

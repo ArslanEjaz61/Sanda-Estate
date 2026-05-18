@@ -32,13 +32,13 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#0e3a2f' }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: '#2f1e16' }}>
       <div className="w-full max-w-md mx-4">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 flex items-center justify-center font-bold text-sm" style={{ background: '#c2a76d', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>YH</div>
+            <div className="w-10 h-10 flex items-center justify-center font-bold text-sm" style={{ background: '#c2a76d', color: '#1a1a1a', fontFamily: 'var(--font-body)' }}>SE</div>
             <div>
-              <div className="text-white text-[15px] font-semibold" style={{ fontFamily: 'var(--font-body)' }}>Your Homes</div>
+              <div className="text-white text-[15px] font-semibold" style={{ fontFamily: 'var(--font-body)' }}>Sanda Estate</div>
               <div className="text-[9px] uppercase tracking-[0.2em] text-white/40" style={{ fontFamily: 'var(--font-body)' }}>Admin Panel</div>
             </div>
           </div>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-[10px] uppercase tracking-[0.15em] text-white/40 font-semibold mb-2" style={{ fontFamily: 'var(--font-body)' }}>Email</label>
-              <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="admin@yourhomes.ae" required className="w-full px-4 py-3 text-[13px] text-white outline-none transition-all" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'var(--font-body)' }} />
+              <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="admin@sandaestate.com" required className="w-full px-4 py-3 text-[13px] text-white outline-none transition-all" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'var(--font-body)' }} />
             </div>
             <div>
               <label className="block text-[10px] uppercase tracking-[0.15em] text-white/40 font-semibold mb-2" style={{ fontFamily: 'var(--font-body)' }}>Password</label>

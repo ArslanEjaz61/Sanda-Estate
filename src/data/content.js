@@ -4,7 +4,7 @@ export const testimonials = [
     name: 'James & Catherine Whitmore',
     location: 'London, United Kingdom',
     role: 'Investor',
-    quote: 'Your Homes provided an exceptional level of insight and guidance throughout our Dubai property investment journey. Their market intelligence and advisory approach gave us confidence we hadn\'t found with any other agency.',
+    quote: 'Sanda Estate provided an exceptional level of insight and guidance throughout our Dubai property investment journey. Their market intelligence and advisory approach gave us confidence we hadn\'t found with any other agency.',
     rating: 5,
   },
   {
@@ -20,7 +20,7 @@ export const testimonials = [
     name: 'Maria Chen',
     location: 'Singapore',
     role: 'Investor',
-    quote: 'As an overseas investor, I needed a team I could trust completely. Your Homes\' transparency, market knowledge, and professional integrity made all the difference. They managed everything end-to-end.',
+    quote: 'As an overseas investor, I needed a team I could trust completely. Sanda Estate\'s transparency, market knowledge, and professional integrity made all the difference. They managed everything end-to-end.',
     rating: 5,
   },
   {
@@ -28,7 +28,7 @@ export const testimonials = [
     name: 'Dr. Farah Hassan',
     location: 'Dubai, UAE',
     role: 'End-User',
-    quote: 'The attention to detail was remarkable. From understanding our lifestyle preferences to handling the entire transaction, Your Homes delivered a premium experience that matched the property we purchased.',
+    quote: 'The attention to detail was remarkable. From understanding our lifestyle preferences to handling the entire transaction, Sanda Estate delivered a premium experience that matched the property we purchased.',
     rating: 5,
   },
   {
@@ -44,7 +44,7 @@ export const testimonials = [
     name: 'Omar Khalil',
     location: 'Cairo, Egypt',
     role: 'End-User',
-    quote: 'Your Homes truly lives up to their Property Intelligence positioning. The depth of market knowledge, combined with genuine care for their clients, sets them apart from every other real estate firm in Dubai.',
+    quote: 'Sanda Estate truly lives up to their Property Intelligence positioning. The depth of market knowledge, combined with genuine care for their clients, sets them apart from every other real estate firm in Dubai.',
     rating: 5,
   },
 ]
@@ -54,7 +54,7 @@ export const team = [
     id: 1,
     name: 'Alexandros Stavros',
     role: 'Founder & Chief Advisory Officer',
-    bio: 'With over 22 years of experience across European and Middle Eastern luxury real estate markets, Alexandros founded Your Homes with a vision to bring genuine property intelligence to Dubai\'s dynamic market.',
+    bio: 'With over 22 years of experience across European and Middle Eastern luxury real estate markets, Alexandros founded Sanda Estate with a vision to bring genuine property intelligence to Dubai\'s dynamic market.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
   },
   {

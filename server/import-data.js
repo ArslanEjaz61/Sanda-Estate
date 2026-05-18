@@ -37,7 +37,7 @@ const areaImages = {
 
 async function importData() {
   console.log('Connecting to MongoDB...');
-  await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/your-homes-dubai');
+  await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/sanda-estate-dubai');
   
   console.log('Clearing old DB entries...');
   await Property.deleteMany({});
@@ -125,7 +125,7 @@ async function importData() {
       areaUnit: 'sqft',
       location: areaName,
       locationSlug: areaSlug,
-      developer: 'Your Homes Real Estate LLC',
+      developer: 'Sanda Estate Real Estate LLC',
       description: item.description,
       features: ['Balcony', 'Built-in Wardrobes', 'Central A/C', 'Covered Parking', 'Maid Room'],
       amenities: ['Shared Pool', 'Shared Gym', 'Security', 'Children Play Area'],

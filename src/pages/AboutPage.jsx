@@ -135,10 +135,10 @@ function AboutTeamSection({ members }) {
   }
 
   const arrowBtnClass =
-    'hidden md:inline-flex shrink-0 items-center justify-center w-11 h-11 rounded-full border border-[#0e3a2f]/15 bg-white text-[#0e3a2f] shadow-[0_4px_14px_rgba(14,58,47,0.12)] hover:bg-[#f7f6f3] hover:border-[#c2a76d]/40 hover:text-[#0a3028] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c2a76d]/50 self-center'
+    'hidden md:inline-flex shrink-0 items-center justify-center w-11 h-11 rounded-full border border-[#2f1e16]/15 bg-white text-[#2f1e16] shadow-[0_4px_14px_rgba(47,30,22,0.12)] hover:bg-[#f7f6f3] hover:border-[#c2a76d]/40 hover:text-[#281d18] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c2a76d]/50 self-center'
 
   const arrowBtnMobileClass =
-    'inline-flex md:hidden shrink-0 items-center justify-center w-10 h-10 rounded-full border border-[#0e3a2f]/15 bg-white text-[#0e3a2f] shadow-sm active:scale-95 transition-transform'
+    'inline-flex md:hidden shrink-0 items-center justify-center w-10 h-10 rounded-full border border-[#2f1e16]/15 bg-white text-[#2f1e16] shadow-sm active:scale-95 transition-transform'
 
   const teamCardCompact = (member) => (
     <button
@@ -159,7 +159,7 @@ function AboutTeamSection({ members }) {
           {member.bio}
         </p>
       )}
-      <span className="mt-3 inline-block text-[10px] uppercase tracking-[0.12em] text-[#0e3a2f]/50 group-hover:text-[#0e3a2f]/80" style={{ fontFamily: 'var(--font-body)' }}>
+      <span className="mt-3 inline-block text-[10px] uppercase tracking-[0.12em] text-[#2f1e16]/50 group-hover:text-[#2f1e16]/80" style={{ fontFamily: 'var(--font-body)' }}>
         View full profile
       </span>
     </button>
@@ -168,7 +168,7 @@ function AboutTeamSection({ members }) {
   const teamDetailModal = selectedMember && (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-      style={{ background: 'rgba(14,58,47,0.55)' }}
+      style={{ background: 'rgba(47,30,22,0.55)' }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="team-modal-title"
@@ -192,7 +192,7 @@ function AboutTeamSection({ members }) {
             {/* Passport-style photo (35×45mm proportion) */}
             <div className="flex justify-center sm:justify-start shrink-0">
               <div
-                className="w-[148px] sm:w-[168px] aspect-[35/45] overflow-hidden rounded-[2px] bg-white shadow-[0_2px_12px_rgba(14,58,47,0.12)] ring-1 ring-[#e5e0d9]"
+                className="w-[148px] sm:w-[168px] aspect-[35/45] overflow-hidden rounded-[2px] bg-white shadow-[0_2px_12px_rgba(47,30,22,0.12)] ring-1 ring-[#e5e0d9]"
               >
                 <img
                   src={selectedMember.image}
@@ -228,7 +228,7 @@ function AboutTeamSection({ members }) {
                     </span>
                     <a
                       href={`tel:${telHref(selectedMember.phone)}`}
-                      className="text-[15px] text-[#0e3a2f] hover:underline font-medium"
+                      className="text-[15px] text-[#2f1e16] hover:underline font-medium"
                       style={{ fontFamily: 'var(--font-body)' }}
                     >
                       {selectedMember.phone}
@@ -245,7 +245,7 @@ function AboutTeamSection({ members }) {
                     </span>
                     <a
                       href={`mailto:${selectedMember.publicEmail}`}
-                      className="text-[15px] text-[#0e3a2f] hover:underline font-medium break-all"
+                      className="text-[15px] text-[#2f1e16] hover:underline font-medium break-all"
                       style={{ fontFamily: 'var(--font-body)' }}
                     >
                       {selectedMember.publicEmail}
@@ -264,7 +264,7 @@ function AboutTeamSection({ members }) {
                   <span className="text-[9px] uppercase tracking-[0.18em] text-[#9a9a9a] block mb-1">Area focus</span>
                   <Link
                     to={`/areas/${selectedMember.areaSlug}`}
-                    className="text-[#0e3a2f] font-medium hover:underline"
+                    className="text-[#2f1e16] font-medium hover:underline"
                     onClick={() => setSelectedMember(null)}
                   >
                     {selectedMember.areaName}
@@ -397,7 +397,7 @@ const parsedStats = [
 ]
 
 const milestones = [
-  { year: '2003', title: 'Founded', desc: 'Your Homes was established in Dubai with a vision to bring genuine property intelligence to the market.' },
+  { year: '2003', title: 'Founded', desc: 'Sanda Estate was established in Dubai with a vision to bring genuine property intelligence to the market.' },
   { year: '2008', title: 'Survived the Crisis', desc: 'Navigated the global financial crisis, strengthening our commitment to transparent, research-driven advisory.' },
   { year: '2014', title: 'International Expansion', desc: 'Expanded our client base to 20+ countries, establishing ourselves as a key partner for overseas investors.' },
   { year: '2020', title: 'Digital Transformation', desc: 'Launched AI-powered property advisory and virtual viewing capabilities during the global pandemic.' },
@@ -517,7 +517,7 @@ export default function AboutPage() {
             className="w-full h-full object-cover"
           />
           {/* Main Overlay Gradient */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.92) 0%, rgba(14,58,47,0.85) 40%, rgba(0,0,0,0.6) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.92) 0%, rgba(47,30,22,0.85) 40%, rgba(0,0,0,0.6) 100%)' }} />
           {/* Subtle Grid Pattern */}
           <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         </div>
@@ -526,7 +526,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="max-w-xl">
               <AnimatedReveal>
-                <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(194,167,109,0.85)' }}>About Your Homes</span>
+                <span className="eyebrow text-[10px] mb-5 block" style={{ color: 'rgba(194,167,109,0.85)' }}>About Sanda Estate</span>
                 <h1 className="text-white mb-6" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300, lineHeight: 1.05, fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)' }}>
                   A Trusted Advisory<br />
                   <span className="italic" style={{ color: '#c2a76d' }}>in Dubai Real Estate</span>
@@ -557,7 +557,7 @@ export default function AboutPage() {
                 <div className="aspect-[4/5] lg:aspect-square overflow-hidden rounded-sm shadow-2xl">
                   <img 
                     src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1000&q=80" 
-                    alt="Your Homes advisory team" 
+                    alt="Sanda Estate advisory team" 
                     className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700" 
                   />
                 </div>
@@ -568,7 +568,7 @@ export default function AboutPage() {
       </section>
 
       {/* ═══════════════ AWARDS STRIP ═══════════════ */}
-      <section className="py-10 lg:py-12" style={{ backgroundColor: '#0e3a2f' }}>
+      <section className="py-10 lg:py-12" style={{ backgroundColor: '#2f1e16' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {awards.map((award, i) => (
@@ -596,7 +596,7 @@ export default function AboutPage() {
               <div className="gold-line mb-6" />
               <h2 className="mb-5" style={{ fontFamily: 'var(--font-heading)', fontWeight: 400, color: '#1a1a1a' }}>Two Decades of Property Excellence</h2>
               <div className="space-y-4 text-[14px] leading-[1.85]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
-                <p>Your Homes was founded on a simple conviction: real estate decisions deserve better intelligence. In a market often driven by hype, we chose to build an advisory firm rooted in research, transparency, and genuine expertise.</p>
+                <p>Sanda Estate was founded on a simple conviction: real estate decisions deserve better intelligence. In a market often driven by hype, we chose to build an advisory firm rooted in research, transparency, and genuine expertise.</p>
                 <p>Over 22 years, we have navigated every cycle of the Dubai property market — from its early boom to its global maturation. This gives us a perspective that transcends market noise and delivers real clarity.</p>
                 <p>Today, we serve a global clientele of investors, families, and high-net-worth individuals across 40+ countries.</p>
               </div>
@@ -644,7 +644,7 @@ export default function AboutPage() {
             ].map((pillar, i) => (
               <AnimatedReveal key={i} delay={i * 0.12}>
                 <div className="premium-card p-7 h-full group">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5 transition-all duration-300" style={{ background: 'rgba(14,58,47,0.06)', color: '#0e3a2f' }}>
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5 transition-all duration-300" style={{ background: 'rgba(47,30,22,0.06)', color: '#2f1e16' }}>
                     <pillar.Icon />
                   </div>
                   <div className="text-[10px] uppercase tracking-[0.18em] font-bold mb-3" style={{ fontFamily: 'var(--font-body)', color: '#c2a76d' }}>{pillar.num}</div>
@@ -704,9 +704,9 @@ export default function AboutPage() {
           <SectionHeading subtitle="How We Work" title="Our Advisory Process" description="A refined, four-step approach designed around you." />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { step: '01', title: 'Discovery', desc: 'We listen. Understanding your goals, timeline, budget, and lifestyle preferences forms the foundation of your strategy.', color: '#0e3a2f', Icon: ProcessIcons.Discovery },
-              { step: '02', title: 'Intelligence', desc: 'Our team researches, analyses, and curates a shortlist of properties aligned with your criteria and market conditions.', color: '#155544', Icon: ProcessIcons.Intelligence },
-              { step: '03', title: 'Experience', desc: 'Guided viewings, developer introductions, and detailed comparisons — we make the selection process seamless.', color: '#1c6f59', Icon: ProcessIcons.Experience },
+              { step: '01', title: 'Discovery', desc: 'We listen. Understanding your goals, timeline, budget, and lifestyle preferences forms the foundation of your strategy.', color: '#2f1e16', Icon: ProcessIcons.Discovery },
+              { step: '02', title: 'Intelligence', desc: 'Our team researches, analyses, and curates a shortlist of properties aligned with your criteria and market conditions.', color: '#3e2b20', Icon: ProcessIcons.Intelligence },
+              { step: '03', title: 'Experience', desc: 'Guided viewings, developer introductions, and detailed comparisons — we make the selection process seamless.', color: '#4e3529', Icon: ProcessIcons.Experience },
               { step: '04', title: 'Completion', desc: 'From negotiation to legal handover, we manage every detail to ensure a smooth, stress-free transaction.', color: '#c2a76d', Icon: ProcessIcons.Completion },
             ].map((item, i) => (
               <AnimatedReveal key={i} delay={i * 0.12}>
@@ -731,7 +731,7 @@ export default function AboutPage() {
       <section className="relative py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920&q=80" alt="Dubai" className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.93), rgba(14,58,47,0.82))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.93), rgba(47,30,22,0.82))' }} />
         </div>
         <div className="relative z-10 container-narrow text-center px-6">
           <AnimatedReveal>

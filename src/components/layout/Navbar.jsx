@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import Logo from '../ui/Logo'
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -49,11 +50,7 @@ export default function Navbar() {
         <div className="container-wide h-full flex items-center justify-between px-8 lg:px-12">
           {/* Logo */}
           <Link to="/" className="flex items-center h-full">
-            <img 
-              src="/homelogo.png" 
-              alt="Your Homes Dubai" 
-              className={`h-11 w-auto object-contain transition-all duration-500 ${!isSolid ? 'brightness-0 invert' : ''}`}
-            />
+            <Logo isSolid={isSolid} className="h-11 w-auto" />
           </Link>
 
           {/* Desktop Nav */}
@@ -110,7 +107,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="fixed inset-0 z-40 lg:hidden flex flex-col"
-            style={{ backgroundColor: '#0e3a2f' }}
+            style={{ backgroundColor: '#2f1e16' }}
           >
             <div className="flex-1 flex flex-col items-center justify-center gap-7 pt-20">
               {navLinks.map((link, i) => (
@@ -154,8 +151,8 @@ export default function Navbar() {
               <a href="tel:+97144541313" className="text-[13px] text-white/30 block mb-1" style={{ fontFamily: 'var(--font-body)' }}>
                 +971 4 454 1313
               </a>
-              <a href="mailto:info@yourhomes.ae" className="text-[13px] text-white/30" style={{ fontFamily: 'var(--font-body)' }}>
-                info@yourhomes.ae
+              <a href="mailto:info@sandaestate.com" className="text-[13px] text-white/30" style={{ fontFamily: 'var(--font-body)' }}>
+                info@sandaestate.com
               </a>
             </motion.div>
           </motion.div>

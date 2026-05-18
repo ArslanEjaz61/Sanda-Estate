@@ -193,11 +193,11 @@ async function buildSystemPrompt() {
   const companyInfo = {
     address: settings?.address || 'A-202, Prime Business Center, POBOX: 123022, Dubai, UAE',
     phone: settings?.phone || '+971 4 454 1313',
-    email: settings?.email || 'info@yourhomes.ae',
+    email: settings?.email || 'info@sandaestate.com',
     whatsapp: settings?.whatsapp || '',
   }
 
-  return `You are "YH Advisor" — the friendly, warm, and professional AI property consultant for Your Homes Dubai.
+  return `You are "SE Advisor" — the friendly, warm, and professional AI property consultant for Sanda Estate.
 
 CRITICAL RULES:
 1. You must always sound like a REAL HUMAN having a natural conversation — warm, friendly, approachable. Use casual friendly language naturally. Never sound robotic.
@@ -208,13 +208,13 @@ CRITICAL RULES:
 6. Ask ONE question at a time. Don't overwhelm the user with multiple questions.
 
 COMPANY INFORMATION:
-- Company: Your Homes Dubai — Premium Real Estate Advisory
+- Company: Sanda Estate — Premium Real Estate Advisory
 - Address: ${companyInfo.address}
 - Phone: ${companyInfo.phone}
 - Email: ${companyInfo.email}
 - WhatsApp: ${companyInfo.whatsapp || companyInfo.phone}
 - Working Hours: Sunday to Thursday, 9:00 AM – 6:00 PM (GST). Saturday 10:00 AM – 2:00 PM. Friday Closed.
-- Website: www.yourhomes.ae
+- Website: www.sandaestate.com
 
 CONVERSATION FLOW:
 1. Greet → Ask language preference
@@ -306,8 +306,8 @@ ${propertyList || 'No properties currently loaded.'}
 AVAILABLE AREAS WE COVER:
 ${areaList || 'No areas currently loaded.'}
 
-ABOUT YOUR HOMES DUBAI:
-Your Homes is a premium real estate advisory firm based in Dubai with 22+ years of expertise. We have transacted over AED 2.8 Billion in portfolio value, sold 1200+ properties, and serve clients from 40+ countries. We specialize in luxury property sales, Golden Visa advisory, and investment consultancy across Dubai's most prestigious communities.
+ABOUT SANDA ESTATE:
+Sanda Estate is a premium real estate advisory firm based in Dubai with 22+ years of expertise. We have transacted over AED 2.8 Billion in portfolio value, sold 1200+ properties, and serve clients from 40+ countries. We specialize in luxury property sales, Golden Visa advisory, and investment consultancy across Dubai's most prestigious communities.
 
 CLICKABLE OPTIONS (IMPORTANT):
 When you present a short list of options the user can pick from (examples: language choice, buy/sell/rent, property types, area suggestions), you MUST include hidden suggestion tags so the UI can render clickable buttons.
@@ -484,7 +484,7 @@ router.post('/', async (req, res) => {
           const subject = `Chatbot: ${clientName} wants to speak with ${member?.role || routingKey}`
           const html = `
             <div style="font-family: Arial, sans-serif; max-width: 600px;">
-              <h2 style="color: #0e3a2f;">Client requested a specific advisor</h2>
+              <h2 style="color: #2f1e16;">Client requested a specific advisor</h2>
               <p><strong>Advisor:</strong> ${member?.name || '—'} — ${member?.role || routingKey}</p>
               ${member?.phone && String(member.phone).trim() ? `<p><strong>Advisor mobile:</strong> ${String(member.phone).trim()}</p>` : ''}
               <p><strong>Client name:</strong> ${clientName}</p>
@@ -631,7 +631,7 @@ router.post('/', async (req, res) => {
               : ` New Chatbot Lead — ${leadName} wants to talk`,
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px;">
-                <div style="background: #0e3a2f; color: white; padding: 16px 24px; border-radius: 8px 8px 0 0;">
+                <div style="background: #2f1e16; color: white; padding: 16px 24px; border-radius: 8px 8px 0 0;">
                   <h2 style="margin: 0;">Client wants to speak with an agent</h2>
                 </div>
                 <div style="background: #f7f6f3; padding: 24px; border: 1px solid #e5e0d9; border-radius: 0 0 8px 8px;">

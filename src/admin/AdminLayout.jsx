@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import Logo from '../components/ui/Logo'
 
 const API = import.meta.env.VITE_API_BASE
 
@@ -53,19 +54,15 @@ export default function AdminLayout() {
     `flex items-center gap-3 px-4 py-3 text-[12px] uppercase tracking-[0.12em] font-semibold transition-all duration-200 ${isActive ? 'text-[#c2a76d] bg-white/[0.06]' : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'}`
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#0a1a15' }}>
+    <div className="min-h-screen flex" style={{ background: '#1c1511' }}>
       {/* Mobile overlay */}
       {sidebarOpen && <div className="lg:hidden fixed inset-0 bg-black/50 z-40" onClick={() => setSidebarOpen(false)} />}
 
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ background: '#0e3a2f', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 flex flex-col transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ background: '#2f1e16', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
         {/* Logo */}
-        <div className="px-5 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <img 
-            src="/homelogo.png" 
-            alt="Your Homes Admin" 
-            className="h-10 w-auto object-contain brightness-0 invert opacity-80"
-          />
+        <div className="px-5 py-6 flex items-center justify-start" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <Logo variant="light" size="sm" />
         </div>
 
         {/* Nav */}
@@ -97,7 +94,7 @@ export default function AdminLayout() {
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="px-6 py-4 flex items-center justify-between" style={{ background: '#0e3a2f', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <header className="px-6 py-4 flex items-center justify-between" style={{ background: '#2f1e16', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden text-white/60 hover:text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
@@ -108,7 +105,7 @@ export default function AdminLayout() {
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border border-[#0e3a2f]"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border border-[#2f1e16]"></span>
                 </span>
               )}
             </div>
@@ -117,7 +114,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-6 lg:p-8 overflow-auto" style={{ background: '#0d1a15' }}>
+        <main className="flex-1 p-6 lg:p-8 overflow-auto" style={{ background: '#221915' }}>
           <Outlet />
         </main>
       </div>

@@ -55,7 +55,7 @@ export default function HomePage() {
   const defaults = {
     address: 'A-202, Prime Business Center, Dubai',
     phone: '+971 4 454 1313',
-    email: 'info@yourhomes.ae'
+    email: 'info@sandaestate.com'
   }
 
   const contactInfo = {
@@ -129,7 +129,7 @@ export default function HomePage() {
             className="w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 40%, rgba(0,0,0,0.6) 100%)' }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(14,58,47,0.12) 0%, transparent 50%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(47,30,22,0.12) 0%, transparent 50%)' }} />
         </div>
 
         <div className="relative z-10 w-full px-6 lg:pl-16 xl:pl-24 pt-32 lg:pt-40">
@@ -214,7 +214,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ STAT BANNER ═══════════════ */}
-      <section className="py-8 lg:py-10" style={{ backgroundColor: '#0e3a2f' }}>
+      <section className="py-8 lg:py-10" style={{ backgroundColor: '#2f1e16' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x divide-white/10">
             {parsedStats.map((stat, i) => (
@@ -264,7 +264,7 @@ export default function HomePage() {
             alt="Dubai skyline"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.95), rgba(14,58,47,0.9))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.95), rgba(47,30,22,0.9))' }} />
         </div>
         <div className="container-narrow relative z-10">
           <AnimatedReveal>
@@ -313,7 +313,7 @@ export default function HomePage() {
             alt="Dubai luxury real estate process"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.95), rgba(14,58,47,0.88))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.95), rgba(47,30,22,0.88))' }} />
         </div>
         <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(194,167,109,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
@@ -420,7 +420,7 @@ export default function HomePage() {
               <AnimatedReveal key={i} delay={i * 0.08}>
                 <div className="premium-card p-7 h-full group">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-11 h-11 flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(14,58,47,0.06)', color: '#0e3a2f' }}>
+                    <div className="w-11 h-11 flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(47,30,22,0.06)', color: '#2f1e16' }}>
                       {whyDubaiIcons[i]}
                     </div>
                     <div className="text-[10px] uppercase tracking-[0.18em] font-bold pt-3" style={{ fontFamily: 'var(--font-body)', color: '#9a9a9a' }}>
@@ -458,7 +458,7 @@ export default function HomePage() {
             alt="Dubai Real Estate Communities"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.82), rgba(14,58,47,0.88))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.82), rgba(47,30,22,0.88))' }} />
         </div>
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <SectionHeading
@@ -481,10 +481,10 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ TRACK RECORD ═══════════════ */}
-      <section className="section-padding relative overflow-hidden" style={{ backgroundColor: '#111111' }}>
+      <section className="section-padding relative overflow-hidden" style={{ backgroundColor: '#2f1e16' }}>
         <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
         <div className="container-narrow relative z-10">
-          <SectionHeading subtitle="Our Track Record" title="Why Your Homes" light />
+          <SectionHeading subtitle="Our Track Record" title="Why Sanda Estate" light />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
             {parsedStats.map((stat, i) => (
               <AnimatedReveal key={i} delay={i * 0.12}>
@@ -514,7 +514,7 @@ export default function HomePage() {
       {/* ═══════════════ TESTIMONIALS ═══════════════ */}
       <section className="section-padding-lg" style={{ backgroundColor: '#faf8f5' }}>
         <div className="container-narrow">
-          <SectionHeading subtitle="Client Stories" title="Trusted Worldwide" description="What our clients say about working with Your Homes." />
+          <SectionHeading subtitle="Client Stories" title="Trusted Worldwide" description="What our clients say about working with Sanda Estate." />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {testimonials.slice(0, 3).map((t, i) => (
               <AnimatedReveal key={t.id} delay={i * 0.12}>
@@ -526,7 +526,7 @@ export default function HomePage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3 pt-5" style={{ borderTop: '1px solid #f0ebe5' }}>
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(14,58,47,0.08)', color: '#0e3a2f', fontFamily: 'var(--font-body)' }}>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(47,30,22,0.08)', color: '#2f1e16', fontFamily: 'var(--font-body)' }}>
                       {t.name.split(' ').slice(0, 2).map(n => n[0]).join('')}
                     </div>
                     <div>
@@ -546,7 +546,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ GOLDEN VISA ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#0e3a2f' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#2f1e16' }}>
         <div className="container-wide px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             <div className="py-16 lg:py-20 lg:pr-16 flex flex-col justify-center">
@@ -571,7 +571,7 @@ export default function HomePage() {
             </div>
             <div className="relative min-h-[300px] lg:min-h-[400px]">
               <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80" alt="Dubai investment" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0" style={{ backgroundColor: 'rgba(14,58,47,0.2)' }} />
+              <div className="absolute inset-0" style={{ backgroundColor: 'rgba(47,30,22,0.2)' }} />
             </div>
           </div>
         </div>
@@ -581,7 +581,7 @@ export default function HomePage() {
       <section className="relative py-20 lg:py-28 overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=1920&q=80" alt="Dubai" className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.93), rgba(14,58,47,0.82))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.93), rgba(47,30,22,0.82))' }} />
         </div>
         <div className="relative z-10 container-narrow text-center px-6">
           <AnimatedReveal>

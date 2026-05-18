@@ -14,7 +14,7 @@ const seedAdmin = async () => {
     await mongoose.connect(process.env.MONGODB_URI)
     console.log('Connected to MongoDB')
 
-    const email = 'admin@yourhomes.ae'
+    const email = 'admin@sandaestate.com'
     const password = 'admin123'
     const name = 'Admin User'
 

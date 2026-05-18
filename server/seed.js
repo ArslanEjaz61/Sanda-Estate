@@ -22,9 +22,9 @@ async function seed() {
     console.log('Connected to MongoDB')
 
     // Create default admin
-    const admin = new Admin({ name: 'Admin', email: 'admin@yourhomes.ae', password: 'admin123' })
+    const admin = new Admin({ name: 'Admin', email: 'admin@sandaestate.com', password: 'admin123' })
     await admin.save()
-    console.log('✅ Created default admin: admin@yourhomes.ae / admin123')
+    console.log('✅ Created default admin: admin@sandaestate.com / admin123')
 
     await mongoose.disconnect()
     console.log('Done!')

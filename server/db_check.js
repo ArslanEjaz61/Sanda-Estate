@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 async function check() {
-    const db1 = 'mongodb://127.0.0.1:27017/yourhomesdubai';
-    const db2 = 'mongodb://127.0.0.1:27017/your-homes-dubai';
+    const db1 = 'mongodb://127.0.0.1:27017/sandaestatedubai';
+    const db2 = 'mongodb://127.0.0.1:27017/sanda-estate-dubai';
     
     for (let uri of [db1, db2]) {
         try {

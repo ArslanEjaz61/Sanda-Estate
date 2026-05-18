@@ -11,7 +11,7 @@ const settingsSchema = new mongoose.Schema({
   },
   email: { 
     type: String, 
-    default: 'info@yourhomes.ae' 
+    default: 'info@sandaestate.com' 
   },
   /** Gmail (or Google Workspace) address used to sign in and send outbound mail (leads, chatbot). */
   smtpUser: {

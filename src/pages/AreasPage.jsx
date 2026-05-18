@@ -15,7 +15,7 @@ export default function AreasPage() {
   return (
     <>
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#0e3a2f' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#2f1e16' }}>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10 pt-48 pb-14 lg:pt-56 lg:pb-20 text-center">
           <AnimatedReveal>

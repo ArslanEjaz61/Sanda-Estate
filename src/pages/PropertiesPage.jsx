@@ -88,7 +88,7 @@ export default function PropertiesPage() {
             alt="Dubai Luxury Properties"
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(14,58,47,0.92), rgba(14,58,47,0.88))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(47,30,22,0.92), rgba(47,30,22,0.88))' }} />
         </div>
         <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10 pt-48 pb-10 lg:pt-56 lg:pb-14">
@@ -190,7 +190,7 @@ export default function PropertiesPage() {
                       className="w-10 h-10 flex items-center justify-center text-[12px] transition-all duration-300"
                       style={{
                         fontFamily: 'var(--font-body)',
-                        backgroundColor: currentPage === page ? '#0e3a2f' : 'transparent',
+                        backgroundColor: currentPage === page ? '#2f1e16' : 'transparent',
                         color: currentPage === page ? '#ffffff' : '#6b6b6b',
                         border: currentPage === page ? 'none' : '1px solid #e5e0d9',
                       }}

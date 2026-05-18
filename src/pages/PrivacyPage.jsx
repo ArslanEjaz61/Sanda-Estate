@@ -13,7 +13,7 @@ export default function PrivacyPage() {
 
   const contactInfo = settings || {
     address: 'A-202, Prime Business Center, Dubai, UAE',
-    email: 'info@yourhomes.ae'
+    email: 'info@sandaestate.com'
   }
 
   return (
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
                 Introduction
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                Your Homes ("we", "our", "us") is committed to protecting the privacy of our clients and website visitors. This Privacy Policy explains how we collect, use, and safeguard your personal information when you visit our website or engage with our services.
+                Sanda Estate ("we", "our", "us") is committed to protecting the privacy of our clients and website visitors. This Privacy Policy explains how we collect, use, and safeguard your personal information when you visit our website or engage with our services.
               </p>
             </div>
             <div>

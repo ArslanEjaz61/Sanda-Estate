@@ -56,10 +56,10 @@ export default function Dashboard() {
   }, [])
 
   const statCards = [
-    { label: 'Total Properties', value: stats.total, color: '#0e3a2f' },
+    { label: 'Total Properties', value: stats.total, color: '#2f1e16' },
     { label: 'Featured', value: stats.featured, color: '#c2a76d' },
-    { label: 'Off-Plan', value: stats.offPlan, color: '#155544' },
-    { label: 'Total Leads', value: stats.leads, color: '#1c6f59' },
+    { label: 'Off-Plan', value: stats.offPlan, color: '#473024' },
+    { label: 'Total Leads', value: stats.leads, color: '#5c4132' },
   ]
 
   return (
@@ -107,7 +107,7 @@ export default function Dashboard() {
                 <td className="py-3 px-4 text-[12px] text-white/40">{p.type}</td>
                 <td className="py-3 px-4 text-[12px] text-[#c2a76d]">{p.priceFormatted || `AED ${p.price?.toLocaleString()}`}</td>
                 <td className="py-3 px-4">
-                  <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(14,58,47,0.15)' : 'rgba(194,167,109,0.15)', color: p.status === 'Ready' ? '#0e3a2f' : '#c2a76d' }}>{p.status}</span>
+                  <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(47,30,22,0.15)' : 'rgba(194,167,109,0.15)', color: p.status === 'Ready' ? '#2f1e16' : '#c2a76d' }}>{p.status}</span>
                 </td>
               </tr>
             ))}

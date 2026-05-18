@@ -18,9 +18,9 @@ function TypingIndicator() {
     <div className="flex justify-start">
       <div className="bg-white text-gray-800 rounded-lg rounded-tl-sm border border-gray-100 p-3 shadow-sm">
         <div className="flex items-center gap-1.5">
-          <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0 }} className="w-2 h-2 rounded-full" style={{ background: '#0e3a2f' }} />
-          <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.2 }} className="w-2 h-2 rounded-full" style={{ background: '#0e3a2f' }} />
-          <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.4 }} className="w-2 h-2 rounded-full" style={{ background: '#0e3a2f' }} />
+          <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0 }} className="w-2 h-2 rounded-full" style={{ background: '#2f1e16' }} />
+          <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.2 }} className="w-2 h-2 rounded-full" style={{ background: '#2f1e16' }} />
+          <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.4 }} className="w-2 h-2 rounded-full" style={{ background: '#2f1e16' }} />
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@ function PropertyCard({ property }) {
         </h4>
         <div className="text-[11px] text-gray-500 mb-1.5">{property.location}</div>
         <div className="flex items-center justify-between">
-          <span className="text-[12px] font-bold" style={{ color: '#0e3a2f' }}>
+          <span className="text-[12px] font-bold" style={{ color: '#2f1e16' }}>
             {property.priceFormatted || `AED ${property.price?.toLocaleString()}`}
           </span>
           <span className="text-[10px] text-gray-400">
@@ -68,7 +68,7 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
     {
-      text: "Hello! Welcome to Your Homes Dubai. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in?\nEnglish, العربية, اردو, हिंदी, or any other?",
+      text: "Hello! Welcome to Sanda Estate. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in?\nEnglish, العربية, اردو, हिंदी, or any other?",
       sender: 'bot',
       properties: [],
       suggestions: []
@@ -154,13 +154,13 @@ export default function ChatWidget() {
             style={{ height: '480px', border: '1.5px solid rgba(247, 246, 243, 0.4)' }}
           >
             {/* Header */}
-            <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ background: '#0e3a2f', color: 'white' }}>
+            <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ background: '#2f1e16', color: 'white' }}>
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: '#c2a76d' }}>
-                  <span className="text-[9px] font-bold" style={{ color: '#1a1a1a' }}>YH</span>
+                  <span className="text-[9px] font-bold" style={{ color: '#1a1a1a' }}>SE</span>
                 </div>
                 <div>
-                  <div className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>YH Advisor</div>
+                  <div className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>SE Advisor</div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-[9px] text-white/50">Online</span>
@@ -179,7 +179,7 @@ export default function ChatWidget() {
                     <div
                       className={`p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${
                         m.sender === 'user'
-                          ? 'bg-[#0e3a2f] text-white rounded-tr-sm'
+                          ? 'bg-[#2f1e16] text-white rounded-tr-sm'
                           : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'
                       }`}
                       style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
@@ -228,7 +228,7 @@ export default function ChatWidget() {
                 type="text"
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                placeholder={isLoading ? "YH Advisor is typing..." : "Type your message..."}
+                placeholder={isLoading ? "SE Advisor is typing..." : "Type your message..."}
                 disabled={isLoading}
                 className="flex-1 px-3 py-2 text-[13px] bg-[#f7f6f3] rounded-md outline-none border border-transparent focus:border-[#c2a76d]/40 transition-colors disabled:opacity-50"
               />
@@ -247,8 +247,8 @@ export default function ChatWidget() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(14,58,47,0.3)] hover:scale-105 transition-transform"
-        style={{ background: 'linear-gradient(135deg, #0e3a2f, #04382a)', border: '2px solid rgba(247, 246, 243, 0.3)' }}
+        className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(47,30,22,0.3)] hover:scale-105 transition-transform"
+        style={{ background: 'linear-gradient(135deg, #2f1e16, #22140e)', border: '2px solid rgba(247, 246, 243, 0.3)' }}
       >
         {isOpen ? (
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>

@@ -2,10 +2,10 @@
 @source "./**/*.jsx";
 
 @theme {
-  --color-emerald-deep: #0e3a2f;
-  --color-emerald-dark: #0e3a2f;
-  --color-emerald-medium: #124b3d;
-  --color-emerald-light: #1a5c4c;
+  --color-emerald-deep: #2f1e16; /* Deep luxury chocolate/espresso brown */
+  --color-emerald-dark: #281d18; /* Even deeper dark espresso brown */
+  --color-emerald-medium: #3e2b20; /* Rich coffee brown */
+  --color-emerald-light: #4e3529; /* Soft warm mocha brown */
   --color-gold: #c2a76d;
   --color-gold-muted: #c2a76d;
   --color-gold-light: #c2a76d;
@@ -187,7 +187,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    background: #0e3a2f;
+    background: #2f1e16;
     color: #f7f6f3;
     border: none;
     transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -197,8 +197,8 @@
 
   .btn-emerald:hover {
     transform: translateY(-1px);
-    background: #124b3d;
-    box-shadow: 0 8px 25px rgba(14, 58, 47, 0.25);
+    background: #3e2b20;
+    box-shadow: 0 8px 25px rgba(47, 30, 22, 0.25);
   }
 
   .btn-gold::after {

@@ -17,7 +17,7 @@ export default function TermsPage() {
                 Acceptance of Terms
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                By accessing and using the Your Homes website, you accept and agree to be bound by the terms and conditions outlined herein. If you do not agree with these terms, please refrain from using our website.
+                By accessing and using the Sanda Estate website, you accept and agree to be bound by the terms and conditions outlined herein. If you do not agree with these terms, please refrain from using our website.
               </p>
             </div>
             <div>
@@ -25,7 +25,7 @@ export default function TermsPage() {
                 Services
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                Your Homes provides real estate advisory, property intelligence, and brokerage services in the Dubai property market. All property information, pricing, and availability are subject to change without notice and should be independently verified.
+                Sanda Estate provides real estate advisory, property intelligence, and brokerage services in the Dubai property market. All property information, pricing, and availability are subject to change without notice and should be independently verified.
               </p>
             </div>
             <div>
@@ -33,7 +33,7 @@ export default function TermsPage() {
                 Intellectual Property
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                All content, design, graphics, and materials on this website are the property of Your Homes and are protected by applicable intellectual property laws. Reproduction, distribution, or use of any content without prior written consent is strictly prohibited.
+                All content, design, graphics, and materials on this website are the property of Sanda Estate and are protected by applicable intellectual property laws. Reproduction, distribution, or use of any content without prior written consent is strictly prohibited.
               </p>
             </div>
             <div>
@@ -41,7 +41,7 @@ export default function TermsPage() {
                 Disclaimer
               </h3>
               <p className="text-[15px] text-gray-warm leading-[1.9]">
-                While we strive to ensure accuracy, Your Homes makes no warranties or representations about the completeness, accuracy, or reliability of any information on this website. Property investments carry inherent risks and past performance is not indicative of future results.
+                While we strive to ensure accuracy, Sanda Estate makes no warranties or representations about the completeness, accuracy, or reliability of any information on this website. Property investments carry inherent risks and past performance is not indicative of future results.
               </p>
             </div>
             <div>

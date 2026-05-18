@@ -1,7 +1,7 @@
 {
-  "name": "your-homes-dubai-server",
+  "name": "sanda-estate-server",
   "version": "1.0.0",
-  "description": "Backend API for Your Homes Dubai",
+  "description": "Backend API for Sanda Estate",
   "main": "index.js",
   "type": "module",
   "scripts": {

@@ -174,7 +174,7 @@ export default function AreaDetailPage() {
                           </div>
                           <div
                             className="text-xl lg:text-2xl leading-snug break-words"
-                            style={{ fontFamily: 'var(--font-heading)', color: '#0e3a2f', fontWeight: 500 }}
+                            style={{ fontFamily: 'var(--font-heading)', color: '#2f1e16', fontWeight: 500 }}
                           >
                             {String(value).trim()}
                           </div>
@@ -328,7 +328,7 @@ export default function AreaDetailPage() {
       )}
 
       {/* CTA */}
-      <section className="py-20 lg:py-28" style={{ backgroundColor: '#0e3a2f' }}>
+      <section className="py-20 lg:py-28" style={{ backgroundColor: '#2f1e16' }}>
         <div className="container-narrow text-center px-6">
           <AnimatedReveal>
             <h2 className="text-white mb-6" style={{ fontFamily: 'var(--font-heading)', fontWeight: 300 }}>

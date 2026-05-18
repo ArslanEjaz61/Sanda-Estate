@@ -170,7 +170,7 @@ export default function PropertyDetailPage() {
                     ...(property.serviceCharges ? [{ label: 'Service Chg', value: `AED ${property.serviceCharges}` }] : []),
                   ].map((spec, i) => (
                     <div key={i} className="text-center min-w-[80px]">
-                      <div className="text-[18px] lg:text-[20px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#0e3a2f' }}>{spec.value}</div>
+                      <div className="text-[18px] lg:text-[20px] mb-0.5" style={{ fontFamily: 'var(--font-heading)', color: '#2f1e16' }}>{spec.value}</div>
                       <div className="text-[9px] uppercase tracking-[0.15em]" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: '#9a9a9a' }}>{spec.label}</div>
                     </div>
                   ))}
@@ -220,7 +220,7 @@ export default function PropertyDetailPage() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 mb-8">
                   {property.amenities && property.amenities.length > 0 ? property.amenities.map((amenity, i) => (
                     <div key={i} className="flex items-center gap-2 text-[13px]" style={{ fontFamily: 'var(--font-body)', color: '#6b6b6b' }}>
-                      <span style={{ color: '#0e3a2f', fontSize: '6px' }}>◆</span>{amenity}
+                      <span style={{ color: '#2f1e16', fontSize: '6px' }}>◆</span>{amenity}
                     </div>
                   )) : (
                     <div className="text-[13px] text-[#9a9a9a]" style={{ fontFamily: 'var(--font-body)' }}>No facilities listed.</div>

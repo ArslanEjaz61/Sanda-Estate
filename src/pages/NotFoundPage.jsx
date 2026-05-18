@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   return (
     <section
       className="min-h-screen flex items-center justify-center px-6"
-      style={{ backgroundColor: '#0e3a2f' }}
+      style={{ backgroundColor: '#2f1e16' }}
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}

@@ -95,7 +95,7 @@ export default function PropertyList() {
                   <td className="py-3 px-4 text-[12px] text-white/40">{p.location}</td>
                   <td className="py-3 px-4 text-[12px] text-[#c2a76d]">{p.priceFormatted || `AED ${p.price?.toLocaleString()}`}</td>
                   <td className="py-3 px-4">
-                    <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(14,58,47,0.15)' : 'rgba(194,167,109,0.15)', color: p.status === 'Ready' ? '#0e3a2f' : '#c2a76d' }}>{p.status}</span>
+                    <span className="inline-block px-2 py-1 text-[9px] uppercase tracking-[0.1em] font-bold" style={{ background: p.status === 'Ready' ? 'rgba(47,30,22,0.15)' : 'rgba(194,167,109,0.15)', color: p.status === 'Ready' ? '#2f1e16' : '#c2a76d' }}>{p.status}</span>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2">

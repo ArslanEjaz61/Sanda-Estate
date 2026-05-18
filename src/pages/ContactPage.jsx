@@ -16,7 +16,7 @@ export default function ContactPage() {
   const defaults = {
     address: 'A-202, Prime Business Center, POBOX: 123022, Dubai',
     phone: '+971 4 454 1313',
-    email: 'info@yourhomes.ae'
+    email: 'info@sandaestate.com'
   }
 
   const contactDetails = {
@@ -33,7 +33,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ═══════════════ HERO — Confidential Consultation ═══════════════ */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#0e3a2f' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#2f1e16' }}>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="container-wide px-6 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">

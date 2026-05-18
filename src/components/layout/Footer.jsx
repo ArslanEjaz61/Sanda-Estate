@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { fetchSettings } from '../../utils/api'
+import Logo from '../ui/Logo'
 
 const footerLinks = [
   { label: 'Home', path: '/' },
@@ -29,7 +30,7 @@ export default function Footer() {
   const defaults = {
     address: 'A-202, Prime Business Center, POBOX: 123022, Dubai, UAE',
     phone: '+971 4 454 1313',
-    email: 'info@yourhomes.ae',
+    email: 'info@sandaestate.com',
     whatsapp: '',
     socials: {
       instagram: '',
@@ -45,7 +46,7 @@ export default function Footer() {
   }
 
   return (
-    <footer style={{ backgroundColor: '#0e3a2f' }}>
+    <footer style={{ backgroundColor: '#2f1e16' }}>
       {/* Pre-footer CTA */}
       <div className="container-wide px-6 lg:px-10">
         <div className="py-14 lg:py-16 flex flex-col lg:flex-row items-center justify-between gap-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -76,11 +77,7 @@ export default function Footer() {
           {/* Brand — 4 cols */}
           <div className="lg:col-span-4">
             <Link to="/" className="inline-block mb-5">
-              <img
-                src="/homelogo.png"
-                alt="Your Homes Dubai"
-                className="h-12 w-auto object-contain brightness-0 invert opacity-90"
-              />
+              <Logo variant="light" className="h-12 w-auto" />
             </Link>
             <p className="text-[13px] text-white/40 leading-[1.8] max-w-[280px] mb-6" style={{ fontFamily: 'var(--font-body)' }}>
               Curated real estate intelligence for investors, families, and global buyers seeking premium Dubai properties.
@@ -155,7 +152,7 @@ export default function Footer() {
       {/* Footer Bottom Strip */}
       <div className="container-wide px-6 lg:px-10">
         <div className="py-6 flex flex-col md:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid rgba(194,167,109,0.15)', fontFamily: 'var(--font-body)' }}>
-          <span className="text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>© {new Date().getFullYear()} Your Homes — Property Intelligence. All rights reserved.</span>
+          <span className="text-[11px] tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>© {new Date().getFullYear()} Sanda Estate — Premium Real Estate Advisory. All rights reserved.</span>
           <span className="text-[11px] tracking-wide font-medium" style={{ color: 'rgba(255,255,255,0.45)' }}>RERA Licensed · Dubai, UAE</span>
         </div>
       </div>
