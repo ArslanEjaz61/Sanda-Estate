@@ -5,7 +5,7 @@ export default function Logo({ isSolid = true, variant = '', className = '' }) {
   const isFooter = variant === 'light'
   
   // Set beautiful larger dimensions
-  const logoHeightClass = isFooter ? 'h-20 md:h-24' : 'h-14 md:h-16'
+  const logoHeightClass = isFooter ? 'h-32 md:h-40' : 'h-20 md:h-24'
 
   return (
     <div className="flex items-center select-none">
@@ -18,5 +18,6 @@ export default function Logo({ isSolid = true, variant = '', className = '' }) {
     </div>
   )
 }
+
 
 
