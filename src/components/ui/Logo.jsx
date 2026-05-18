@@ -1,8 +1,11 @@
 import React from 'react'
 
 export default function Logo({ isSolid = true, variant = '', className = '', size = '' }) {
+  // Strip out w-auto to ensure aspect ratio is calculated perfectly based on height
+  const cleanClassName = className.replace(/\bw-auto\b/g, '')
+
   // Check if a custom height class (like h-12, h-16, md:h-20 etc.) is supplied in className
-  const hasCustomHeight = className.split(' ').some(c => c.startsWith('h-') || c.startsWith('max-h-') || c.startsWith('md:h-'))
+  const hasCustomHeight = cleanClassName.split(' ').some(c => c.startsWith('h-') || c.startsWith('max-h-') || c.startsWith('md:h-'))
   
   // Set beautiful default dimensions if no custom height is provided
   let logoHeightClass = ''
@@ -17,7 +20,7 @@ export default function Logo({ isSolid = true, variant = '', className = '', siz
   }
 
   return (
-    <div className={`flex items-center justify-center select-none overflow-hidden aspect-[1.6/1] ${logoHeightClass} ${className}`}>
+    <div className={`flex items-center justify-center select-none overflow-hidden aspect-[1.6/1] ${logoHeightClass} ${cleanClassName}`}>
       <img 
         src="/sanda-logo.png" 
         alt="Sanda Estate" 

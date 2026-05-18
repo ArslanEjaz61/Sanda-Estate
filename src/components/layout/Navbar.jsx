@@ -50,7 +50,7 @@ export default function Navbar() {
         <div className="container-wide h-full flex items-center justify-between px-8 lg:px-12">
           {/* Logo */}
           <Link to="/" className="flex items-center h-full">
-            <Logo isSolid={isSolid} className="h-16 md:h-20 w-auto" />
+            <Logo isSolid={isSolid} className="h-16 md:h-20" />
           </Link>
 
           {/* Desktop Nav */}
