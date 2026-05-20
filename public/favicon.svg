@@ -1,40 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <!-- Smooth circular dark background for maximum contrast on light and dark tabs -->
-  <circle cx="256" cy="256" r="240" fill="#1b120c" stroke="#c2a76d" stroke-width="12" />
-  
-  <!-- Outer glowing ring -->
-  <circle cx="256" cy="256" r="222" fill="none" stroke="#c2a76d" stroke-width="2" opacity="0.4" />
-  
-  <!-- Stylized Skyscrapers in luxury gold gradient -->
-  <defs>
-    <linearGradient id="gold-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#9a7428" />
-      <stop offset="25%" stop-color="#c2a76d" />
-      <stop offset="50%" stop-color="#e2d2b0" />
-      <stop offset="75%" stop-color="#c2a76d" />
-      <stop offset="100%" stop-color="#9a7428" />
-    </linearGradient>
-    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5" />
-    </filter>
-  </defs>
-  
-  <g filter="url(#subtle-shadow)">
-    <polygon points="156.0,316.2 159.2,316.2 159.2,391.0 156.0,391.0" fill="url(#gold-grad)" />
-    <polygon points="169.0,339.0 172.2,339.0 172.2,391.0 169.0,391.0" fill="url(#gold-grad)" />
-    <polygon points="182.0,303.2 185.2,303.2 185.2,391.0 182.0,391.0" fill="url(#gold-grad)" />
-    <polygon points="206.4,158.4 209.6,158.4 209.6,391.0 206.4,391.0" fill="url(#gold-grad)" />
-    <polygon points="217.8,164.9 221.0,164.9 221.0,391.0 217.8,391.0" fill="url(#gold-grad)" />
-    <polygon points="229.2,166.5 232.4,166.5 232.4,391.0 229.2,391.0" fill="url(#gold-grad)" />
-    <polygon points="242.2,160.0 245.4,160.0 245.4,391.0 242.2,391.0" fill="url(#gold-grad)" />
-    <polygon points="253.6,137.3 256.8,137.3 256.8,391.0 253.6,391.0" fill="url(#gold-grad)" />
-    <polygon points="266.6,129.1 269.8,129.1 269.8,254.4 266.6,254.4" fill="url(#gold-grad)" />
-    <polygon points="278.0,124.3 281.2,124.3 281.2,249.5 278.0,249.5" fill="url(#gold-grad)" />
-    <polygon points="291.0,121.0 294.2,121.0 294.2,243.0 291.0,243.0" fill="url(#gold-grad)" />
-    <polygon points="304.0,244.6 307.2,244.6 307.2,391.0 304.0,391.0" fill="url(#gold-grad)" />
-    <polygon points="315.4,251.1 318.6,251.1 318.6,391.0 315.4,391.0" fill="url(#gold-grad)" />
-    <polygon points="328.4,256.0 331.6,256.0 331.6,391.0 328.4,391.0" fill="url(#gold-grad)" />
-    <polygon points="339.8,267.4 343.0,267.4 343.0,391.0 339.8,391.0" fill="url(#gold-grad)" />
-    <polygon points="352.8,265.8 356.0,265.8 356.0,391.0 352.8,391.0" fill="url(#gold-grad)" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Clean white circular background -->
+  <circle cx="256" cy="256" r="256" fill="#ffffff" />
+
+  <!-- Building skyline mark in black — faithfully recreating the Sanda Estate logo -->
+  <g stroke="#111111" stroke-linecap="round">
+    <!-- Left Building (3 lines) -->
+    <line x1="148" y1="340" x2="148" y2="280" stroke-width="4.5" />
+    <line x1="158" y1="340" x2="158" y2="296" stroke-width="4.5" />
+    <line x1="168" y1="340" x2="168" y2="264" stroke-width="4.5" />
+
+    <!-- Center Building (8 lines — tallest structure) -->
+    <line x1="194" y1="340" x2="194" y2="175" stroke-width="4.5" />
+    <line x1="204" y1="340" x2="204" y2="168" stroke-width="4.5" />
+    <line x1="214" y1="340" x2="214" y2="166" stroke-width="4.5" />
+    <line x1="224" y1="340" x2="224" y2="172" stroke-width="4.5" />
+    <line x1="234" y1="340" x2="234" y2="148" stroke-width="4.5" />
+    <!-- Peak lines (arch/spire) -->
+    <line x1="248" y1="250" x2="248" y2="138" stroke-width="4.5" />
+    <line x1="258" y1="245" x2="258" y2="128" stroke-width="4.5" />
+    <line x1="268" y1="240" x2="268" y2="120" stroke-width="4.5" />
+
+    <!-- Right Building (5 lines) -->
+    <line x1="294" y1="340" x2="294" y2="238" stroke-width="4.5" />
+    <line x1="304" y1="340" x2="304" y2="242" stroke-width="4.5" />
+    <line x1="314" y1="340" x2="314" y2="248" stroke-width="4.5" />
+    <line x1="324" y1="340" x2="324" y2="256" stroke-width="4.5" />
+    <line x1="334" y1="340" x2="334" y2="254" stroke-width="4.5" />
+
+    <!-- Base line -->
+    <line x1="140" y1="344" x2="342" y2="344" stroke-width="5" />
   </g>
+
+  <!-- "SE" monogram text below the mark -->
+  <text x="256" y="392" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" letter-spacing="8" fill="#111111">SE</text>
 </svg>
