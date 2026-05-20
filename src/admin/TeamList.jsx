@@ -102,9 +102,9 @@ export default function TeamList() {
               transition={{ delay: i * 0.05 }}
               className="group relative overflow-hidden bg-white/[0.03] border border-white/10 p-5 rounded-sm"
             >
-              <div className="aspect-video mb-4 overflow-hidden bg-charcoal">
+              <div className="aspect-[4/5] mb-4 overflow-hidden bg-charcoal rounded-sm">
                 {m.image ? (
-                  <img src={m.image} alt={m.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src={m.image} alt={m.name} className="w-full h-full object-cover object-[center_15%] group-hover:scale-110 transition-transform duration-700" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-white/10 uppercase tracking-widest text-[10px]">No Image</div>
                 )}
