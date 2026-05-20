@@ -1,22 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <!-- Smooth circular dark background for maximum contrast on light and dark tabs -->
-  <circle cx="256" cy="256" r="240" fill="#111111" stroke="#c5a880" stroke-width="12" />
+  <circle cx="256" cy="256" r="240" fill="#1b120c" stroke="#c2a76d" stroke-width="12" />
   
-  <!-- Stylized Skyscrapers inspired by the Sanda Estate logo in luxury gold gradient -->
+  <!-- Outer glowing ring -->
+  <circle cx="256" cy="256" r="222" fill="none" stroke="#c2a76d" stroke-width="2" opacity="0.4" />
+  
+  <!-- Stylized Skyscrapers in luxury gold gradient -->
   <defs>
-    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f5e6c4" />
-      <stop offset="50%" stop-color="#d4af37" />
-      <stop offset="100%" stop-color="#aa7c11" />
+    <linearGradient id="gold-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9a7428" />
+      <stop offset="25%" stop-color="#c2a76d" />
+      <stop offset="50%" stop-color="#e2d2b0" />
+      <stop offset="75%" stop-color="#c2a76d" />
+      <stop offset="100%" stop-color="#9a7428" />
     </linearGradient>
+    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
   </defs>
   
-  <!-- Left Pillar -->
-  <rect x="160" y="240" width="48" height="160" rx="8" fill="url(#gold-grad)" />
-  
-  <!-- Middle Pillar (Taller) -->
-  <rect x="232" y="140" width="48" height="260" rx="8" fill="url(#gold-grad)" />
-  
-  <!-- Right Pillar (Medium) -->
-  <rect x="304" y="200" width="48" height="200" rx="8" fill="url(#gold-grad)" />
+  <g filter="url(#subtle-shadow)">
+    <polygon points="156.0,316.2 159.2,316.2 159.2,391.0 156.0,391.0" fill="url(#gold-grad)" />
+    <polygon points="169.0,339.0 172.2,339.0 172.2,391.0 169.0,391.0" fill="url(#gold-grad)" />
+    <polygon points="182.0,303.2 185.2,303.2 185.2,391.0 182.0,391.0" fill="url(#gold-grad)" />
+    <polygon points="206.4,158.4 209.6,158.4 209.6,391.0 206.4,391.0" fill="url(#gold-grad)" />
+    <polygon points="217.8,164.9 221.0,164.9 221.0,391.0 217.8,391.0" fill="url(#gold-grad)" />
+    <polygon points="229.2,166.5 232.4,166.5 232.4,391.0 229.2,391.0" fill="url(#gold-grad)" />
+    <polygon points="242.2,160.0 245.4,160.0 245.4,391.0 242.2,391.0" fill="url(#gold-grad)" />
+    <polygon points="253.6,137.3 256.8,137.3 256.8,391.0 253.6,391.0" fill="url(#gold-grad)" />
+    <polygon points="266.6,129.1 269.8,129.1 269.8,254.4 266.6,254.4" fill="url(#gold-grad)" />
+    <polygon points="278.0,124.3 281.2,124.3 281.2,249.5 278.0,249.5" fill="url(#gold-grad)" />
+    <polygon points="291.0,121.0 294.2,121.0 294.2,243.0 291.0,243.0" fill="url(#gold-grad)" />
+    <polygon points="304.0,244.6 307.2,244.6 307.2,391.0 304.0,391.0" fill="url(#gold-grad)" />
+    <polygon points="315.4,251.1 318.6,251.1 318.6,391.0 315.4,391.0" fill="url(#gold-grad)" />
+    <polygon points="328.4,256.0 331.6,256.0 331.6,391.0 328.4,391.0" fill="url(#gold-grad)" />
+    <polygon points="339.8,267.4 343.0,267.4 343.0,391.0 339.8,391.0" fill="url(#gold-grad)" />
+    <polygon points="352.8,265.8 356.0,265.8 356.0,391.0 352.8,391.0" fill="url(#gold-grad)" />
+  </g>
 </svg>
