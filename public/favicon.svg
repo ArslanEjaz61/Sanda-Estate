@@ -1,39 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- Solid black circular background -->
-  <circle cx="256" cy="256" r="256" fill="#111111" />
-  
-  <!-- Subtle gold border ring -->
-  <circle cx="256" cy="256" r="240" fill="none" stroke="#c2a76d" stroke-width="6" opacity="0.5" />
+  <!-- Solid black rounded square background — better for favicon clarity -->
+  <rect width="512" height="512" rx="80" fill="#111111" />
 
-  <!-- Building skyline mark in gold on black -->
-  <g stroke="#c2a76d" stroke-linecap="round">
-    <!-- Left Building (3 lines) -->
-    <line x1="148" y1="348" x2="148" y2="280" stroke-width="5.5" />
-    <line x1="160" y1="348" x2="160" y2="300" stroke-width="5.5" />
-    <line x1="172" y1="348" x2="172" y2="260" stroke-width="5.5" />
+  <!-- Building skyline — bold, thick, clear at small sizes -->
+  <g fill="#c2a76d">
+    <!-- Left Building — 3 bars -->
+    <rect x="80"  y="270" width="14" height="120" rx="3" />
+    <rect x="102" y="290" width="14" height="100" rx="3" />
+    <rect x="124" y="245" width="14" height="145" rx="3" />
 
-    <!-- Center Building (8 lines — tallest structure) -->
-    <line x1="198" y1="348" x2="198" y2="178" stroke-width="5.5" />
-    <line x1="210" y1="348" x2="210" y2="170" stroke-width="5.5" />
-    <line x1="222" y1="348" x2="222" y2="168" stroke-width="5.5" />
-    <line x1="234" y1="348" x2="234" y2="174" stroke-width="5.5" />
-    <line x1="246" y1="348" x2="246" y2="150" stroke-width="5.5" />
-    <!-- Peak spire lines -->
-    <line x1="260" y1="258" x2="260" y2="138" stroke-width="5.5" />
-    <line x1="272" y1="252" x2="272" y2="126" stroke-width="5.5" />
-    <line x1="284" y1="246" x2="284" y2="116" stroke-width="5.5" />
+    <!-- Center Building — tallest, 5 thick bars -->
+    <rect x="160" y="155" width="14" height="235" rx="3" />
+    <rect x="182" y="145" width="14" height="245" rx="3" />
+    <rect x="204" y="140" width="14" height="250" rx="3" />
+    <rect x="226" y="148" width="14" height="242" rx="3" />
+    <rect x="248" y="120" width="14" height="270" rx="3" />
 
-    <!-- Right Building (5 lines) -->
-    <line x1="310" y1="348" x2="310" y2="238" stroke-width="5.5" />
-    <line x1="322" y1="348" x2="322" y2="244" stroke-width="5.5" />
-    <line x1="334" y1="348" x2="334" y2="252" stroke-width="5.5" />
-    <line x1="346" y1="348" x2="346" y2="260" stroke-width="5.5" />
-    <line x1="358" y1="348" x2="358" y2="256" stroke-width="5.5" />
+    <!-- Spire / Peak lines -->
+    <rect x="274" y="100" width="14" height="155" rx="3" />
+    <rect x="296" y="88"  width="14" height="140" rx="3" />
+    <rect x="318" y="78"  width="14" height="125" rx="3" />
 
-    <!-- Base line -->
-    <line x1="140" y1="354" x2="366" y2="354" stroke-width="6" />
+    <!-- Right Building — 4 bars -->
+    <rect x="354" y="210" width="14" height="180" rx="3" />
+    <rect x="376" y="218" width="14" height="172" rx="3" />
+    <rect x="398" y="228" width="14" height="162" rx="3" />
+    <rect x="420" y="224" width="14" height="166" rx="3" />
+
+    <!-- Bold base line -->
+    <rect x="70" y="394" width="374" height="7" rx="3" />
   </g>
 
-  <!-- "SE" monogram -->
-  <text x="256" y="400" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="8" fill="#c2a76d">SE</text>
+  <!-- "SE" text — bold and clear -->
+  <text x="256" y="448" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" letter-spacing="12" fill="#c2a76d">SE</text>
 </svg>
