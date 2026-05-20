@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { sendChatMessage } from '../../utils/api'
 
 const SERVER_BASE = import.meta.env.VITE_SERVER_BASE
@@ -27,40 +27,118 @@ function TypingIndicator() {
   )
 }
 
-// Inline property card component
-function PropertyCard({ property }) {
+// Enhanced inline property card component
+function ChatPropertyCard({ property }) {
   const imgUrl = normalizeImageUrl(property.image)
+  const navigate = useNavigate()
+
   return (
-    <Link
-      to={`/properties/${property.id}`}
-      className="block rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow mt-2 mb-1 bg-white"
-      style={{ maxWidth: '280px' }}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      onClick={() => navigate(`/properties/${property.id}`)}
+      className="group rounded-lg overflow-hidden border border-gray-200/80 shadow-sm hover:shadow-lg transition-all duration-300 mt-2 mb-1 bg-white cursor-pointer hover:border-[#c2a76d]/40"
+      style={{ maxWidth: '300px' }}
     >
+      {/* Image section */}
       {imgUrl && (
-        <div className="h-28 overflow-hidden">
-          <img src={imgUrl} alt={property.title} className="w-full h-full object-cover" />
+        <div className="relative h-32 overflow-hidden">
+          <img src={imgUrl} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.4) 0%, transparent 50%)' }} />
+          {/* Price badge */}
+          <div className="absolute bottom-2 left-2.5 px-2 py-1 rounded text-[11px] font-bold text-white" style={{ background: 'rgba(47,30,22,0.85)', backdropFilter: 'blur(4px)' }}>
+            {property.priceFormatted || `AED ${property.price?.toLocaleString()}`}
+          </div>
+          {/* Type badge */}
+          <div className="absolute top-2 left-2.5 px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-bold" style={{ background: '#c2a76d', color: '#1a1a1a' }}>
+            {property.type || 'Property'}
+          </div>
+          {property.goldenVisa && (
+            <div className="absolute top-2 right-2.5 px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider font-bold" style={{ background: 'rgba(194,167,109,0.9)', color: '#1a1a1a' }}>
+              Golden Visa
+            </div>
+          )}
         </div>
       )}
+      {/* Details */}
       <div className="p-3">
-        <h4 className="text-[12px] font-semibold text-gray-900 leading-tight mb-1 line-clamp-2" style={{ fontFamily: 'var(--font-heading)' }}>
+        <h4 className="text-[12px] font-semibold text-gray-900 leading-tight mb-1.5 line-clamp-2" style={{ fontFamily: 'var(--font-heading)' }}>
           {property.title}
         </h4>
-        <div className="text-[11px] text-gray-500 mb-1.5">{property.location}</div>
-        <div className="flex items-center justify-between">
-          <span className="text-[12px] font-bold" style={{ color: '#2f1e16' }}>
-            {property.priceFormatted || `AED ${property.price?.toLocaleString()}`}
-          </span>
-          <span className="text-[10px] text-gray-400">
-            {property.bedrooms} Bed · {property.bathrooms} Bath
-          </span>
+        {/* Location */}
+        <div className="flex items-center gap-1 mb-2">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span className="text-[10px] text-gray-500">{property.location}</span>
         </div>
-        {property.goldenVisa && (
-          <span className="inline-block text-[8px] uppercase tracking-wider font-bold mt-1.5 px-2 py-0.5 rounded-sm" style={{ background: 'rgba(194,167,109,0.15)', color: '#c2a76d' }}>
-            Golden Visa
+        {/* Stats row */}
+        <div className="flex items-center gap-3 mb-2.5">
+          {property.bedrooms != null && (
+            <div className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="1.5"><path d="M3 7v11a1 1 0 001 1h16a1 1 0 001-1V7"/><path d="M21 11H3V8a2 2 0 012-2h14a2 2 0 012 2v3z"/></svg>
+              <span className="text-[10px] text-gray-600">{property.bedrooms} Bed</span>
+            </div>
+          )}
+          {property.bathrooms != null && (
+            <div className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="1.5"><path d="M4 12h16a1 1 0 011 1v3a4 4 0 01-4 4H7a4 4 0 01-4-4v-3a1 1 0 011-1z"/><path d="M6 12V5a2 2 0 012-2h3"/></svg>
+              <span className="text-[10px] text-gray-600">{property.bathrooms} Bath</span>
+            </div>
+          )}
+          {property.area != null && (
+            <div className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <span className="text-[10px] text-gray-600">{property.area} {property.areaUnit || 'sqft'}</span>
+            </div>
+          )}
+        </div>
+        {/* View button */}
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-bold uppercase tracking-wider group-hover:text-[#c2a76d] transition-colors" style={{ color: '#2f1e16', fontFamily: 'var(--font-body)' }}>
+            View Details
           </span>
-        )}
+          <div className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-[#c2a76d] transition-colors" style={{ background: '#2f1e16' }}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </div>
+        </div>
       </div>
-    </Link>
+    </motion.div>
+  )
+}
+
+// Clickable suggestion button
+function SuggestionButton({ label, value, onClick, disabled, index }) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, delay: index * 0.06 }}
+      type="button"
+      disabled={disabled}
+      onClick={() => onClick(value)}
+      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[12px] font-medium border transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.03] active:scale-[0.97]"
+      style={{
+        fontFamily: 'var(--font-body)',
+        background: 'white',
+        borderColor: 'rgba(194,167,109,0.35)',
+        color: '#2f1e16',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.background = '#2f1e16'
+        e.currentTarget.style.color = '#fff'
+        e.currentTarget.style.borderColor = '#2f1e16'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.background = 'white'
+        e.currentTarget.style.color = '#2f1e16'
+        e.currentTarget.style.borderColor = 'rgba(194,167,109,0.35)'
+      }}
+      title={value}
+    >
+      {label}
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="opacity-50"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+    </motion.button>
   )
 }
 
@@ -68,10 +146,15 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
     {
-      text: "Hello! Welcome to Sanda Estate. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in?\nEnglish, العربية, اردو, हिंदी, or any other?",
+      text: "Hello! Welcome to Sanda Estate. I'm your personal property advisor. How can I assist you today?\n\nWhich language would you prefer to chat in?",
       sender: 'bot',
       properties: [],
-      suggestions: []
+      suggestions: [
+        { label: 'English', value: 'English' },
+        { label: 'العربية', value: 'العربية' },
+        { label: 'اردو', value: 'اردو' },
+        { label: 'हिंदी', value: 'हिंदी' },
+      ]
     }
   ])
   const [input, setInput] = useState('')
@@ -150,72 +233,86 @@ export default function ChatWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="absolute bottom-16 right-0 w-[calc(100vw-3rem)] max-w-sm bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col"
-            style={{ height: '480px', border: '1.5px solid rgba(247, 246, 243, 0.4)' }}
+            className="absolute bottom-16 right-0 w-[calc(100vw-2rem)] max-w-[400px] bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col"
+            style={{ height: '540px', border: '1px solid rgba(0,0,0,0.08)' }}
           >
             {/* Header */}
-            <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ background: '#2f1e16', color: 'white' }}>
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: '#c2a76d' }}>
-                  <span className="text-[9px] font-bold" style={{ color: '#1a1a1a' }}>SE</span>
+            <div className="px-4 py-3.5 flex items-center justify-between flex-shrink-0" style={{ background: 'linear-gradient(135deg, #2f1e16, #1a110b)', color: 'white' }}>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #c2a76d, #a88d4a)', boxShadow: '0 2px 8px rgba(194,167,109,0.3)' }}>
+                  <span className="text-[10px] font-bold" style={{ color: '#1a1a1a' }}>SE</span>
                 </div>
                 <div>
                   <div className="text-[13px] font-semibold tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>SE Advisor</div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[9px] text-white/50">Online</span>
+                    <span className="text-[9px] text-white/50">Online — Typically replies instantly</span>
                   </div>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white transition-colors text-lg">✕</button>
+              <button onClick={() => setIsOpen(false)} className="w-7 h-7 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all text-sm">✕</button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#f7f6f3]" style={{ scrollbarWidth: 'thin' }}>
+            <div className="flex-1 px-3 py-3 overflow-y-auto space-y-3" style={{ scrollbarWidth: 'thin', background: 'linear-gradient(180deg, #f8f7f4, #f2f0ec)' }}>
               {messages.map((m, i) => (
-                <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className="flex flex-col gap-1.5 max-w-[88%]">
-                    {/* Text bubble */}
-                    <div
-                      className={`p-3 rounded-lg text-[13px] leading-relaxed shadow-sm ${
-                        m.sender === 'user'
-                          ? 'bg-[#2f1e16] text-white rounded-tr-sm'
-                          : 'bg-white text-gray-800 rounded-tl-sm border border-gray-100'
-                      }`}
-                      style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
-                    >
-                      {renderText(m.text)}
-                    </div>
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className="flex flex-col gap-2 max-w-[90%]">
+                    {/* Bot avatar + text */}
+                    {m.sender === 'bot' && (
+                      <div className="flex items-start gap-2">
+                        <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: '#2f1e16' }}>
+                          <span className="text-[7px] font-bold" style={{ color: '#c2a76d' }}>SE</span>
+                        </div>
+                        <div
+                          className="p-3 rounded-lg rounded-tl-sm text-[13px] leading-relaxed shadow-sm bg-white text-gray-800 border border-gray-100"
+                          style={{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+                        >
+                          {renderText(m.text)}
+                        </div>
+                      </div>
+                    )}
+                    {m.sender === 'user' && (
+                      <div
+                        className="p-3 rounded-lg rounded-tr-sm text-[13px] leading-relaxed shadow-sm text-white"
+                        style={{ background: 'linear-gradient(135deg, #2f1e16, #3e2b20)', wordBreak: 'break-word', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
+                      >
+                        {renderText(m.text)}
+                      </div>
+                    )}
 
-                    {/* Clickable suggestions (if any) */}
+                    {/* Clickable suggestions */}
                     {m.sender === 'bot' && Array.isArray(m.suggestions) && m.suggestions.length > 0 && (
-                      <div className="flex flex-wrap gap-2 pt-1">
+                      <div className="flex flex-wrap gap-1.5 pl-8">
                         {m.suggestions.slice(0, 10).map((s, idx) => (
-                          <button
+                          <SuggestionButton
                             key={`${s.label}-${idx}`}
-                            type="button"
+                            label={s.label}
+                            value={s.value}
+                            onClick={sendUserMessage}
                             disabled={isLoading}
-                            onClick={() => sendUserMessage(s.value)}
-                            className="px-3 py-1.5 rounded-full text-[12px] border border-gray-200 bg-white hover:bg-gray-50 text-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                            style={{ fontFamily: 'var(--font-body)' }}
-                            title={s.value}
-                          >
-                            {s.label}
-                          </button>
+                            index={idx}
+                          />
                         ))}
                       </div>
                     )}
 
-                    {/* Property cards (if any) */}
-                    {m.properties && m.properties.length > 0 && (
-                      <div className="space-y-2">
+                    {/* Property cards */}
+                    {m.sender === 'bot' && m.properties && m.properties.length > 0 && (
+                      <div className="space-y-2 pl-8">
                         {m.properties.map((prop, j) => (
-                          <PropertyCard key={j} property={prop} />
+                          <ChatPropertyCard key={prop.id || j} property={prop} />
                         ))}
                       </div>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
               {isLoading && <TypingIndicator />}
               <div ref={messagesEndRef} />
@@ -230,32 +327,53 @@ export default function ChatWidget() {
                 onChange={e => setInput(e.target.value)}
                 placeholder={isLoading ? "SE Advisor is typing..." : "Type your message..."}
                 disabled={isLoading}
-                className="flex-1 px-3 py-2 text-[13px] bg-[#f7f6f3] rounded-md outline-none border border-transparent focus:border-[#c2a76d]/40 transition-colors disabled:opacity-50"
+                className="flex-1 px-3.5 py-2.5 text-[13px] bg-[#f7f6f3] rounded-lg outline-none border border-transparent focus:border-[#c2a76d]/40 transition-colors disabled:opacity-50"
+                style={{ fontFamily: 'var(--font-body)' }}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="w-9 h-9 flex items-center justify-center rounded-md bg-[#c2a76d] text-white hover:bg-[#b8973b] transition-colors disabled:opacity-40"
+                className="w-10 h-10 flex items-center justify-center rounded-lg text-white transition-all duration-200 disabled:opacity-30 hover:scale-105 active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #c2a76d, #a88d4a)' }}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               </button>
             </form>
+
+            {/* Powered by footer */}
+            <div className="px-3 pb-2 pt-0 text-center">
+              <span className="text-[8px] text-gray-300" style={{ fontFamily: 'var(--font-body)' }}>Powered by Sanda Estate AI</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Floating Button */}
-      <button
+      <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_20px_rgba(47,30,22,0.3)] hover:scale-105 transition-transform"
-        style={{ background: 'linear-gradient(135deg, #2f1e16, #22140e)', border: '2px solid rgba(247, 246, 243, 0.3)' }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        className="w-14 h-14 rounded-full flex items-center justify-center text-white shadow-[0_8px_25px_rgba(47,30,22,0.35)]"
+        style={{ background: 'linear-gradient(135deg, #2f1e16, #1a110b)', border: '2px solid rgba(194,167,109,0.4)' }}
       >
         {isOpen ? (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         )}
-      </button>
+      </motion.button>
+
+      {/* Notification dot when closed */}
+      {!isOpen && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center"
+          style={{ background: '#c2a76d', border: '2px solid white' }}
+        >
+          <span className="text-[7px] font-bold text-white">1</span>
+        </motion.div>
+      )}
     </div>
   )
 }
