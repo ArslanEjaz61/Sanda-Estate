@@ -28,21 +28,27 @@ function normalizePriority(priority) {
 function getProviderConfig(settings) {
   const ai = settings?.chatbotAi || {}
   const priority = normalizePriority(ai.priority)
+
+  // Helper: treat provider as active if DB says so OR if an env key exists
+  const envOpenAI = String(process.env.OPENAI_API_KEY || '').trim()
+  const envGemini = String(process.env.GEMINI_API_KEY || '').trim()
+  const envLongcat = String(process.env.LONGCAT_API_KEY || '').trim()
+
   return {
     priority,
     openai: {
-      isActive: Boolean(ai.openai?.isActive),
-      apiKey: String(ai.openai?.apiKey || process.env.OPENAI_API_KEY || '').trim(),
+      isActive: Boolean(ai.openai?.isActive) || Boolean(envOpenAI),
+      apiKey: String(ai.openai?.apiKey || envOpenAI || '').trim(),
       model: String(ai.openai?.model || 'gpt-4o-mini').trim(),
     },
     gemini: {
-      isActive: Boolean(ai.gemini?.isActive),
-      apiKey: String(ai.gemini?.apiKey || process.env.GEMINI_API_KEY || '').trim(),
+      isActive: Boolean(ai.gemini?.isActive) || Boolean(envGemini),
+      apiKey: String(ai.gemini?.apiKey || envGemini || '').trim(),
       model: String(ai.gemini?.model || 'gemini-2.0-flash').trim(),
     },
     longcat: {
-      isActive: Boolean(ai.longcat?.isActive),
-      apiKey: String(ai.longcat?.apiKey || process.env.LONGCAT_API_KEY || '').trim(),
+      isActive: Boolean(ai.longcat?.isActive) || Boolean(envLongcat),
+      apiKey: String(ai.longcat?.apiKey || envLongcat || '').trim(),
       model: String(ai.longcat?.model || 'LongCat-Flash-Chat').trim(),
       baseUrl: String(ai.longcat?.baseUrl || DEFAULT_LONGCAT_URL).trim() || DEFAULT_LONGCAT_URL,
     },
