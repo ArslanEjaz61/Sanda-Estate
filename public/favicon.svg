@@ -1,36 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- Clean white circular background -->
-  <circle cx="256" cy="256" r="256" fill="#ffffff" />
+  <!-- Solid black circular background -->
+  <circle cx="256" cy="256" r="256" fill="#111111" />
+  
+  <!-- Subtle gold border ring -->
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#c2a76d" stroke-width="6" opacity="0.5" />
 
-  <!-- Building skyline mark in black — faithfully recreating the Sanda Estate logo -->
-  <g stroke="#111111" stroke-linecap="round">
+  <!-- Building skyline mark in gold on black -->
+  <g stroke="#c2a76d" stroke-linecap="round">
     <!-- Left Building (3 lines) -->
-    <line x1="148" y1="340" x2="148" y2="280" stroke-width="4.5" />
-    <line x1="158" y1="340" x2="158" y2="296" stroke-width="4.5" />
-    <line x1="168" y1="340" x2="168" y2="264" stroke-width="4.5" />
+    <line x1="148" y1="348" x2="148" y2="280" stroke-width="5.5" />
+    <line x1="160" y1="348" x2="160" y2="300" stroke-width="5.5" />
+    <line x1="172" y1="348" x2="172" y2="260" stroke-width="5.5" />
 
     <!-- Center Building (8 lines — tallest structure) -->
-    <line x1="194" y1="340" x2="194" y2="175" stroke-width="4.5" />
-    <line x1="204" y1="340" x2="204" y2="168" stroke-width="4.5" />
-    <line x1="214" y1="340" x2="214" y2="166" stroke-width="4.5" />
-    <line x1="224" y1="340" x2="224" y2="172" stroke-width="4.5" />
-    <line x1="234" y1="340" x2="234" y2="148" stroke-width="4.5" />
-    <!-- Peak lines (arch/spire) -->
-    <line x1="248" y1="250" x2="248" y2="138" stroke-width="4.5" />
-    <line x1="258" y1="245" x2="258" y2="128" stroke-width="4.5" />
-    <line x1="268" y1="240" x2="268" y2="120" stroke-width="4.5" />
+    <line x1="198" y1="348" x2="198" y2="178" stroke-width="5.5" />
+    <line x1="210" y1="348" x2="210" y2="170" stroke-width="5.5" />
+    <line x1="222" y1="348" x2="222" y2="168" stroke-width="5.5" />
+    <line x1="234" y1="348" x2="234" y2="174" stroke-width="5.5" />
+    <line x1="246" y1="348" x2="246" y2="150" stroke-width="5.5" />
+    <!-- Peak spire lines -->
+    <line x1="260" y1="258" x2="260" y2="138" stroke-width="5.5" />
+    <line x1="272" y1="252" x2="272" y2="126" stroke-width="5.5" />
+    <line x1="284" y1="246" x2="284" y2="116" stroke-width="5.5" />
 
     <!-- Right Building (5 lines) -->
-    <line x1="294" y1="340" x2="294" y2="238" stroke-width="4.5" />
-    <line x1="304" y1="340" x2="304" y2="242" stroke-width="4.5" />
-    <line x1="314" y1="340" x2="314" y2="248" stroke-width="4.5" />
-    <line x1="324" y1="340" x2="324" y2="256" stroke-width="4.5" />
-    <line x1="334" y1="340" x2="334" y2="254" stroke-width="4.5" />
+    <line x1="310" y1="348" x2="310" y2="238" stroke-width="5.5" />
+    <line x1="322" y1="348" x2="322" y2="244" stroke-width="5.5" />
+    <line x1="334" y1="348" x2="334" y2="252" stroke-width="5.5" />
+    <line x1="346" y1="348" x2="346" y2="260" stroke-width="5.5" />
+    <line x1="358" y1="348" x2="358" y2="256" stroke-width="5.5" />
 
     <!-- Base line -->
-    <line x1="140" y1="344" x2="342" y2="344" stroke-width="5" />
+    <line x1="140" y1="354" x2="366" y2="354" stroke-width="6" />
   </g>
 
-  <!-- "SE" monogram text below the mark -->
-  <text x="256" y="392" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" letter-spacing="8" fill="#111111">SE</text>
+  <!-- "SE" monogram -->
+  <text x="256" y="400" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="8" fill="#c2a76d">SE</text>
 </svg>
