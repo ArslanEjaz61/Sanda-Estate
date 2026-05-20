@@ -22,6 +22,8 @@ import PropertyForm from '../admin/PropertyForm'
 import ContactList from '../admin/ContactList'
 import AreaList from '../admin/AreaList'
 import AreaForm from '../admin/AreaForm'
+import TeamList from '../admin/TeamList'
+import TeamForm from '../admin/TeamForm'
 import Settings from '../admin/Settings'
 
 function ScrollToTop() {
@@ -60,6 +62,9 @@ export default function AppRouter() {
           <Route path="areas" element={<AreaList />} />
           <Route path="areas/new" element={<AreaForm />} />
           <Route path="areas/edit/:id" element={<AreaForm />} />
+          <Route path="team" element={<TeamList />} />
+          <Route path="team/new" element={<TeamForm />} />
+          <Route path="team/edit/:id" element={<TeamForm />} />
           <Route path="contacts" element={<ContactList />} />
           <Route path="settings" element={<Settings />} />
         </Route>
